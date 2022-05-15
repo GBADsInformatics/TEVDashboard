@@ -37,6 +37,7 @@ def init_dashboard(server):
             
     dash_app = dash.Dash(__name__,
         server=server,
+        title='TEV Dashboard',
         routes_pathname_prefix="/dash/",
         external_stylesheets=[
             # 'https://codepen.io/chriddyp/pen/bWLwgP.css',

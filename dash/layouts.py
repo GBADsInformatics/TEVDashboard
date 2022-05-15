@@ -63,6 +63,7 @@ page_1 = html.Div([
     
     html.Div([
         html.Img(src=GBADSLOGOW, className="top"),
+        html.Div([html.H1('Total Economic Value of Livestock')], style={'display': 'inline-block', 'margin-left': '35%'}),
         dbc.Button("Login", id="login-button", href=env.get("AUTH0_LOGIN"), style={'margin-top': '10px', 'margin-right':'10px', 'float': 'right'}),
         dbc.Button("Logout", id="logout-button", href=env.get("AUTH0_LOGOUT"), style={'margin-top': '10px', 'margin-right':'10px', 'float': 'right', 'display':'none'}),
     ]),
