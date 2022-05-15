@@ -1,0 +1,280 @@
+
+
+.mid {
+    height: 95vh;
+    width: 100% ;
+}
+
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+.options-right {
+    position: fixed;
+    height: 95vh;
+    width: 70%;
+    left: 30%;
+}
+.options-right-open {
+    position: fixed;
+    height: 95vh;
+    width: 97%;
+    left: 3%;
+}
+
+
+.options-left {
+    /* transition: 0.5s; */
+    position: fixed;
+    height: 95vh;
+    width:30%;
+    float: left;
+    padding: 10px 10px 10px 0px;
+}
+
+.options-left-closed {
+    /* transition: 0.5s; */
+    position: fixed;
+    height: 95vh;
+    width:30%;
+    float: left;
+    padding: 10px 10px 10px 0px;
+    right: 97%;
+}
+
+.optionsLeft-2 {
+    height: 95vh;
+    width: 10%;
+    float: left;
+    padding: 10px 10px 10px 0px;
+}
+
+
+.dropdown-t {
+    height: 20%; 
+    width: 100%;
+    background-color: white; 
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+
+.dropdown-b {
+    width:100%;
+    background-color: white;
+    height: calc(80% - 65px);
+    border-radius: 10px;
+    margin-top:20px;
+    margin-bottom: 10px;
+    overflow-y:scroll;
+    overflow-x:hidden;
+    padding: 10px;
+}
+
+
+
+.left-container {
+    background-color: #C4C4C4;
+    height: 100%; 
+    width: 100%; 
+    padding: 10px 0px 10px 10px;
+    border-radius: 0px 10px 10px 0px;
+}
+
+.dropdown-container {
+    height: 100%; 
+    width: 90%;
+    float: left;
+}
+
+.slider {
+    width: 100%;
+    height: 100%;
+    vertical-align: center;
+}
+.buttonstyle {
+    /* margin: 5px; */
+    width: 5%;
+    height: 100%;
+    background-color: #C4C4C4; 
+    border-color: #C4C4C4; 
+    float: right;
+
+}
+
+.m-m {
+    width: 100%;
+    height: 100%;
+    margin-top: 3.5%;
+}
+
+.w-full {
+    width: 100%;
+    height: 20%;
+    margin: 3px;
+}
+
+
+.gen-button {
+    width: 100%;
+    height: 40px;
+}
+
+
+.h-full {
+    height: 100%;
+}
+
+.f-h {
+    height: 100%;
+    /* background-color:white; */
+    /* border-top-left-radius : 0;
+    border-top-right-radius : 0;
+    border-bottom-right-radius : 10px;
+    border-bottom-left-radius : 10px; */
+    /* border-radius: 10px; */
+}
+
+.fl-r {
+    float: right;
+    width: 20%;
+}
+
+.graph-size {
+    height: 65vh;
+    width: 100%;
+}
+
+
+.f-h-scroll-div {
+    height: calc(65vh + 20px);
+    max-height: calc(65vh + 20px);
+    background-color:white;
+    overflow-y:auto;
+    overflow-x:hidden;
+    padding: 10px;
+    border-radius: 0 0 10px 10px;
+}
+.tab-container{
+    display: block;
+}
+
+.cattabs {
+    border-radius: 10px 10px 0px 0px;
+    font-weight: bold;
+    background-color: white;
+    height: 100%;
+    color: rgb(78, 78, 78);
+    width: 25%;
+}
+
+.r {
+    border-radius: 10px;
+}
+
+.tab-panel {
+    padding: 10px;
+    height: 80%;
+    max-height: 80%;
+}
+
+.yearDiv {
+    color: black;
+    text-align: center;
+    align-content: center;    
+}
+
+.yearHtmlDiv {
+    height: 100%;
+    width:100%; 
+    background-color:white;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.test {
+    background-color: blue;
+}
+
+
+.main-div {
+    background-color: #A7A7A7;
+    color: white;
+}
+
+.top {
+    max-height: 5vh;
+}
+
+.dropdownstyling {
+    color: black;
+    border-width: 2px;
+    border-color: blue;
+    padding: 10px;
+}
+
+
+/*skys styles*/
+
+.dropdown-label {
+    font-weight: bold;
+    font-size: 1.15em;
+    color: black;
+    margin-left: 5px;
+}
+
+.country_dropdown {
+    color: black;
+    width: 95%;
+    display: table;
+    margin: 0px 10px 10px 10px;
+}
+
+.graph-styling {
+    border-radius: 10px;
+    /* height: 100%;
+    background-color: pink; */
+}
+
+.chrolo-map-dropdowns {
+    color: black;
+    width: 90%;
+    display: table;
+    margin: 0 auto;
+}
+
+
+
+
+
+
+/* scroll bar */
+    /* width */
+::-webkit-scrollbar {
+    width: 5px;
+    border-radius: 10px;
+}
+    /* Track */
+::-webkit-scrollbar-track {
+    display: none;
+    /* width: 10px; */
+}
+   
+    /* Handle */
+::-webkit-scrollbar-thumb {
+    background: darkgrey;
+    border-radius: 10px;
+}
+  
+    /* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: grey;
+    border-radius: 10px; 
+}
