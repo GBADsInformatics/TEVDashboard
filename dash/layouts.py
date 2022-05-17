@@ -56,6 +56,9 @@ selectedTabStyle = {
     'color': 'black'
 }
 
+# Where to get the table dataset from
+ds = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/solar.csv')
+
 # PAGE LAYOUT
 # All the components for a page will be put here in this HTML div and will be used as the layout 
 # for this dashboard template.
@@ -92,11 +95,10 @@ page_1 = html.Div([
                                                         )
                                                     ],className='tab-section'),
                                                     html.Div([
-                                                        html.H5(
-                                                            'Add data table here',
-                                                            style={'color':'#000'}
-                                                        )
-                                                    ],className='tab-section'),
+                                                        dash_table.DataTable(ds.to_dict('records'), [{"name": i, "id": i} for i in ds.columns])
+                                                    ],
+                                                    className='tab-section',
+                                                    style={'color':'#000'}),
                                                     html.Div([
                                                         html.H5(
                                                             'Add graphing here',
@@ -131,61 +133,6 @@ page_1 = html.Div([
                             ),
                         ])
                 ], className="r tab-panel"),
-
-
-                html.Div([
-                    html.Div([
-                        dcc.RangeSlider (
-                            id='my-slider',
-                            min=1999,
-                            max=2021,
-                            step=1,
-                            marks={
-                                str(year): str(year) for year in year_list if year%5 == 0
-                            },
-                            value=[1999,2021],
-                            tooltip=dict(always_visible=False),
-                        ),
-                        dcc.Slider (
-                            id='my-slider-single',
-                            min=1999,
-                            max=2021,
-                            step=1,
-                            marks={
-                                str(year): str(year) for year in year_list if year%5 == 0
-                            },
-                            value=1999,
-                            included=False,
-                            tooltip=dict(always_visible=False),
-                        ),
-                        html.Div(
-                            id='feedback-input',
-                            style={'color':'black'},
-                            children= [
-                                html.Div(
-                                    [
-                                        html.H5('We want to hear your feedback:'),
-                                        dcc.Textarea(
-                                            id='feedback-text',
-                                            placeholder='Please enter your feedback here and press Send. If you would like to provide extensive comments with images or other media, please press the Email button and use email to send feedback.',
-                                            value="",
-                                            style={'width': '100%', 'height': '10vh'},
-                                        )
-                                    ],
-                                    style={'width': '75%', 'height': '100%', 'float':'left'},
-                                ),
-                                html.Div(
-                                    [
-                                        dbc.Button("Email",id='feedback-email', color="primary", href='mailto: dastacey@gbadske.org', className="w-full"),
-                                        dbc.Button("Send",id='feedback-button', color="secondary", disabled =False, className="w-full"),
-                                    ],
-                                    style={'width': '23%', 'float':'right', 'padding':'25px'},
-                                )
-                            ]
-                        )
-                    ], className='yearHtmlDiv',)
-                    
-                ], style={'height': '20%', 'width':'auto','padding': '10px'}),
             ]),
         ],
         className='mid'),
