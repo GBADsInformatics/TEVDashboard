@@ -64,13 +64,12 @@ page_1 = html.Div([
     html.Div([
         html.Img(src=GBADSLOGOW, className="top"),
         html.Div([html.H1('Total Economic Value of Livestock')], style={'display': 'inline-block', 'margin-left': '35%'}),
-        dbc.Button("Login", id="login-button", href=env.get("AUTH0_LOGIN"), style={'margin-top': '10px', 'margin-right':'10px', 'float': 'right'}),
-        dbc.Button("Logout", id="logout-button", href=env.get("AUTH0_LOGOUT"), style={'margin-top': '10px', 'margin-right':'10px', 'float': 'right', 'display':'none'}),
+        # dbc.Button("Login", id="login-button", href=env.get("AUTH0_LOGIN"), style={'margin-top': '10px', 'margin-right':'10px', 'float': 'right'}),
+        # dbc.Button("Logout", id="logout-button", href=env.get("AUTH0_LOGOUT"), style={'margin-top': '10px', 'margin-right':'10px', 'float': 'right', 'display':'none'}),
     ]),
     
     html.Div([    
         html.Div(
-            id="right-div",
             children=[
                 html.Div([
                     # This is the tabs component. It holds all the pages for the tabs. Add more tabs and change the 
@@ -84,11 +83,30 @@ page_1 = html.Div([
                                     html.Div([
                                         html.Div([
                                             dcc.Loading(
-                                                id='faostat-graph-loading-2',
-                                                children=[dcc.Graph(id='faostat-graph-2', className='graph-size')],
+                                                id='tab-section-loading',
+                                                children=[
+                                                    html.Div([
+                                                        html.H5(
+                                                            'This dashboard provides estimates of the global economic value of livestock and aquatic farmed animals, with a focus on the value of live animals and primary production outputs (e.g., meat, eggs, milk) from 1996- present.',
+                                                            style={'color':'#000'}
+                                                        )
+                                                    ],className='tab-section'),
+                                                    html.Div([
+                                                        html.H5(
+                                                            'Add data table here',
+                                                            style={'color':'#000'}
+                                                        )
+                                                    ],className='tab-section'),
+                                                    html.Div([
+                                                        html.H5(
+                                                            'Add graphing here',
+                                                            style={'color':'#000'}
+                                                        )
+                                                    ],className='tab-section')
+                                                ],
                                                 type='circle'
                                             )
-                                        ], id='faostat-graph-figure-container-2'),
+                                        ], className='tab-section-container'),
                                     ], className="f-h-scroll-div"),
                                 ],  
                                 className='cattabs',
@@ -98,8 +116,6 @@ page_1 = html.Div([
                                 label='Metadata & API', 
                                 children=[
                                     html.Div([
-                                        # html.Br(),
-                                        # html.Br(),
                                         html.Div([
                                             dcc.Loading(
                                                 # parent_className='loading-wrapper',

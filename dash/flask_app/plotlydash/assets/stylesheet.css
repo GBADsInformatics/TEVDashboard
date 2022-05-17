@@ -1,10 +1,20 @@
+/* TEV Specific CSS */
+.tab-section-container{
+    display: block;
+}
+.tab-section{
+    display: block;
+    background: #ececec;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
 
-
+/* Generic CSS from template */
 .mid {
     height: 95vh;
     width: 100% ;
 }
-
 
 .hide {
     display: none;
@@ -249,7 +259,6 @@
     display: table;
     margin: 0 auto;
 }
-
 
 
 
