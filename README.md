@@ -16,7 +16,7 @@ Here are the most notable files for editing the dashboard:
 
 1. `git clone https://github.com/GBADsInformatics/TEV_Dashboard`
 2. `cd dash`
-3. `pip3 install -r requirements.txt`
+3. `./install.sh`
 4. Contact [@WilliamFitzjohn](https://github.com/WilliamFitzjohn) or [@MatthewSzurkowski](https://github.com/MatthewSzurkowski) or [@Amardeep](https://github.com/amardeep-1) to add a .env file
 
 ## Running the App

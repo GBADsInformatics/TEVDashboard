@@ -17,4 +17,5 @@ python3 -m pip install pydantic
 python3 -m pip install python-dotenv            
 python3 -m pip install requests                 
 python3 -m pip install urllib3                  
-python3 -m pip install Werkzeug                
+python3 -m pip install Werkzeug
+pip3 install -r requirements.txt
