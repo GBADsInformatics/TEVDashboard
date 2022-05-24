@@ -3,7 +3,13 @@ html,body{
     height: 100%;
 }
 .tab-section-container{
+    height: 100%;
     display: block;
+}
+.tab-section-container-div{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 .tab-section{
     display: block;
@@ -12,19 +18,27 @@ html,body{
     border-radius: 0.5rem;
     margin-bottom: 1rem;
 }
+/* .tab-section:last-child{
+} */
 .graph-section{
     display: flex;
+    height: 100%;
+    margin-bottom: 0;
 }
-.graph-section-1{
+.graph-section-left{
     width: 40%;
 }
-.graph-section-2{
-    width: 100%;
+.graph-section-right{
+    width: 60%;
 }
 
+.main-graph-size {
+    height: 100%;
+    width: 100%;
+}
 /* Generic CSS from template */
 .mid {
-    height: 95vh;
+    height: 100%;
     width: 100% ;
 }
 
@@ -176,8 +190,7 @@ html,body{
 
 
 .f-h-scroll-div {
-    height: calc(65vh + 20px);
-    max-height: calc(65vh + 20px);
+    height: 100%;
     background-color:white;
     overflow-y:auto;
     overflow-x:hidden;
@@ -186,6 +199,12 @@ html,body{
 }
 .tab-container{
     display: block;
+}
+.tab-parent{
+    height: 100%;
+}
+.tab-content{
+    height: 100%;
 }
 
 .cattabs {
@@ -203,8 +222,7 @@ html,body{
 
 .tab-panel {
     padding: 10px;
-    height: 80%;
-    max-height: 80%;
+    height: 100%;
 }
 
 .yearDiv {
@@ -226,9 +244,12 @@ html,body{
 }
 
 .main-div {
+    display: flex;
+    flex-direction: column;
     background-color: #A7A7A7;
     color: white;
     height: 100%;
+    width: 100%;
     position: fixed;
 }
 

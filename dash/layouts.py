@@ -84,6 +84,8 @@ page_1 = html.Div([
                             html.Div([
                                 dcc.Loading(
                                     id='tab-section-loading',
+                                    type='circle',
+                                    parent_className='tab-section-container-div',
                                     children=[
                                         html.Div([
                                             html.H5(
@@ -102,16 +104,12 @@ page_1 = html.Div([
                                                     'Add graph options here',
                                                     style={'color':'#000'}
                                                 )
-                                            ],className='graph-section-1'),
+                                            ],className='graph-section-left'),
                                             html.Div([
-                                                html.H5(
-                                                    'Add graph here',
-                                                    style={'color':'#000'}
-                                                )
-                                            ],className='graph-section-2'),
+                                                dcc.Graph(id='faostat-choromap-2', className='main-graph-size')
+                                            ],className='graph-section-right'),
                                         ],className='tab-section graph-section')
                                     ],
-                                    type='circle'
                                 )
                             ], className='tab-section-container'),
                         ], className="f-h-scroll-div"),

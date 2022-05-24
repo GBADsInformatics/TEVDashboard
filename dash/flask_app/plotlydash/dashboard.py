@@ -46,9 +46,8 @@ def init_dashboard(server):
     )
     # Setting active page
     dash_app.layout = html.Div([
-        dcc.Location(id='url', refresh=False),
-        html.Div(id='page-content')
-    ])
+        dcc.Location(id='url', refresh=False)
+    ],id='page-content')
     init_callbacks(dash_app)
     return dash_app.server
 
