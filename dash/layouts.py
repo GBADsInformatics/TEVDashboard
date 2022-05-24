@@ -63,7 +63,6 @@ ds = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/solar
 # All the components for a page will be put here in this HTML div and will be used as the layout 
 # for this dashboard template.
 page_1 = html.Div([
-    
     html.Div([
         html.Img(src=GBADSLOGOW, className="top"),
         html.Div([html.H1('Total Economic Value of Livestock')], style={'display': 'inline-block', 'margin-left': '35%'}),
@@ -71,71 +70,75 @@ page_1 = html.Div([
         # dbc.Button("Logout", id="logout-button", href=env.get("AUTH0_LOGOUT"), style={'margin-top': '10px', 'margin-right':'10px', 'float': 'right', 'display':'none'}),
     ]),
     
-    html.Div([    
-        html.Div(
-            children=[
-                html.Div([
-                    # This is the tabs component. It holds all the pages for the tabs. Add more tabs and change the 
-                    # tab contents here.
-                        dcc.Tabs(
-                            id='tabs',
-                            children=[
-                            dcc.Tab(
-                                label='Graphs & Data', 
-                                children=[
-                                    html.Div([
+    html.Div([
+        html.Div([
+            # This is the tabs component. It holds all the pages for the tabs. Add more tabs and change the 
+            # tab contents here.
+            dcc.Tabs(
+                id='tabs',
+                children=[
+                dcc.Tab(
+                    label='Graphs & Data', 
+                    children=[
+                        html.Div([
+                            html.Div([
+                                dcc.Loading(
+                                    id='tab-section-loading',
+                                    children=[
                                         html.Div([
-                                            dcc.Loading(
-                                                id='tab-section-loading',
-                                                children=[
-                                                    html.Div([
-                                                        html.H5(
-                                                            'This dashboard provides estimates of the global economic value of livestock and aquatic farmed animals, with a focus on the value of live animals and primary production outputs (e.g., meat, eggs, milk) from 1996- present.',
-                                                            style={'color':'#000'}
-                                                        )
-                                                    ],className='tab-section'),
-                                                    html.Div([
-                                                        dash_table.DataTable(ds.to_dict('records'), [{"name": i, "id": i} for i in ds.columns])
-                                                    ],
-                                                    className='tab-section',
-                                                    style={'color':'#000'}),
-                                                    html.Div([
-                                                        html.H5(
-                                                            'Add graphing here',
-                                                            style={'color':'#000'}
-                                                        )
-                                                    ],className='tab-section')
-                                                ],
-                                                type='circle'
+                                            html.H5(
+                                                'This dashboard provides estimates of the global economic value of livestock and aquatic farmed animals, with a focus on the value of live animals and primary production outputs (e.g., meat, eggs, milk) from 1996- present.',
+                                                style={'color':'#000'}
                                             )
-                                        ], className='tab-section-container'),
-                                    ], className="f-h-scroll-div"),
-                                ],  
-                                className='cattabs',
-                                selected_style=selectedTabStyle
-                            ),
-                            dcc.Tab(
-                                label='Metadata & API', 
-                                children=[
-                                    html.Div([
+                                        ],className='tab-section'),
                                         html.Div([
-                                            dcc.Loading(
-                                                # parent_className='loading-wrapper',
-                                                id='faostat-choro-map-loading-2',
-                                                children=[dcc.Graph(id='faostat-choromap-2', className='graph-size')],
-                                                type='circle'
-                                            ),
-                                        ]),
-                                    ], className="f-h-scroll-div"),
-                                ],  
-                                className='cattabs', 
-                                selected_style=selectedTabStyle
-                            ),
-                        ])
-                ], className="r tab-panel"),
+                                            dash_table.DataTable(ds.to_dict('records'), [{"name": i, "id": i} for i in ds.columns])
+                                        ],
+                                        className='tab-section',
+                                        style={'color':'#000'}),
+                                        html.Div([
+                                            html.Div([
+                                                html.H5(
+                                                    'Add graph options here',
+                                                    style={'color':'#000'}
+                                                )
+                                            ],className='graph-section-1'),
+                                            html.Div([
+                                                html.H5(
+                                                    'Add graph here',
+                                                    style={'color':'#000'}
+                                                )
+                                            ],className='graph-section-2'),
+                                        ],className='tab-section graph-section')
+                                    ],
+                                    type='circle'
+                                )
+                            ], className='tab-section-container'),
+                        ], className="f-h-scroll-div"),
+                    ],  
+                    className='cattabs',
+                    selected_style=selectedTabStyle
+                ),
+                dcc.Tab(
+                    label='Metadata & API', 
+                    children=[
+                        html.Div([
+                            html.Div([
+                                dcc.Loading(
+                                    # parent_className='loading-wrapper',
+                                    id='faostat-choro-map-loading-2',
+                                    children=[dcc.Graph(id='faostat-choromap-2', className='graph-size')],
+                                    type='circle'
+                                ),
+                            ]),
+                        ], className="f-h-scroll-div"),
+                    ],  
+                    className='cattabs', 
+                    selected_style=selectedTabStyle
+                ),
             ]),
-        ],
-        className='mid'),
+        ], className="r tab-panel"),
+    ],className='mid'),
         
     html.Div([
         # Placeholder to store user selection of options and display them once all the necessary 

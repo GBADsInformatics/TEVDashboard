@@ -1,4 +1,7 @@
 /* TEV Specific CSS */
+html,body{
+    height: 100%;
+}
 .tab-section-container{
     display: block;
 }
@@ -8,6 +11,15 @@
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
     margin-bottom: 1rem;
+}
+.graph-section{
+    display: flex;
+}
+.graph-section-1{
+    width: 40%;
+}
+.graph-section-2{
+    width: 100%;
 }
 
 /* Generic CSS from template */
@@ -213,10 +225,11 @@
     background-color: blue;
 }
 
-
 .main-div {
     background-color: #A7A7A7;
     color: white;
+    height: 100%;
+    position: fixed;
 }
 
 .top {
