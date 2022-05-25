@@ -88,7 +88,7 @@ page_1 = html.Div([
                                     parent_className='tab-section-container-div',
                                     children=[
                                         html.Div([
-                                            html.H5(
+                                            html.P(
                                                 'This dashboard provides estimates of the global economic value of livestock and aquatic farmed animals, with a focus on the value of live animals and primary production outputs (e.g., meat, eggs, milk) from 1996- present.',
                                                 style={'color':'#000'}
                                             )
@@ -100,10 +100,15 @@ page_1 = html.Div([
                                         style={'color':'#000'}),
                                         html.Div([
                                             html.Div([
-                                                html.H5(
-                                                    'Add graph options here',
-                                                    style={'color':'#000'}
-                                                )
+                                                html.Div([
+                                                    html.Div([
+                                                        'Graph Type'
+                                                    ], className='graph-section-type'),
+                                                    html.Div([
+                                                        'Graph Options'
+                                                    ], className='graph-section-options'),
+                                                ], className='graph-section-left-top'),
+                                                html.Div([html.P('Data from FAOSTAT xxxxx. Retrieved August 04, 2021 from [url]',style={'color':'#000','margin':'0'}),], className='graph-section-left-bottom'),
                                             ],className='graph-section-left'),
                                             html.Div([
                                                 dcc.Graph(id='faostat-choromap-2', className='main-graph-size')

@@ -17,6 +17,7 @@ html,body{
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
     margin-bottom: 1rem;
+    color: black;
 }
 /* .tab-section:last-child{
 } */
@@ -27,6 +28,19 @@ html,body{
 }
 .graph-section-left{
     width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.graph-section-left-bottom{
+    padding: 0.5rem 0.5rem 0 0;
+    margin:0;
+}
+.graph-section-left-top{
+    padding: 0 1rem 0.5rem 0;
+    margin:0;
+    display: flex;
+    justify-content: space-between;
 }
 .graph-section-right{
     width: 60%;
