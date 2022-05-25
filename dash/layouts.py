@@ -102,10 +102,76 @@ page_1 = html.Div([
                                             html.Div([
                                                 html.Div([
                                                     html.Div([
-                                                        'Graph Type'
+                                                        html.H3(children="Graph Type"),
+                                                        
+                                                        html.Div([
+                                                            html.Img(src="https://i.imgur.com/6z8MNOr.png", className="top"),
+                                                            html.Hr(style={'width':'80%'}),
+                                                            html.Img(src="https://i.imgur.com/kntGlf2.png", className="top")
+                                                        ],
+                                                        className='graph-type-image-container',
+                                                        style={'color':'#000'}),
+
                                                     ], className='graph-section-type'),
                                                     html.Div([
-                                                        'Graph Options'
+                                                        html.H3(children="Graph Options"), 
+
+                                                        # Geography dropdown
+                                                        html.H5(children="Geography"),                                                 
+                                                        dcc.Dropdown(
+                                                            className="graph-options-dropdown-TEV",
+                                                            id="geography-dropdown",
+                                                            options=[
+                                                                {'label': 'some-label', 'value': 'some-value'},
+                                                                {'label': 'some-label', 'value': 'some-value'},
+                                                                {'label': 'some-label', 'value': 'some-value'}
+                                                            ],
+                                                            value='California',
+                                                            style={"color": "black"},
+                                                        ),
+
+                                                        #Livestock or Asset dropdown
+                                                        html.H5(children="Livestock or Asset"), 
+                                                        dcc.Dropdown(
+                                                            className="graph-options-dropdown-TEV",
+                                                            id="livestock-or-asset-dropdown",
+                                                            options=[
+                                                                {'label': 'some-label', 'value': 'some-value'},
+                                                                {'label': 'some-label', 'value': 'some-value'},
+                                                                {'label': 'some-label', 'value': 'some-value'}
+                                                            ],
+                                                            value='Chickens',
+                                                            style={"color": "black"},
+                                                        ),
+
+                                                        #Species
+                                                        html.H5(children="Species"), 
+                                                        dcc.Dropdown(
+                                                            className="graph-options-dropdown-TEV",
+                                                            id="species-dropdown",
+                                                            options=[
+                                                                {'label': 'some-label', 'value': 'some-value'},
+                                                                {'label': 'some-label', 'value': 'some-value'},
+                                                                {'label': 'some-label', 'value': 'some-value'}
+                                                            ],
+                                                            value='Priority Species',
+                                                            style={"color": "black"},
+                                                        ),
+
+                                                        #Value
+                                                        html.H5(children="Value"), 
+                                                        dcc.Dropdown(
+                                                            className="graph-options-dropdown-TEV",
+                                                            id="value-dropdown",
+                                                            options=[
+                                                                {'label': 'some-label', 'value': 'some-value'},
+                                                                {'label': 'some-label', 'value': 'some-value'},
+                                                                {'label': 'some-label', 'value': 'some-value'}
+                                                            ],
+                                                            value='A value',
+                                                            style={"color": "black"},
+                                                        ),
+
                                                     ], className='graph-section-options'),
                                                 ], className='graph-section-left-top'),
                                                 html.Div([html.P('Data from FAOSTAT xxxxx. Retrieved August 04, 2021 from [url]',style={'color':'#000','margin':'0'}),], className='graph-section-left-bottom'),
