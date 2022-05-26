@@ -2,6 +2,26 @@
 html,body{
     height: 100%;
 }
+.header-section{
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.header-logo{
+    max-height: 5vh;
+}
+.header-title-div{
+    width: 100%;
+    justify-content: center;
+    display: flex;
+}
+.header-title{
+    margin: 0;
+    margin-top: 5px;
+    align-items: inherit;
+    text-align: center;
+}
+
 .tab-section-container{
     height: 100%;
     display: block;
@@ -265,10 +285,6 @@ html,body{
     height: 100%;
     width: 100%;
     position: fixed;
-}
-
-.top {
-    max-height: 5vh;
 }
 
 .dropdownstyling {

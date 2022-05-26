@@ -64,11 +64,11 @@ ds = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/solar
 # for this dashboard template.
 page_1 = html.Div([
     html.Div([
-        html.Img(src=GBADSLOGOW, className="top"),
-        html.Div([html.H1('Total Economic Value of Livestock')], style={'display': 'inline-block', 'margin-left': '35%'}),
+        html.Img(src=GBADSLOGOW, className="header-logo"),
+        html.Div([html.H1('Total Economic Value of Livestock', className="header-title")], className="header-title-div"),
         # dbc.Button("Login", id="login-button", href=env.get("AUTH0_LOGIN"), style={'margin-top': '10px', 'margin-right':'10px', 'float': 'right'}),
         # dbc.Button("Logout", id="logout-button", href=env.get("AUTH0_LOGOUT"), style={'margin-top': '10px', 'margin-right':'10px', 'float': 'right', 'display':'none'}),
-    ]),
+    ],className='header-section'),
     
     html.Div([
         html.Div([
@@ -105,9 +105,9 @@ page_1 = html.Div([
                                                         html.H3(children="Graph Type"),
                                                         
                                                         html.Div([
-                                                            html.Img(src="https://i.imgur.com/6z8MNOr.png", className="top"),
+                                                            html.Img(src="https://i.imgur.com/6z8MNOr.png", className="header-logo"),
                                                             html.Hr(style={'width':'80%'}),
-                                                            html.Img(src="https://i.imgur.com/kntGlf2.png", className="top")
+                                                            html.Img(src="https://i.imgur.com/kntGlf2.png", className="header-logo")
                                                         ],
                                                         className='graph-type-image-container',
                                                         style={'color':'#000'}),
