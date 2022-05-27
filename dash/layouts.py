@@ -90,7 +90,7 @@ page_1 = html.Div([
                                         html.Div([
                                             html.P(
                                                 'This dashboard provides estimates of the global economic value of livestock and aquatic farmed animals, with a focus on the value of live animals and primary production outputs (e.g., meat, eggs, milk) from 1996- present.',
-                                                style={'color':'#000'}
+                                                style={'color':'#000','margin':'0'}
                                             )
                                         ],className='tab-section'),
                                         html.Div([
@@ -102,7 +102,7 @@ page_1 = html.Div([
                                             html.Div([
                                                 html.Div([
                                                     html.Div([
-                                                        html.H3(children="Graph Type"),
+                                                        html.H4(children="Graph Type"),
                                                         
                                                         html.Div([
                                                             html.Img(src="https://i.imgur.com/6z8MNOr.png", className="header-logo"),
@@ -114,7 +114,7 @@ page_1 = html.Div([
 
                                                     ], className='graph-section-type'),
                                                     html.Div([
-                                                        html.H3(children="Graph Options"), 
+                                                        html.H4(children="Graph Options"), 
 
                                                         # Geography dropdown
                                                         html.H5(children="Geography"),                                                 
