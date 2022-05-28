@@ -20,7 +20,7 @@ import json
 import plotly.express as px
 from textwrap import dedent
 from os import environ as env
-from dash_extensions.enrich import DashProxy, Output, Input, State, ServersideOutput, html, dcc, ServersideOutputTransform, FileSystemStore
+from dash_extensions.enrich import FileSystemStore
 
 #  IMAGES
 # Example images set for the dashboard template, used for logos of the company/entity that is
@@ -51,7 +51,7 @@ country_dropdown = dcc.Dropdown(
 # Sky's defs in "biomass_dashboard.py"
 fss = FileSystemStore(cache_dir='TEV_cache')
 external_stylesheets = [dbc.themes.BOOTSTRAP]
-app = DashProxy(transforms=[ServersideOutputTransform(backend=fss)], external_stylesheets=external_stylesheets, suppress_callback_exceptions=True)
+
 
 # TAB STYLING
 # This is the styling that is applied to the selected tab.
@@ -63,7 +63,7 @@ selectedTabStyle = {
 
 # Where to get the table dataset from
 df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/solar.csv')
-fig = px.area(df, x = 'Number of Solar Plants', y = 'Average MW Per Plant', title='Solar CSV')
+fig_area = px.area(df, x = 'Number of Solar Plants', y = 'Average MW Per Plant', title='Solar CSV')
 
 # PAGE LAYOUT
 # All the components for a page will be put here in this HTML div and will be used as the layout 
@@ -113,7 +113,7 @@ page_1 = html.Div([
                                                         html.Div([
                                                             html.Img(src="https://i.imgur.com/6z8MNOr.png", className="header-logo", id='area-graph' , n_clicks=0),
                                                             html.Hr(style={'width':'80%'}),
-                                                            html.Img(src="https://i.imgur.com/kntGlf2.png", className="header-logo", id='map-map', n_clicks=0)
+                                                            html.Img(src="https://i.imgur.com/kntGlf2.png", className="header-logo", id='world-map', n_clicks=0)
                                                         ],
                                                         className='graph-type-image-container',
                                                         style={'color':'#000'}),
@@ -183,8 +183,8 @@ page_1 = html.Div([
                                                 html.Div([html.P('Data from FAOSTAT xxxxx. Retrieved August 04, 2021 from [url]',style={'color':'#000','margin':'0'}),], className='graph-section-left-bottom'),
                                             ],className='graph-section-left'),
                                             html.Div([
-                                                dcc.Graph(id='faostat-choromap-2', className='main-graph-size', figure=fig)
-                                            ],className='graph-section-right', id="main-graph"),
+                                                dcc.Graph(className='main-graph-size', id="main-graph", figure=fig_area)
+                                            ],className='graph-section-right'),
                                         ],className='tab-section graph-section')
                                     ],
                                 )
@@ -222,27 +222,6 @@ page_1 = html.Div([
     ], style={'display': 'none'}),
 ], className="main-div")
 
-@app.callback(
-    Output('main-graph', 'children'),
-    [Input('area-graph', 'n_clicks')],
-    [State('faostat-choro-map-loading-2', 'type')]
-)
-def render_content(n_clicks, type):
-    if n_clicks > 0:
-        return html.Div([
-            html.H3('Graph 1', style={"backgroundColor":"white","color":"black"}),
-            dcc.Graph(
-                figure=dict(
-                    data=[dict(
-                        x=[1, 2, 3],
-                        y=[3, 1, 2],
-                        type='bar'
-                    )]
-                )
-            )
-        ],style={"backgroundColor":"white"})
-    else:
-        return None
 
 # @app.callback(
 #     Output(component_id='faostat-choro-map-loading-2', component_property='type'),

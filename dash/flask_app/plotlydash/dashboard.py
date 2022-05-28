@@ -21,6 +21,7 @@ from email.mime.text import MIMEText
 from dash.exceptions import PreventUpdate
 from layouts import *
 from dash.dependencies import Input, Output, State
+from dash_extensions.enrich import Output, DashProxy, Input, MultiplexerTransform
 import json
 from textwrap import dedent
 
@@ -32,6 +33,33 @@ stylesheet = [
     'https://codepen.io/chriddyp/pen/bWLwgP.css'
     # dbc.themes.BOOTSTRAP
 ]
+
+df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/solar.csv')
+fig_area = px.area(df, x = 'Number of Solar Plants', y = 'Average MW Per Plant', title='Solar CSV')
+
+
+fig_world= go.Figure(go.Scattergeo())
+fig_world.update_geos(
+    resolution=50,
+    showcoastlines=True, coastlinecolor="RebeccaPurple",
+    showland=True, landcolor="LightGreen",
+    showocean=True, oceancolor="LightBlue",
+    showlakes=True, lakecolor="Blue",
+    showrivers=True, rivercolor="Blue"
+)
+fig_world.update_layout(height=300, margin={"r":0,"t":0,"l":0,"b":0})
+# fig_world = go.Figure(go.Scattergeo())
+# fig_world.update_geos(
+#     resolution=50,
+#     showcoastlines=True, coastlinecolor="RebeccaPurple",
+#     showland=True, landcolor="LightGreen",
+#     showocean=True, oceancolor="LightBlue",
+#     showlakes=True, lakecolor="Blue",
+#     showrivers=True, rivercolor="Blue"
+# )
+# fig_world.update_layout(height=300, margin={"r":0,"t":0,"l":0,"b":0})
+
+# fig_line = px.bar(df, x = 'Number of Solar Plants', y = 'Average MW Per Plant', title='Solar CSV')
 
 def init_dashboard(server):
             
@@ -205,3 +233,39 @@ def init_callbacks(dash_app):
         else:
             layout = "404"
         return layout
+
+
+    @dash_app.callback(
+    Output(component_id='main-graph', component_property='figure'),
+   Input(component_id='area-graph', component_property='n_clicks'),
+   Input(component_id='world-map', component_property='n_clicks'))
+    def render_content(n_clicks_a, n_clicks_b):
+        # THIS FUNCTION MIGHT NEED TO BE REWORKED
+        # if (n_clicks_a > n_clicks_b):
+        #     n_clicks_a = 0
+        #     n_clicks_b = 0
+        #     return fig_area
+        # else:
+        #     n_clicks_a = 0
+        #     n_clicks_b = 0
+        #     return fig_line
+        ctx = dash.callback_context
+        if not ctx.triggered:
+            button_id = 'No clicks'
+        else:
+            button_id = ctx.triggered[0]['prop_id'].split('.')[0]
+
+        if button_id=="area-graph":
+            return fig_area
+        else:
+            return fig_world 
+        
+
+#     @dash_app.callback(
+#     Output(component_id='main-graph', component_property='figure'),
+#    [Input(component_id='world-map', component_property='n_clicks')])
+#     def display_world_map(_):
+#         return fig_line
+
+        
+        
