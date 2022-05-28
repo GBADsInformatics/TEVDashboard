@@ -70,11 +70,11 @@ fig = px.area(df, x = 'Number of Solar Plants', y = 'Average MW Per Plant', titl
 # for this dashboard template.
 page_1 = html.Div([
     html.Div([
-        html.Img(src=GBADSLOGOW, className="top"),
-        html.Div([html.H1('Total Economic Value of Livestock')], style={'display': 'inline-block', 'margin-left': '35%'}),
+        html.Img(src=GBADSLOGOW, className="header-logo"),
+        html.Div([html.H1('Total Economic Value of Livestock', className="header-title")], className="header-title-div"),
         # dbc.Button("Login", id="login-button", href=env.get("AUTH0_LOGIN"), style={'margin-top': '10px', 'margin-right':'10px', 'float': 'right'}),
         # dbc.Button("Logout", id="logout-button", href=env.get("AUTH0_LOGOUT"), style={'margin-top': '10px', 'margin-right':'10px', 'float': 'right', 'display':'none'}),
-    ]),
+    ],className='header-section'),
     
     html.Div([
         html.Div([
@@ -96,7 +96,7 @@ page_1 = html.Div([
                                         html.Div([
                                             html.P(
                                                 'This dashboard provides estimates of the global economic value of livestock and aquatic farmed animals, with a focus on the value of live animals and primary production outputs (e.g., meat, eggs, milk) from 1996- present.',
-                                                style={'color':'#000'}
+                                                style={'color':'#000','margin':'0'}
                                             )
                                         ],className='tab-section'),
                                         html.Div([
@@ -108,19 +108,19 @@ page_1 = html.Div([
                                             html.Div([
                                                 html.Div([
                                                     html.Div([
-                                                        html.H3(children="Graph Type"),
+                                                        html.H4(children="Graph Type"),
                                                         
                                                         html.Div([
-                                                            html.Img(src="https://i.imgur.com/6z8MNOr.png", className="top", id='area-graph', n_clicks=0),
+                                                            html.Img(src="https://i.imgur.com/6z8MNOr.png", className="header-logo", id='area-graph' , n_clicks=0),
                                                             html.Hr(style={'width':'80%'}),
-                                                            html.Img(src="https://i.imgur.com/kntGlf2.png", className="top", id='map-map', n_clicks=0)
+                                                            html.Img(src="https://i.imgur.com/kntGlf2.png", className="header-logo", id='map-map', n_clicks=0)
                                                         ],
                                                         className='graph-type-image-container',
                                                         style={'color':'#000'}),
 
                                                     ], className='graph-section-type'),
                                                     html.Div([
-                                                        html.H3(children="Graph Options"), 
+                                                        html.H4(children="Graph Options"), 
 
                                                         # Geography dropdown
                                                         html.H5(children="Geography"),                                                 
