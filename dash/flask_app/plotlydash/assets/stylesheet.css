@@ -10,7 +10,20 @@ html,body{
 }
 .header-logo{
     max-height: 5vh;
+    cursor: pointer;
 }
+
+.header-logo:hover{
+    box-shadow: 2px 2px 2px 2px #F7931D;
+    transition: all .4s ease;
+    -webkit-transition: all .4s ease;
+}
+
+#world-map{
+    width: 120%;
+}
+
+
 .header-title-div{
     width: 100%;
     justify-content: center;
