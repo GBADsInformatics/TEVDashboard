@@ -13,10 +13,14 @@ html,body{
     cursor: pointer;
 }
 
-.header-logo:hover{
-    box-shadow: 2px 2px 2px 2px #F7931D;
-    transition: all .4s ease;
-    -webkit-transition: all .4s ease;
+.graph-type-image{
+    max-height: 5vh;
+    cursor: pointer;
+    transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+}
+.graph-type-image:hover{
+    box-shadow: 0 0 2px 2px #F7931D;
 }
 
 #world-map{
@@ -61,6 +65,7 @@ html,body{
 .graph-section{
     display: flex;
     height: 100%;
+    width: 100%;
     margin-bottom: 0;
 }
 .graph-section-left{
@@ -80,6 +85,7 @@ html,body{
 }
 .graph-section-right{
     width: 100%;
+    overflow-x: clip;
 }
 
 .main-graph-size {

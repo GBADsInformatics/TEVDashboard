@@ -64,6 +64,7 @@ selectedTabStyle = {
 # Where to get the table dataset from
 df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/solar.csv')
 fig_area = px.area(df, x = 'Number of Solar Plants', y = 'Average MW Per Plant', title='Solar CSV')
+fig_area.layout.autosize = True
 
 # PAGE LAYOUT
 # All the components for a page will be put here in this HTML div and will be used as the layout 
@@ -111,9 +112,9 @@ page_1 = html.Div([
                                                         html.H4(children="Graph Type"),
                                                         
                                                         html.Div([
-                                                            html.Img(src="https://i.imgur.com/6z8MNOr.png", className="header-logo", id='area-graph' , n_clicks=0),
+                                                            html.Img(src="https://i.imgur.com/6z8MNOr.png", className="graph-type-image", id='area-graph' , n_clicks=0),
                                                             html.Hr(style={'width':'80%'}),
-                                                            html.Img(src="https://i.imgur.com/kntGlf2.png", className="header-logo", id='world-map', n_clicks=0)
+                                                            html.Img(src="https://i.imgur.com/kntGlf2.png", className="graph-type-image", id='world-map', n_clicks=0)
                                                         ],
                                                         className='graph-type-image-container',
                                                         style={'color':'#000'}),
