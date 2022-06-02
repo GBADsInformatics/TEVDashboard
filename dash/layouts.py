@@ -124,7 +124,7 @@ page_1 = html.Div([
                                                         html.H4(children="Graph Options"), 
 
                                                         # Geography dropdown
-                                                        html.H5(children="Geography"),                                                 
+                                                        html.H5(children="Geography",style={"margin":"0.4rem 0 0.2rem 0"}),                                                 
                                                         dcc.Dropdown(
                                                             className="graph-options-dropdown-TEV",
                                                             id="geography-dropdown",
@@ -138,7 +138,7 @@ page_1 = html.Div([
                                                         ),
 
                                                         #Livestock or Asset dropdown
-                                                        html.H5(children="Livestock or Asset"), 
+                                                        html.H5(children="Livestock or Asset",style={"margin":"0.4rem 0 0.2rem 0"}), 
                                                         dcc.Dropdown(
                                                             className="graph-options-dropdown-TEV",
                                                             id="livestock-or-asset-dropdown",
@@ -152,7 +152,7 @@ page_1 = html.Div([
                                                         ),
 
                                                         #Species
-                                                        html.H5(children="Species"), 
+                                                        html.H5(children="Species",style={"margin":"0.4rem 0 0.2rem 0"}), 
                                                         dcc.Dropdown(
                                                             className="graph-options-dropdown-TEV",
                                                             id="species-dropdown",
@@ -166,7 +166,7 @@ page_1 = html.Div([
                                                         ),
 
                                                         #Value
-                                                        html.H5(children="Value"), 
+                                                        html.H5(children="Value",style={"margin":"0.4rem 0 0.2rem 0"}), 
                                                         dcc.Dropdown(
                                                             className="graph-options-dropdown-TEV",
                                                             id="value-dropdown",

@@ -26,7 +26,9 @@ html,body{
 #world-map{
     width: 120%;
 }
-
+.svg-container{
+    height: 100% !important;
+}
 
 .header-title-div{
     width: 100%;
@@ -85,7 +87,8 @@ html,body{
 }
 .graph-section-right{
     width: 100%;
-    overflow-x: clip;
+    height: 100%;
+    overflow: clip;
 }
 
 .main-graph-size {
