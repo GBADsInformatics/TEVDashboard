@@ -20,7 +20,7 @@ import json
 import plotly.express as px
 from textwrap import dedent
 from os import environ as env
-from dash_extensions.enrich import FileSystemStore
+# from dash_extensions.enrich import FileSystemStore
 
 #  IMAGES
 # Example images set for the dashboard template, used for logos of the company/entity that is
@@ -49,7 +49,7 @@ country_dropdown = dcc.Dropdown(
 )
 
 # Sky's defs in "biomass_dashboard.py"
-fss = FileSystemStore(cache_dir='TEV_cache')
+# fss = FileSystemStore(cache_dir='TEV_cache')
 external_stylesheets = [dbc.themes.BOOTSTRAP]
 
 
@@ -62,8 +62,8 @@ selectedTabStyle = {
 }
 
 # Where to get the table dataset from
-df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/solar.csv')
-fig_area = px.area(df, x = 'Number of Solar Plants', y = 'Average MW Per Plant', title='Solar CSV')
+df = pd.read_csv('datasets/20220603_informatics_tev_data.csv')
+fig_area = px.area(df, x='year', y='value', title='This is a placeholder')
 fig_area.layout.autosize = True
 
 # PAGE LAYOUT
@@ -96,7 +96,7 @@ page_1 = html.Div([
                                     children=[
                                         html.Div([
                                             html.P(
-                                                'This dashboard provides estimates of the global economic value of livestock and aquatic farmed animals, with a focus on the value of live animals and primary production outputs (e.g., meat, eggs, milk) from 1996- present.',
+                                                'This dashboard provides estimates of the global economic value of livestock and aquatic farmed animals, with a focus on the value of live animals and primary production outputs (e.g., meat, eggs, milk) from 1996-present.',
                                                 style={'color':'#000','margin':'0'}
                                             )
                                         ],className='tab-section'),
@@ -104,7 +104,7 @@ page_1 = html.Div([
                                             dash_table.DataTable(df.to_dict('records'), [{"name": i, "id": i} for i in df.columns])
                                         ],
                                         className='tab-section',
-                                        style={'color':'#000'}),
+                                        style={'color':'#000','overflow-y':'scroll','height':'50%'}),
                                         html.Div([
                                             html.Div([
                                                 html.Div([

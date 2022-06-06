@@ -21,7 +21,7 @@ from email.mime.text import MIMEText
 from dash.exceptions import PreventUpdate
 from layouts import *
 from dash.dependencies import Input, Output, State
-from dash_extensions.enrich import Output, DashProxy, Input, MultiplexerTransform
+# from dash_extensions.enrich import Output, DashProxy, Input, MultiplexerTransform
 import json
 from textwrap import dedent
 
@@ -34,8 +34,10 @@ stylesheet = [
     # dbc.themes.BOOTSTRAP
 ]
 
-df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/solar.csv')
-fig_area = px.area(df, x = 'Number of Solar Plants', y = 'Average MW Per Plant', title='Solar CSV')
+# Where to get the table dataset from
+df = pd.read_csv('datasets/20220603_informatics_tev_data.csv')
+fig_area = px.area(df, x = 'year', y = 'value', title='Economic Value Over Time')
+fig_area.layout.autosize = True
 
 
 fig_world= go.Figure(go.Scattergeo())
@@ -237,8 +239,8 @@ def init_callbacks(dash_app):
 
     @dash_app.callback(
     Output(component_id='main-graph', component_property='figure'),
-   Input(component_id='area-graph', component_property='n_clicks'),
-   Input(component_id='world-map', component_property='n_clicks'))
+    Input(component_id='area-graph', component_property='n_clicks'),
+    Input(component_id='world-map', component_property='n_clicks'))
     def render_content(n_clicks_a, n_clicks_b):
         # THIS FUNCTION MIGHT NEED TO BE REWORKED
         # if (n_clicks_a > n_clicks_b):
@@ -255,7 +257,7 @@ def init_callbacks(dash_app):
         else:
             button_id = ctx.triggered[0]['prop_id'].split('.')[0]
 
-        if button_id=="area-graph":
+        if button_id=="area-graph" or button_id=='No clicks':
             return fig_area
         else:
             return fig_world 
