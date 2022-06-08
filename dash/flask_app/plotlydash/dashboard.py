@@ -6,10 +6,8 @@ import pandas as pd
 import math
 import urllib.parse
 import dash
-from dash import dcc
+from dash import dcc,html,dash_table
 import dash_bootstrap_components as dbc
-from dash import html
-from dash import dash_table
 import plotly.express as px
 from datetime import date, datetime
 from functools import wraps
@@ -24,7 +22,7 @@ from dash.dependencies import Input, Output, State
 # from dash_extensions.enrich import Output, DashProxy, Input, MultiplexerTransform
 import json
 from textwrap import dedent
-
+from .TEVdata import TEVdata
 
 PROFILE_KEY = 'profile'
 JWT_PAYLOAD = 'jwt_payload'
@@ -35,33 +33,8 @@ stylesheet = [
 ]
 
 # Where to get the table dataset from
-df = pd.read_csv('datasets/20220603_informatics_tev_data.csv')
-fig_area = px.area(df, x = 'year', y = 'value', title='Economic Value Over Time')
-fig_area.layout.autosize = True
+tevdata = TEVdata('datasets/20220603_informatics_tev_data.csv', 'line')
 
-
-fig_world= go.Figure(go.Scattergeo())
-fig_world.update_geos(
-    resolution=50,
-    showcoastlines=True, coastlinecolor="RebeccaPurple",
-    showland=True, landcolor="LightGreen",
-    showocean=True, oceancolor="LightBlue",
-    showlakes=True, lakecolor="Blue",
-    showrivers=True, rivercolor="Blue"
-)
-fig_world.update_layout(height=300, margin={"r":0,"t":0,"l":0,"b":0})
-# fig_world = go.Figure(go.Scattergeo())
-# fig_world.update_geos(
-#     resolution=50,
-#     showcoastlines=True, coastlinecolor="RebeccaPurple",
-#     showland=True, landcolor="LightGreen",
-#     showocean=True, oceancolor="LightBlue",
-#     showlakes=True, lakecolor="Blue",
-#     showrivers=True, rivercolor="Blue"
-# )
-# fig_world.update_layout(height=300, margin={"r":0,"t":0,"l":0,"b":0})
-
-# fig_line = px.bar(df, x = 'Number of Solar Plants', y = 'Average MW Per Plant', title='Solar CSV')
 
 def init_dashboard(server):
             
@@ -99,7 +72,7 @@ def checkRole():
     isRole = False
     y = json.dumps(session[JWT_PAYLOAD])
     person_dict = json.loads(y)
-    p = (person_dict["http://gbad.org/roles"])
+    p = (person_dict["http://gbad.org/roles"]) # This link sends you to the Ground Based Air Defense website lmao
     stringver = json.dumps(p)
     print(stringver)
     if 'Verified User' in stringver:
@@ -144,66 +117,6 @@ def init_callbacks(dash_app):
     def logout_button(pathname):
         return {'margin-top': '10px', 'margin-right':'10px', 'float': 'right'}
 
-    # Sidebar Callbacks
-    # Callback to update the sidebar.
-    @dash_app.callback(
-        Output('left-button', 'children'), 
-        Input('left-button', 'n_clicks')
-    )
-    def change_button_icon(n_clicks):
-        if n_clicks%2 == 1:
-            return ">"
-        else:
-            return "<"
-    @dash_app.callback(
-        Output('right-div', 'className'), 
-        Input('left-button', 'n_clicks')
-    )
-    def extend_div(n_clicks):
-        if n_clicks%2 == 1:
-            return "options-right-open"
-        else:
-            return "options-right"
-    @dash_app.callback(
-        Output('left-div', 'className'), 
-        Input('left-button', 'n_clicks')
-    )
-    def slide_div_in(n_clicks):
-        if n_clicks%2 == 1:
-            return "options-left-closed"
-        else:
-            return "options-left"
-
-    # Callback to update the components in the bottom box.
-    @dash_app.callback(
-        Output('my-slider', 'className'),
-        Input('tabs', 'value')
-    )
-    def hide_slider1(tabname):
-        if (tabname == "tab-1"):
-            return 'show m-m'
-        else:
-            return 'hide'
-    @dash_app.callback(
-        Output('my-slider-single', 'className'),
-        Input('tabs', 'value')
-    )
-    def hide_slider2(tabname):
-        if (tabname == "tab-2"):
-            return 'show m-m'
-        else:
-            return 'hide'
-
-    @dash_app.callback(
-        Output('feedback-input', 'className'),
-        Input('tabs', 'value')
-    )
-    def hide_slider3(tabname):
-        if (tabname == "tab-3"):
-            return 'show'
-        else:
-            return 'hide'
-    
     # Callback to handle feedback.
     @dash_app.callback(
         Output('feedback-text', 'value'),
@@ -236,21 +149,20 @@ def init_callbacks(dash_app):
             layout = "404"
         return layout
 
-
+    ### Updating Dropdowns ###
     @dash_app.callback(
-    Output(component_id='main-graph', component_property='figure'),
-    Input(component_id='area-graph', component_property='n_clicks'),
-    Input(component_id='world-map', component_property='n_clicks'))
-    def render_content(n_clicks_a, n_clicks_b):
-        # THIS FUNCTION MIGHT NEED TO BE REWORKED
-        # if (n_clicks_a > n_clicks_b):
-        #     n_clicks_a = 0
-        #     n_clicks_b = 0
-        #     return fig_area
-        # else:
-        #     n_clicks_a = 0
-        #     n_clicks_b = 0
-        #     return fig_line
+        Output('first-dropdown-title','children'),
+        Output('country-dropdown','options'),
+        Output('country-dropdown','style'),
+        Output('year-input','style'),
+        Output('year-input','min'),
+        Output('year-input','max'),
+        Output('livestock-or-asset-dropdown','options'),
+        Output('species-dropdown','options'),
+        Input('area-graph','n_clicks'),
+        Input('world-map','n_clicks'),
+    )
+    def update_graph_type(_a,_b,):
         ctx = dash.callback_context
         if not ctx.triggered:
             button_id = 'No clicks'
@@ -258,16 +170,47 @@ def init_callbacks(dash_app):
             button_id = ctx.triggered[0]['prop_id'].split('.')[0]
 
         if button_id=="area-graph" or button_id=='No clicks':
-            return fig_area
+            tevdata.graph_type = 'line'
+            return 'Geography',tevdata.countries,{'display':'block'},{'display':'none'},tevdata.min_year,tevdata.max_year,tevdata.types,tevdata.species
         else:
-            return fig_world 
-        
+            tevdata.graph_type = 'world'
+            return 'Year',tevdata.countries,{'display':'none'},{'display':'block'},tevdata.min_year,tevdata.max_year,tevdata.types,tevdata.species
 
-#     @dash_app.callback(
-#     Output(component_id='main-graph', component_property='figure'),
-#    [Input(component_id='world-map', component_property='n_clicks')])
-#     def display_world_map(_):
-#         return fig_line
+    ### Updating Figure ###
+    @dash_app.callback(
+        Output('main-graph','figure'),
+        Input('area-graph','n_clicks'),
+        Input('world-map','n_clicks'),
+        Input('country-dropdown','value'),
+        Input('year-input','value'),
+        Input('livestock-or-asset-dropdown','value'),
+        Input('species-dropdown','value'),
+    )
+    def render_figure(_a,_b,country,year,asset_type,species):
+        new_df = tevdata.df
+        new_df = tevdata.filter_type(asset_type, new_df)
+        new_df = tevdata.filter_species(species, new_df)
+        if(tevdata.graph_type=='line'):
+            new_df = tevdata.filter_country(country, new_df)
 
-        
-        
+        color_by = 'category'
+        if asset_type is None: color_by = 'type'
+        if country is None: color_by = 'iso3_code'
+
+        if(tevdata.graph_type=='world'):
+            fig_world= go.Figure(go.Scattergeo())
+            fig_world.update_geos(
+                resolution=50,
+                showcoastlines=True, coastlinecolor="RebeccaPurple",
+                showland=True, landcolor="LightGreen",
+                showocean=True, oceancolor="LightBlue",
+                showlakes=True, lakecolor="Blue",
+                showrivers=True, rivercolor="Blue"
+            )
+            fig_world.update_layout(autosize = True, margin={"r":0,"t":0,"l":0,"b":0})
+            return fig_world
+        else:
+            fig = px.line(new_df, x='year',y='value',color=color_by,title='Economic Value Over Time')
+            fig.layout.autosize = True
+            return fig
+

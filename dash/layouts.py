@@ -7,19 +7,14 @@
 # authentication.
 from logging import PlaceHolder, disable
 import dash
-from dash import dcc
-from dash.html.H4 import H4
+from dash import dcc,html,dash_table
 import dash_bootstrap_components as dbc
-from dash import html
-from dash import dash_table
 import plotly.graph_objects as go
 from dash.exceptions import PreventUpdate 
 import pandas as pd
 import numpy as np
 import json
 import plotly.express as px
-from textwrap import dedent
-from os import environ as env
 # from dash_extensions.enrich import FileSystemStore
 
 #  IMAGES
@@ -40,17 +35,9 @@ while y_value <= y_max:
      y_value += 1
 
 
-# DROPDOWNS 
-# Generic dropdown menu, can hold different values by adding content to the options array/list.
-country_dropdown = dcc.Dropdown(
-    id='faostat-country-dropdown-menu',
-    multi=True,
-    options=[],
-)
-
 # Sky's defs in "biomass_dashboard.py"
 # fss = FileSystemStore(cache_dir='TEV_cache')
-external_stylesheets = [dbc.themes.BOOTSTRAP]
+# external_stylesheets = [dbc.themes.BOOTSTRAP]
 
 
 # TAB STYLING
@@ -91,7 +78,7 @@ page_1 = html.Div([
                             html.Div([
                                 dcc.Loading(
                                     id='tab-section-loading',
-                                    type='circle',
+                                    type='cube',
                                     parent_className='tab-section-container-div',
                                     children=[
                                         html.Div([
@@ -124,17 +111,20 @@ page_1 = html.Div([
                                                         html.H4(children="Graph Options"), 
 
                                                         # Geography dropdown
-                                                        html.H5(children="Geography",style={"margin":"0.4rem 0 0.2rem 0"}),                                                 
+                                                        html.H5(id="first-dropdown-title",children="Geography",style={"margin":"0.4rem 0 0.2rem 0"}),
                                                         dcc.Dropdown(
                                                             className="graph-options-dropdown-TEV",
-                                                            id="geography-dropdown",
-                                                            options=[
-                                                                {'label': 'some-label', 'value': 'some-value'},
-                                                                {'label': 'some-label', 'value': 'some-value'},
-                                                                {'label': 'some-label', 'value': 'some-value'}
-                                                            ],
-                                                            value='California',
-                                                            style={"color": "black"},
+                                                            id='country-dropdown',
+                                                            # multi=True,
+                                                            options=[],
+                                                        ),
+                                                        dcc.Input(
+                                                            id='year-input',
+                                                            type='number',
+                                                            step=1,
+                                                            min=1994,
+                                                            max=2022,
+                                                            style={'display':'none'},
                                                         ),
 
                                                         #Livestock or Asset dropdown
@@ -147,7 +137,6 @@ page_1 = html.Div([
                                                                 {'label': 'some-label', 'value': 'some-value'},
                                                                 {'label': 'some-label', 'value': 'some-value'}
                                                             ],
-                                                            value='Chickens',
                                                             style={"color": "black"},
                                                         ),
 
@@ -161,7 +150,6 @@ page_1 = html.Div([
                                                                 {'label': 'some-label', 'value': 'some-value'},
                                                                 {'label': 'some-label', 'value': 'some-value'}
                                                             ],
-                                                            value='Priority Species',
                                                             style={"color": "black"},
                                                         ),
 
@@ -183,11 +171,16 @@ page_1 = html.Div([
                                                 ], className='graph-section-left-top'),
                                                 html.Div([html.P('Data from FAOSTAT xxxxx. Retrieved August 04, 2021 from [url]',style={'color':'#000','margin':'0'}),], className='graph-section-left-bottom'),
                                             ],className='graph-section-left'),
-                                            html.Div([
-                                                dcc.Graph(className='main-graph-size', id="main-graph", figure=fig_area)
-                                            ],className='graph-section-right'),
+                                            dcc.Loading(
+                                                id='tab-section-loading',
+                                                type='cube',
+                                                parent_className='graph-section-right',
+                                                children=[
+                                                    dcc.Graph(className='main-graph-size', id="main-graph", figure=fig_area)
+                                                ],
+                                            ),
                                         ],className='tab-section graph-section')
-                                    ],
+                                    ]
                                 )
                             ], className='tab-section-container'),
                         ], className="f-h-scroll-div"),
@@ -195,23 +188,23 @@ page_1 = html.Div([
                     className='cattabs',
                     selected_style=selectedTabStyle
                 ),
-                dcc.Tab(
-                    label='Metadata & API', 
-                    children=[
-                        html.Div([
-                            html.Div([
-                                dcc.Loading(
-                                    # parent_className='loading-wrapper',
-                                    id='faostat-choro-map-loading-2',
-                                    children=[dcc.Graph(id='faostat-choromap-2', className='graph-size')],
-                                    type='circle'
-                                ),
-                            ]),
-                        ], className="f-h-scroll-div"),
-                    ],  
-                    className='cattabs', 
-                    selected_style=selectedTabStyle
-                ),
+                # dcc.Tab(
+                #     label='Metadata & API', 
+                #     children=[
+                #         html.Div([
+                #             html.Div([
+                #                 dcc.Loading(
+                #                     # parent_className='loading-wrapper',
+                #                     id='faostat-choro-map-loading-2',
+                #                     children=[dcc.Graph(id='faostat-choromap-2', className='graph-size')],
+                #                     type='circle'
+                #                 ),
+                #             ]),
+                #         ], className="f-h-scroll-div"),
+                #     ],  
+                #     className='cattabs', 
+                #     selected_style=selectedTabStyle
+                # ),
             ]),
         ], className="r tab-panel"),
     ],className='mid'),
@@ -222,13 +215,3 @@ page_1 = html.Div([
         dcc.Store(id='species-selected', data='Chickens'),
     ], style={'display': 'none'}),
 ], className="main-div")
-
-
-# @app.callback(
-#     Output(component_id='faostat-choro-map-loading-2', component_property='type'),
-#     [Input(component_id='area-graph', component_property='n_clicks_timestamp')],
-#     [State(component_id='faostat-choro-map-loading-2', component_property='type')]
-# )
-# def update_graph(click, type):
-#     if not click: raise PreventUpdate
-#     return "Area Plot"
