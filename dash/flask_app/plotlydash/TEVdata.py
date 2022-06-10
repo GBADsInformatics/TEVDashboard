@@ -22,8 +22,10 @@ class TEVdata():
         self.min_year = int(self.df['year'].min())
     
     def filter_country(self, code, df):
-        if code is None:
+        if code is None or len(code) == 0:
             return df
+        if isinstance(code,list):
+            return df[df['iso3_code'].isin(code)]
         return df[df['iso3_code']==code]
     
     def filter_type(self, type, df):

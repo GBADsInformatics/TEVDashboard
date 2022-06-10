@@ -115,7 +115,7 @@ page_1 = html.Div([
                                                         dcc.Dropdown(
                                                             className="graph-options-dropdown-TEV",
                                                             id='country-dropdown',
-                                                            # multi=True,
+                                                            multi=True,
                                                             options=[],
                                                         ),
                                                         dcc.Input(

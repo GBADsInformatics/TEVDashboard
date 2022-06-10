@@ -195,7 +195,8 @@ def init_callbacks(dash_app):
 
         color_by = 'category'
         if asset_type is None: color_by = 'type'
-        if country is None: color_by = 'iso3_code'
+        print(country)
+        if country is None or len(country) == 0 or len(country) > 1  : color_by = 'iso3_code'
 
         if(tevdata.graph_type=='world'):
             fig_world= go.Figure(go.Scattergeo())
