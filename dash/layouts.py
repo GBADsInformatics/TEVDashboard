@@ -76,10 +76,9 @@ page_1 = html.Div([
                     children=[
                         html.Div([
                             html.Div([
-                                dcc.Loading(
+                                html.Div(
                                     id='tab-section-loading',
-                                    type='cube',
-                                    parent_className='tab-section-container-div',
+                                    className='tab-section-container-div',
                                     children=[
                                         html.Div([
                                             html.P(

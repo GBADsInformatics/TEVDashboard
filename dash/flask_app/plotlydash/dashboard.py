@@ -161,7 +161,9 @@ def init_callbacks(dash_app):
         Output('year-input','min'),
         Output('year-input','max'),
         Output('livestock-or-asset-dropdown','options'),
+        Output('livestock-or-asset-dropdown','clearable'),
         Output('species-dropdown','options'),
+        Output('species-dropdown','clearable'),
         Output('graph-type','data'),
         Input('area-graph','n_clicks'),
         Input('world-map','n_clicks'),
@@ -174,9 +176,9 @@ def init_callbacks(dash_app):
             button_id = ctx.triggered[0]['prop_id'].split('.')[0]
 
         if button_id=="area-graph" or button_id=='No clicks':
-            return 'Geography',tevdata.countries,{'display':'block'},{'display':'none'},tevdata.min_year,tevdata.max_year,tevdata.types,tevdata.species,'line'
+            return 'Geography',tevdata.countries,{'display':'block'},{'display':'none'},tevdata.min_year,tevdata.max_year,tevdata.types,True,tevdata.species,True,'line'
         else:
-            return 'Year',tevdata.countries,{'display':'none'},{'display':'block'},tevdata.min_year,tevdata.max_year,tevdata.types,tevdata.species,'world'
+            return 'Year',tevdata.countries,{'display':'none'},{'display':'block'},tevdata.min_year,tevdata.max_year,tevdata.types,False,tevdata.species,False,'world'
 
     ### Updating Figure ###
     @dash_app.callback(
@@ -222,7 +224,7 @@ def init_callbacks(dash_app):
                 mapbox_style='carto-positron',
                 opacity=0.5,
                 zoom=1,
-                title='World Map of '+species+' '+asset_type+' Value in '+str(year),
+                title='World Map Of '+species+' '+asset_type+' Value In '+str(year)+' (2014-2016 Constant USD $)',
             )
             fig.update_layout(margin={"r":5,"t":45,"l":5,"b":5})
             # fig.layout.autosize = True
@@ -230,7 +232,21 @@ def init_callbacks(dash_app):
 
         # Rendering the line graph
         else:
-            fig = px.line(new_df, x='year',y='value',color=color_by,title='Economic Value Over Time')
+            # Creating graph title
+            fig_title = \
+                f'Economic Value Of '+\
+                f'{species if species != None else "Animal"} '+\
+                f'{"" if asset_type == None else asset_type + " "}'+\
+                f'{"In All Countries" if country is None or len(country) == 0 else "In " + ",".join(new_df["iso3_code"].unique())}'+\
+                ' (2014-2016 Constant USD $)'
+
+            fig = px.line(
+                new_df, 
+                x='year',
+                y='value',
+                color=color_by,
+                title=fig_title,
+            )
             fig.update_layout(margin={"r":5,"t":45,"l":5,"b":5})
             fig.layout.autosize = True
             return fig
