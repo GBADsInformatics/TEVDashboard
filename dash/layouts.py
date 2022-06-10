@@ -129,19 +129,6 @@ page_1 = html.Div([
                                                             style={'display':'none'},
                                                         ),
 
-                                                        #Livestock or Asset dropdown
-                                                        html.H5(children="Livestock or Asset",style={"margin":"0.4rem 0 0.2rem 0"}), 
-                                                        dcc.Dropdown(
-                                                            className="graph-options-dropdown-TEV",
-                                                            id="livestock-or-asset-dropdown",
-                                                            options=[
-                                                                {'label': 'some-label', 'value': 'some-value'},
-                                                                {'label': 'some-label', 'value': 'some-value'},
-                                                                {'label': 'some-label', 'value': 'some-value'}
-                                                            ],
-                                                            style={"color": "black"},
-                                                        ),
-
                                                         #Species
                                                         html.H5(children="Species",style={"margin":"0.4rem 0 0.2rem 0"}), 
                                                         dcc.Dropdown(
@@ -152,6 +139,23 @@ page_1 = html.Div([
                                                                 {'label': 'some-label', 'value': 'some-value'},
                                                                 {'label': 'some-label', 'value': 'some-value'}
                                                             ],
+                                                            clearable=False,
+                                                            value='Chicken',
+                                                            style={"color": "black"},
+                                                        ),
+
+                                                        #Livestock or Asset dropdown
+                                                        html.H5(children="Livestock or Asset",style={"margin":"0.4rem 0 0.2rem 0"}), 
+                                                        dcc.Dropdown(
+                                                            className="graph-options-dropdown-TEV",
+                                                            id="livestock-or-asset-dropdown",
+                                                            options=[
+                                                                {'label': 'some-label', 'value': 'some-value'},
+                                                                {'label': 'some-label', 'value': 'some-value'},
+                                                                {'label': 'some-label', 'value': 'some-value'}
+                                                            ],
+                                                            clearable=False,
+                                                            value='Output',
                                                             style={"color": "black"},
                                                         ),
 
@@ -211,9 +215,7 @@ page_1 = html.Div([
         ], className="r tab-panel"),
     ],className='mid'),
         
-    html.Div([
-        # Placeholder to store user selection of options and display them once all the necessary 
-        # information has been given
-        dcc.Store(id='species-selected', data='Chickens'),
-    ], style={'display': 'none'}),
+    # Storing data in the session. Data gets deleted once tab is closed
+    dcc.Store(id='graph-type', storage_type='session', data='line'),
+
 ], className="main-div")

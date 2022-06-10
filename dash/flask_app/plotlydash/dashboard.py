@@ -38,7 +38,7 @@ stylesheet = [
 ]
 
 # Where to get the table dataset from
-tevdata = TEVdata('datasets/20220603_informatics_tev_data.csv', 'line')
+tevdata = TEVdata('datasets/20220603_informatics_tev_data.csv')
 
 
 def init_dashboard(server):
@@ -60,7 +60,6 @@ def init_dashboard(server):
     return dash_app.server
 
 isLoggedIn = False
-
 def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
@@ -72,7 +71,6 @@ def requires_auth(f):
         return f(*args, **kwargs)
     return decorated
 
-print(isLoggedIn)
 def checkRole():
     isRole = False
     y = json.dumps(session[JWT_PAYLOAD])
@@ -164,6 +162,7 @@ def init_callbacks(dash_app):
         Output('year-input','max'),
         Output('livestock-or-asset-dropdown','options'),
         Output('species-dropdown','options'),
+        Output('graph-type','data'),
         Input('area-graph','n_clicks'),
         Input('world-map','n_clicks'),
     )
@@ -175,28 +174,27 @@ def init_callbacks(dash_app):
             button_id = ctx.triggered[0]['prop_id'].split('.')[0]
 
         if button_id=="area-graph" or button_id=='No clicks':
-            tevdata.graph_type = 'line'
-            return 'Geography',tevdata.countries,{'display':'block'},{'display':'none'},tevdata.min_year,tevdata.max_year,tevdata.types,tevdata.species
+            return 'Geography',tevdata.countries,{'display':'block'},{'display':'none'},tevdata.min_year,tevdata.max_year,tevdata.types,tevdata.species,'line'
         else:
-            tevdata.graph_type = 'world'
-            return 'Year',tevdata.countries,{'display':'none'},{'display':'block'},tevdata.min_year,tevdata.max_year,tevdata.types,tevdata.species
+            return 'Year',tevdata.countries,{'display':'none'},{'display':'block'},tevdata.min_year,tevdata.max_year,tevdata.types,tevdata.species,'world'
 
     ### Updating Figure ###
     @dash_app.callback(
         Output('main-graph','figure'),
-        Input('area-graph','n_clicks'),
-        Input('world-map','n_clicks'),
+        # Input('area-graph','n_clicks'),
+        # Input('world-map','n_clicks'),
         Input('country-dropdown','value'),
         Input('year-input','value'),
         Input('livestock-or-asset-dropdown','value'),
         Input('species-dropdown','value'),
+        Input('graph-type','data'),
     )
-    def render_figure(_a,_b,country,year,asset_type,species):
+    def render_figure(country,year,asset_type,species,graph_type):
         # Filtering data with the menu values
         new_df = tevdata.df
         new_df = tevdata.filter_type(asset_type, new_df)
         new_df = tevdata.filter_species(species, new_df)
-        if(tevdata.graph_type=='world'):
+        if(graph_type=='world'):
             new_df = tevdata.filter_year(year, new_df)
         else:
             new_df = tevdata.filter_country(country, new_df)
@@ -208,22 +206,25 @@ def init_callbacks(dash_app):
         if country is None or len(country) == 0 or len(country) > 1  : color_by = 'iso3_code'
 
         # Rendering the world plot
-        if(tevdata.graph_type=='world'):
+        if(graph_type=='world'):
+            max_value = int(new_df['value'].max())
+            min_value = 0 # int(new_df['value'].min())
             fig = px.choropleth_mapbox(
                 new_df, 
                 geojson=plotly_countries, 
                 locations='iso3_code',
                 color='value',
-                range_color=(tevdata.min_value,tevdata.min_value),
+                range_color=(min_value,max_value),
                 hover_data=['iso3_code', 'value'],
                 featureidkey='properties.ISO_A3_EH',
                 color_continuous_scale='magma_r',
                 center={'lat':19, 'lon':11},
                 mapbox_style='carto-positron',
                 opacity=0.5,
-                zoom=1
+                zoom=1,
+                title='World Map of '+species+' '+asset_type+' Value in '+str(year),
             )
-            fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+            fig.update_layout(margin={"r":5,"t":45,"l":5,"b":5})
             # fig.layout.autosize = True
             return fig
 

@@ -7,9 +7,8 @@ import pandas as pd
 # TEVdata object
 # Used to store data and return manipulated data
 class TEVdata():
-    def __init__(self, datasource, graphtype):
+    def __init__(self, datasource):
         self.ds = datasource
-        self.graph_type = graphtype
 
         # Retrieve and clean data
         self.df = pd.read_csv(self.ds)
@@ -20,8 +19,6 @@ class TEVdata():
         self.species = self.df['category'].unique()
         self.max_year = int(self.df['year'].max())
         self.min_year = int(self.df['year'].min())
-        self.max_value = int(self.df['value'].max())
-        self.min_value = int(self.df['value'].min())
     
     def filter_country(self, code, df):
         if code is None or len(code) == 0:
