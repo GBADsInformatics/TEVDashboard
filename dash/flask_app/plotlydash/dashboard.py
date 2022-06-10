@@ -23,6 +23,11 @@ from dash.dependencies import Input, Output, State
 import json
 from textwrap import dedent
 from .TEVdata import TEVdata
+# Chloropleth map country data
+from urllib.request import urlopen
+plotly_countries = {}
+with open("datasets/world_map_110m.geojson") as file:
+    plotly_countries = json.load(file)
 
 PROFILE_KEY = 'profile'
 JWT_PAYLOAD = 'jwt_payload'
@@ -187,31 +192,45 @@ def init_callbacks(dash_app):
         Input('species-dropdown','value'),
     )
     def render_figure(_a,_b,country,year,asset_type,species):
+        # Filtering data with the menu values
         new_df = tevdata.df
         new_df = tevdata.filter_type(asset_type, new_df)
         new_df = tevdata.filter_species(species, new_df)
-        if(tevdata.graph_type=='line'):
+        if(tevdata.graph_type=='world'):
+            new_df = tevdata.filter_year(year, new_df)
+        else:
             new_df = tevdata.filter_country(country, new_df)
 
+        # Deciding on how to colour the graph, this should be added as a dropdown later
+        # with options like [auto, country, type, species]
         color_by = 'category'
         if asset_type is None: color_by = 'type'
-        print(country)
         if country is None or len(country) == 0 or len(country) > 1  : color_by = 'iso3_code'
 
+        # Rendering the world plot
         if(tevdata.graph_type=='world'):
-            fig_world= go.Figure(go.Scattergeo())
-            fig_world.update_geos(
-                resolution=50,
-                showcoastlines=True, coastlinecolor="RebeccaPurple",
-                showland=True, landcolor="LightGreen",
-                showocean=True, oceancolor="LightBlue",
-                showlakes=True, lakecolor="Blue",
-                showrivers=True, rivercolor="Blue"
+            fig = px.choropleth_mapbox(
+                new_df, 
+                geojson=plotly_countries, 
+                locations='iso3_code',
+                color='value',
+                range_color=(tevdata.min_value,tevdata.min_value),
+                hover_data=['iso3_code', 'value'],
+                featureidkey='properties.ISO_A3_EH',
+                color_continuous_scale='magma_r',
+                center={'lat':19, 'lon':11},
+                mapbox_style='carto-positron',
+                opacity=0.5,
+                zoom=1
             )
-            fig_world.update_layout(autosize = True, margin={"r":0,"t":0,"l":0,"b":0})
-            return fig_world
+            fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+            # fig.layout.autosize = True
+            return fig
+
+        # Rendering the line graph
         else:
             fig = px.line(new_df, x='year',y='value',color=color_by,title='Economic Value Over Time')
+            fig.update_layout(margin={"r":5,"t":45,"l":5,"b":5})
             fig.layout.autosize = True
             return fig
 

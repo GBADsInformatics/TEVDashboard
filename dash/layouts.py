@@ -119,11 +119,13 @@ page_1 = html.Div([
                                                             options=[],
                                                         ),
                                                         dcc.Input(
+                                                            className="graph-options-dropdown-TEV",
                                                             id='year-input',
                                                             type='number',
                                                             step=1,
                                                             min=1994,
-                                                            max=2022,
+                                                            max=2018,
+                                                            value=2018,
                                                             style={'display':'none'},
                                                         ),
 
@@ -169,7 +171,7 @@ page_1 = html.Div([
 
                                                     ], className='graph-section-options'),
                                                 ], className='graph-section-left-top'),
-                                                html.Div([html.P('Data from FAOSTAT xxxxx. Retrieved August 04, 2021 from [url]',style={'color':'#000','margin':'0'}),], className='graph-section-left-bottom'),
+                                                html.Div([html.P('Data from SOURCE. Retrieved DATE from [URL]',style={'color':'#000','margin':'0'}),], className='graph-section-left-bottom'),
                                             ],className='graph-section-left'),
                                             dcc.Loading(
                                                 id='tab-section-loading',

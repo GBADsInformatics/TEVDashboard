@@ -20,6 +20,8 @@ class TEVdata():
         self.species = self.df['category'].unique()
         self.max_year = int(self.df['year'].max())
         self.min_year = int(self.df['year'].min())
+        self.max_value = int(self.df['value'].max())
+        self.min_value = int(self.df['value'].min())
     
     def filter_country(self, code, df):
         if code is None or len(code) == 0:
@@ -37,3 +39,9 @@ class TEVdata():
         if spec is None:
             return df
         return df[df['category']==spec]
+    
+    def filter_year(self, year, df):
+        if year is None:
+            return df
+        year = int(year)
+        return df[df['year']==year]
