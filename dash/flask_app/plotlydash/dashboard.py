@@ -168,17 +168,39 @@ def init_callbacks(dash_app):
         Input('area-graph','n_clicks'),
         Input('world-map','n_clicks'),
     )
-    def update_graph_type(_a,_b,):
+    def update_dropdowns(_a,_b,):
+        # Getting Graph Type
         ctx = dash.callback_context
         if not ctx.triggered:
             button_id = 'No clicks'
         else:
             button_id = ctx.triggered[0]['prop_id'].split('.')[0]
-
+        
+        # Setting variables based on graph type
+        YearOrGeo,geoStyle,yearStyle,typeClearable,speciesClearable,graphType = None,None,None,None,None,None
         if button_id=="area-graph" or button_id=='No clicks':
-            return 'Geography',tevdata.countries,{'display':'block'},{'display':'none'},tevdata.min_year,tevdata.max_year,tevdata.types,True,tevdata.species,True,'line'
+            YearOrGeo = 'Geography'
+            geoStyle = {'display':'block'}
+            yearStyle = {'display':'none'}
+            typeClearable = True
+            speciesClearable = True
+            graphType = 'line'
         else:
-            return 'Year',tevdata.countries,{'display':'none'},{'display':'block'},tevdata.min_year,tevdata.max_year,tevdata.types,False,tevdata.species,False,'world'
+            YearOrGeo = 'Year'
+            geoStyle = {'display':'none'}
+            yearStyle = {'display':'block'}
+            typeClearable = False
+            speciesClearable = False
+            graphType = 'world'
+
+        countries = tevdata.countries
+        minyear = tevdata.min_year
+        maxyear = tevdata.max_year
+        categories = tevdata.types
+        species = tevdata.species
+
+        return YearOrGeo,countries,geoStyle,yearStyle,minyear,maxyear,categories,typeClearable,species,speciesClearable,graphType
+
 
     ### Updating Figure ###
     @dash_app.callback(
@@ -224,7 +246,7 @@ def init_callbacks(dash_app):
                 mapbox_style='carto-positron',
                 opacity=0.5,
                 zoom=1,
-                title='World Map Of '+species+' '+asset_type+' Value In '+str(year)+' (2014-2016 Constant USD $)',
+                title='World Map Of '+species+' '+(asset_type+' ' if asset_type != 'Crops' else '')+'Value In '+str(year)+' (2014-2016 Constant USD $)',
             )
             fig.update_layout(margin={"r":5,"t":45,"l":5,"b":5})
             # fig.layout.autosize = True
@@ -236,7 +258,7 @@ def init_callbacks(dash_app):
             fig_title = \
                 f'Economic Value Of '+\
                 f'{species if species != None else "Animal"} '+\
-                f'{"" if asset_type == None else asset_type + " "}'+\
+                f'{"" if asset_type == None or asset_type == "Crops" else asset_type + " "}'+\
                 f'{"In All Countries" if country is None or len(country) == 0 else "In " + ",".join(new_df["iso3_code"].unique())}'+\
                 ' (2014-2016 Constant USD $)'
 
