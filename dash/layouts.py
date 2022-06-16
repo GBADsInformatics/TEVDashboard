@@ -86,11 +86,18 @@ page_1 = html.Div([
                                                 style={'color':'#000','margin':'0'}
                                             )
                                         ],className='tab-section'),
-                                        html.Div([
-                                            dash_table.DataTable(df.to_dict('records'), [{"name": i, "id": i} for i in df.columns])
-                                        ],
-                                        className='tab-section',
-                                        style={'color':'#000','overflow-y':'scroll','height':'50%'}),
+                                        html.Div(
+                                            className='tab-section',
+                                            style={'color':'#000','overflow-y':'scroll','height':'50%'},
+                                            children=[
+                                                dcc.Loading(
+                                                    id='data-table-parent',
+                                                    parent_style={'height':'100%','width':'100%'},
+                                                    type='cube',
+                                                    children=[html.P('Please select appropriate dropdown options.')]
+                                                ),
+                                            ],
+                                        ),
                                         html.Div([
                                             html.Div([
                                                 html.Div([
@@ -144,7 +151,7 @@ page_1 = html.Div([
                                                         ),
 
                                                         #Livestock or Asset dropdown
-                                                        html.H5(children="Livestock or Asset",style={"margin":"0.4rem 0 0.2rem 0"}), 
+                                                        html.H5(children="Value Type",style={"margin":"0.4rem 0 0.2rem 0"}), 
                                                         dcc.Dropdown(
                                                             className="graph-options-dropdown-TEV",
                                                             id="livestock-or-asset-dropdown",
@@ -158,19 +165,19 @@ page_1 = html.Div([
                                                             style={"color": "black"},
                                                         ),
 
-                                                        #Value
-                                                        html.H5(children="Value",style={"margin":"0.4rem 0 0.2rem 0"}), 
-                                                        dcc.Dropdown(
-                                                            className="graph-options-dropdown-TEV",
-                                                            id="value-dropdown",
-                                                            options=[
-                                                                {'label': 'some-label', 'value': 'some-value'},
-                                                                {'label': 'some-label', 'value': 'some-value'},
-                                                                {'label': 'some-label', 'value': 'some-value'}
-                                                            ],
-                                                            value='A value',
-                                                            style={"color": "black"},
-                                                        ),
+                                                        # #Value
+                                                        # html.H5(children="Value",style={"margin":"0.4rem 0 0.2rem 0"}), 
+                                                        # dcc.Dropdown(
+                                                        #     className="graph-options-dropdown-TEV",
+                                                        #     id="value-dropdown",
+                                                        #     options=[
+                                                        #         {'label': 'some-label', 'value': 'some-value'},
+                                                        #         {'label': 'some-label', 'value': 'some-value'},
+                                                        #         {'label': 'some-label', 'value': 'some-value'}
+                                                        #     ],
+                                                        #     value='A value',
+                                                        #     style={"color": "black"},
+                                                        # ),
 
                                                     ], className='graph-section-options'),
                                                 ], className='graph-section-left-top'),
@@ -180,9 +187,7 @@ page_1 = html.Div([
                                                 id='tab-section-loading',
                                                 type='cube',
                                                 parent_className='graph-section-right',
-                                                children=[
-                                                    dcc.Graph(className='main-graph-size', id="main-graph", figure=fig_area)
-                                                ],
+                                                children=[html.P('Please select appropriate dropdown options.')]
                                             ),
                                         ],className='tab-section graph-section')
                                     ]

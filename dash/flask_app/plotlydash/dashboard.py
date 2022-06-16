@@ -204,7 +204,7 @@ def init_callbacks(dash_app):
 
     ### Updating Figure ###
     @dash_app.callback(
-        Output('main-graph','figure'),
+        Output('tab-section-loading','children'),
         # Input('area-graph','n_clicks'),
         # Input('world-map','n_clicks'),
         Input('country-dropdown','value'),
@@ -225,21 +225,21 @@ def init_callbacks(dash_app):
 
         # Deciding on how to colour the graph, this should be added as a dropdown later
         # with options like [auto, country, type, species]
-        color_by = 'category'
-        if asset_type is None: color_by = 'type'
-        if country is None or len(country) == 0 or len(country) > 1  : color_by = 'iso3_code'
+        color_by = 'Species'
+        if asset_type is None: color_by = 'Type'
+        if country is None or len(country) == 0 or len(country) > 1  : color_by = 'Country'
 
         # Rendering the world plot
         if(graph_type=='world'):
-            max_value = int(new_df['value'].max())
+            max_value = int(new_df['Value'].max())
             min_value = 0 # int(new_df['value'].min())
             fig = px.choropleth_mapbox(
                 new_df, 
                 geojson=plotly_countries, 
-                locations='iso3_code',
-                color='value',
+                locations='Country',
+                color='Value',
                 range_color=(min_value,max_value),
-                hover_data=['iso3_code', 'value'],
+                hover_data=['Country', 'Value'],
                 featureidkey='properties.ISO_A3_EH',
                 color_continuous_scale='magma_r',
                 center={'lat':19, 'lon':11},
@@ -250,7 +250,7 @@ def init_callbacks(dash_app):
             )
             fig.update_layout(margin={"r":5,"t":45,"l":5,"b":5})
             # fig.layout.autosize = True
-            return fig
+            return dcc.Graph(className='main-graph-size', id="main-graph", figure=fig)
 
         # Rendering the line graph
         else:
@@ -259,17 +259,41 @@ def init_callbacks(dash_app):
                 f'Economic Value Of '+\
                 f'{species if species != None else "Animal"} '+\
                 f'{"" if asset_type == None or asset_type == "Crops" else asset_type + " "}'+\
-                f'{"In All Countries" if country is None or len(country) == 0 else "In " + ",".join(new_df["iso3_code"].unique())}'+\
+                f'{"In All Countries" if country is None or len(country) == 0 else "In " + ",".join(new_df["Country"].unique())}'+\
                 ' (2014-2016 Constant USD $)'
 
             fig = px.line(
                 new_df, 
-                x='year',
-                y='value',
+                x='Year',
+                y='Value',
                 color=color_by,
                 title=fig_title,
             )
-            fig.update_layout(margin={"r":5,"t":45,"l":5,"b":5})
+            fig.update_layout(margin={"r":10,"t":45,"l":10,"b":10})
             fig.layout.autosize = True
-            return fig
+            return dcc.Graph(className='main-graph-size', id="main-graph", figure=fig)
 
+    ### Updating Datatable ###
+    @dash_app.callback(
+        Output('data-table-parent','children'),
+        # Input('area-graph','n_clicks'),
+        # Input('world-map','n_clicks'),
+        Input('country-dropdown','value'),
+        Input('year-input','value'),
+        Input('livestock-or-asset-dropdown','value'),
+        Input('species-dropdown','value'),
+        Input('graph-type','data'),
+    )
+    def render_table(country,year,asset_type,species,graph_type):
+        # Filtering data with the menu values
+        new_df = tevdata.df
+        new_df = tevdata.filter_type(asset_type, new_df)
+        new_df = tevdata.filter_species(species, new_df)
+        if(graph_type=='world'):
+            new_df = tevdata.filter_year(year, new_df)
+        else:
+            new_df = tevdata.filter_country(country, new_df)
+
+        # Rendering the world plot
+        datatable = dash_table.DataTable(new_df.to_dict('records'), [{"name": i, "id": i,"hideable":True} for i in new_df.columns])
+        return datatable
