@@ -2,6 +2,7 @@
 # This file contains helpful classes and data used by the dashboard
 
 # Imports
+import numpy
 import pandas as pd
 
 # TEVdata object
@@ -25,6 +26,7 @@ class TEVdata():
 
         self.countries = sorted(self.df['Country'].unique())
         self.types = self.df['Type'].unique()
+        self.types = numpy.delete(self.types, numpy.where(self.types == 'Crops'))
         self.species = self.df['Species'].unique()
         self.max_year = int(self.df['Year'].max())
         self.min_year = int(self.df['Year'].min())

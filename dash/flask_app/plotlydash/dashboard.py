@@ -162,13 +162,15 @@ def init_callbacks(dash_app):
         Output('year-input','max'),
         Output('livestock-or-asset-dropdown','options'),
         Output('livestock-or-asset-dropdown','clearable'),
+        Output('livestock-or-asset-dropdown','disabled'),
         Output('species-dropdown','options'),
         Output('species-dropdown','clearable'),
         Output('graph-type','data'),
         Input('area-graph','n_clicks'),
         Input('world-map','n_clicks'),
+        State('species-dropdown','value'),
     )
-    def update_dropdowns(_a,_b,):
+    def update_dropdowns(_a,_b,species_value):
         # Getting Graph Type
         ctx = dash.callback_context
         if not ctx.triggered:
@@ -177,7 +179,7 @@ def init_callbacks(dash_app):
             button_id = ctx.triggered[0]['prop_id'].split('.')[0]
         
         # Setting variables based on graph type
-        YearOrGeo,geoStyle,yearStyle,typeClearable,speciesClearable,graphType = None,None,None,None,None,None
+        YearOrGeo,geoStyle,yearStyle,typeClearable,typeDisabled,speciesClearable,graphType = None,None,None,None,None,None,None
         if button_id=="area-graph" or button_id=='No clicks':
             YearOrGeo = 'Geography'
             geoStyle = {'display':'block'}
@@ -198,8 +200,9 @@ def init_callbacks(dash_app):
         maxyear = tevdata.max_year
         categories = tevdata.types
         species = tevdata.species
+        typeDisabled = True if species_value == 'Crops' else False
 
-        return YearOrGeo,countries,geoStyle,yearStyle,minyear,maxyear,categories,typeClearable,species,speciesClearable,graphType
+        return YearOrGeo,countries,geoStyle,yearStyle,minyear,maxyear,categories,typeClearable,typeDisabled,species,speciesClearable,graphType
 
 
     ### Updating Figure ###
@@ -213,7 +216,10 @@ def init_callbacks(dash_app):
         Input('species-dropdown','value'),
         Input('graph-type','data'),
     )
-    def render_figure(country,year,asset_type,species,graph_type):
+    def render_figure(country,year,asset_type_value,species,graph_type):
+        # Overriding asset type if crops
+        asset_type = 'Crops' if species == 'Crops' else asset_type_value
+
         # Filtering data with the menu values
         new_df = tevdata.df
         new_df = tevdata.filter_type(asset_type, new_df)
@@ -284,7 +290,10 @@ def init_callbacks(dash_app):
         Input('species-dropdown','value'),
         Input('graph-type','data'),
     )
-    def render_table(country,year,asset_type,species,graph_type):
+    def render_table(country,year,asset_type_value,species,graph_type):
+        # Overriding asset type if crops
+        asset_type = 'Crops' if species == 'Crops' else asset_type_value
+        
         # Filtering data with the menu values
         new_df = tevdata.df
         new_df = tevdata.filter_type(asset_type, new_df)

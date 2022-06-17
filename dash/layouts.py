@@ -220,6 +220,6 @@ page_1 = html.Div([
     ],className='mid'),
         
     # Storing data in the session. Data gets deleted once tab is closed
-    dcc.Store(id='graph-type', storage_type='session', data='line'),
+    dcc.Store(id='graph-type', storage_type='memory', data='line'),
 
 ], className="main-div")
