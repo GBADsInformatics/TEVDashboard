@@ -48,11 +48,6 @@ selectedTabStyle = {
     'color': 'black'
 }
 
-# Where to get the table dataset from
-df = pd.read_csv('datasets/20220603_informatics_tev_data.csv')
-fig_area = px.area(df, x='year', y='value', title='This is a placeholder')
-fig_area.layout.autosize = True
-
 # PAGE LAYOUT
 # All the components for a page will be put here in this HTML div and will be used as the layout 
 # for this dashboard template.

@@ -1,5 +1,6 @@
 import json
 from logging import disable
+from os.path import exists
 import requests
 import numpy as np
 import pandas as pd
@@ -23,23 +24,25 @@ from dash.dependencies import Input, Output, State
 import json
 from textwrap import dedent
 from .TEVdata import TEVdata
+
 # Chloropleth map country data
 from urllib.request import urlopen
 plotly_countries = {}
 with open("datasets/world_map_110m.geojson") as file:
     plotly_countries = json.load(file)
 
-PROFILE_KEY = 'profile'
-JWT_PAYLOAD = 'jwt_payload'
+# Where to get the table dataset from
+import urllib.request
+urllib.request.urlretrieve("http://gbadskedoc.org/api/tevHook", "datasets/tev_data.csv")
+tevdata = TEVdata('datasets/tev_data.csv' if exists("datasets/tev_data.csv") else 'datasets/tev_data_backup.csv')
 
 stylesheet = [
     'https://codepen.io/chriddyp/pen/bWLwgP.css'
     # dbc.themes.BOOTSTRAP
 ]
 
-# Where to get the table dataset from
-tevdata = TEVdata('datasets/20220603_informatics_tev_data.csv')
-
+PROFILE_KEY = 'profile'
+JWT_PAYLOAD = 'jwt_payload'
 
 def init_dashboard(server):
             
@@ -162,7 +165,6 @@ def init_callbacks(dash_app):
         Output('year-input','max'),
         Output('livestock-or-asset-dropdown','options'),
         Output('livestock-or-asset-dropdown','clearable'),
-        Output('livestock-or-asset-dropdown','disabled'),
         Output('species-dropdown','options'),
         Output('species-dropdown','clearable'),
         Output('graph-type','data'),
@@ -179,7 +181,7 @@ def init_callbacks(dash_app):
             button_id = ctx.triggered[0]['prop_id'].split('.')[0]
         
         # Setting variables based on graph type
-        YearOrGeo,geoStyle,yearStyle,typeClearable,typeDisabled,speciesClearable,graphType = None,None,None,None,None,None,None
+        YearOrGeo,geoStyle,yearStyle,typeClearable,speciesClearable,graphType = None,None,None,None,None,None
         if button_id=="area-graph" or button_id=='No clicks':
             YearOrGeo = 'Geography'
             geoStyle = {'display':'block'}
@@ -200,14 +202,14 @@ def init_callbacks(dash_app):
         maxyear = tevdata.max_year
         categories = tevdata.types
         species = tevdata.species
-        typeDisabled = True if species_value == 'Crops' else False
 
-        return YearOrGeo,countries,geoStyle,yearStyle,minyear,maxyear,categories,typeClearable,typeDisabled,species,speciesClearable,graphType
+        return YearOrGeo,countries,geoStyle,yearStyle,minyear,maxyear,categories,typeClearable,species,speciesClearable,graphType
 
 
     ### Updating Figure ###
     @dash_app.callback(
         Output('tab-section-loading','children'),
+        Output('livestock-or-asset-dropdown','disabled'),
         # Input('area-graph','n_clicks'),
         # Input('world-map','n_clicks'),
         Input('country-dropdown','value'),
@@ -216,26 +218,27 @@ def init_callbacks(dash_app):
         Input('species-dropdown','value'),
         Input('graph-type','data'),
     )
-    def render_figure(country,year,asset_type_value,species,graph_type):
+    def render_figure(country,year,asset_type_value,species_value,graph_type):
         # Overriding asset type if crops
-        asset_type = 'Crops' if species == 'Crops' else asset_type_value
+        asset_type = 'Crops' if species_value == 'Crops' else asset_type_value
 
         # Filtering data with the menu values
         new_df = tevdata.df
         new_df = tevdata.filter_type(asset_type, new_df)
-        new_df = tevdata.filter_species(species, new_df)
+        new_df = tevdata.filter_species(species_value, new_df)
         if(graph_type=='world'):
             new_df = tevdata.filter_year(year, new_df)
         else:
             new_df = tevdata.filter_country(country, new_df)
 
         # Deciding on how to colour the graph, this should be added as a dropdown later
-        # with options like [auto, country, type, species]
+        # with options like [auto, country, type, species_value]
         color_by = 'Species'
         if asset_type is None: color_by = 'Type'
         if country is None or len(country) == 0 or len(country) > 1  : color_by = 'Country'
 
-        # Rendering the world plot
+        # Building the world plot
+        figure = None
         if(graph_type=='world'):
             max_value = int(new_df['Value'].max())
             min_value = 0 # int(new_df['value'].min())
@@ -252,18 +255,18 @@ def init_callbacks(dash_app):
                 mapbox_style='carto-positron',
                 opacity=0.5,
                 zoom=1,
-                title='World Map Of '+species+' '+(asset_type+' ' if asset_type != 'Crops' else '')+'Value In '+str(year)+' (2014-2016 Constant USD $)',
+                title='World Map Of '+species_value+' '+(asset_type+' ' if asset_type != 'Crops' else '')+'Value In '+str(year)+' (2014-2016 Constant USD $)',
             )
             fig.update_layout(margin={"r":5,"t":45,"l":5,"b":5})
             # fig.layout.autosize = True
-            return dcc.Graph(className='main-graph-size', id="main-graph", figure=fig)
+            figure = dcc.Graph(className='main-graph-size', id="main-graph", figure=fig)
 
-        # Rendering the line graph
+        # Building the line graph
         else:
             # Creating graph title
             fig_title = \
                 f'Economic Value Of '+\
-                f'{species if species != None else "Animal"} '+\
+                f'{species_value if species_value != None else "Animal"} '+\
                 f'{"" if asset_type == None or asset_type == "Crops" else asset_type + " "}'+\
                 f'{"In All Countries" if country is None or len(country) == 0 else "In " + ",".join(new_df["Country"].unique())}'+\
                 ' (2014-2016 Constant USD $)'
@@ -277,7 +280,11 @@ def init_callbacks(dash_app):
             )
             fig.update_layout(margin={"r":10,"t":45,"l":10,"b":10})
             fig.layout.autosize = True
-            return dcc.Graph(className='main-graph-size', id="main-graph", figure=fig)
+            figure = dcc.Graph(className='main-graph-size', id="main-graph", figure=fig)
+
+        # Returning graph
+        typeDisabled = True if species_value == 'Crops' else False
+        return figure,typeDisabled
 
     ### Updating Datatable ###
     @dash_app.callback(
