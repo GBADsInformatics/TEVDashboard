@@ -191,25 +191,25 @@ page_1 = html.Div([
                         ], className="f-h-scroll-div"),
                     ],  
                     className='cattabs',
-                    selected_style=selectedTabStyle
+                    selected_style=selectedTabStyle,
                 ),
-                # dcc.Tab(
-                #     label='Metadata & API', 
-                #     children=[
-                #         html.Div([
-                #             html.Div([
-                #                 dcc.Loading(
-                #                     # parent_className='loading-wrapper',
-                #                     id='faostat-choro-map-loading-2',
-                #                     children=[dcc.Graph(id='faostat-choromap-2', className='graph-size')],
-                #                     type='circle'
-                #                 ),
-                #             ]),
-                #         ], className="f-h-scroll-div"),
-                #     ],  
-                #     className='cattabs', 
-                #     selected_style=selectedTabStyle
-                # ),
+                dcc.Tab(
+                    label='Metadata & API', 
+                    className='cattabs', 
+                    selected_style=selectedTabStyle,
+                    children=[
+                        html.Div([
+                            dcc.Loading(
+                                # parent_className='loading-wrapper',
+                                id='faostat-choro-map-loading-2',
+                                type='circle',
+                                children=[
+                                    dcc.Graph(id='faostat-choromap-2', className='graph-size')
+                                ],
+                            ),
+                        ], className="f-h-scroll-div"),
+                    ],  
+                ),
             ]),
         ], className="r tab-panel"),
     ],className='mid'),
