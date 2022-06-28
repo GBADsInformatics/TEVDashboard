@@ -312,5 +312,11 @@ def init_callbacks(dash_app):
             new_df = tevdata.filter_country(country, new_df)
 
         # Rendering the world plot
-        datatable = dash_table.DataTable(new_df.to_dict('records'), [{"name": i, "id": i,"hideable":True} for i in new_df.columns])
+        cols = [{"name": i, "id": i,"hideable":True} for i in new_df.columns]
+        cols[0] = {"name": "ID", "id": cols[0]["id"],"hideable":True}
+        datatable = dash_table.DataTable(
+            data=new_df.to_dict('records'),
+            columns=cols,
+            export_format="csv",
+        )
         return datatable

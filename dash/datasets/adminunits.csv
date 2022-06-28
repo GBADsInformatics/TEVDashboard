@@ -2,6 +2,7 @@ ISO2,ISO3,Menu Name,Official Name,FAO Name,FAOSTAT,WOAH,EUROSTAT,UNFCCC
 AF,AFG,Afghanistan,Afghanistan,Afghanistan,FAO,WOAH,,
 AL,ALB,Albania,Albania,Albania,FAO,WOAH,EURO,
 DZ,DZA,Algeria,Algeria,Algeria,FAO,WOAH,,
+AS,ASM,American Samoa,American Samoa,American Samoa,,,,
 AD,AND,Andorra,Andorra,,,WOAH,,
 AO,AGO,Angola,Angola,Angola,FAO,WOAH,,
 AG,ATG,Antigua and Barbuda,Antigua and Barbuda,Antigua and Barbuda,FAO,,,
@@ -78,6 +79,7 @@ EL,??1,Greece,Greece,,,,EURO,
 GL,GRL,Greenland,Greenland,,,WOAH,,
 GD,GRD,Grenada,Grenada,Grenada,FAO,,,
 GP,GLP,Guadeloupe,Guadeloupe,Guadeloupe,FAO,WOAH,,
+GU,GUM,Guam,Guam,Guam,,,,
 GT,GTM,Guatemala,Guatemala,Guatemala,FAO,WOAH,,
 GN,GIN,Guinea,Guinea,Guinea,FAO,WOAH,,
 GW,GNB,Guinea-Bissau,Guinea-Bissau,Guinea-Bissau,FAO,WOAH,,
@@ -94,7 +96,7 @@ IQ,IRQ,Iraq,Iraq,Iraq,FAO,WOAH,,
 IE,IRL,Ireland,Ireland,Ireland,FAO,WOAH,EURO,UNFCCC
 IL,ISR,Israel,Israel,Israel,FAO,WOAH,,
 IT,ITA,Italy,Italy,Italy,FAO,WOAH,EURO,UNFCCC
-JAM,JM,Jamaica,Jamaica,Jamaica,FAO,WOAH,,
+JM,JAM,Jamaica,Jamaica,Jamaica,FAO,WOAH,,
 JP,JPN,Japan,Japan,Japan,FAO,WOAH,,UNFCCC
 JO,JOR,Jordan,Jordan,Jordan,FAO,WOAH,,UNFCCC
 KZ,KAZ,Kazakhstan,Kazakhstan,Kazakhstan,FAO,WOAH,,
