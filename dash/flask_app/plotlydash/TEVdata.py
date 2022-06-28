@@ -53,3 +53,12 @@ class TEVdata():
             return df
         year = int(year)
         return df[df['Year']==year]
+
+    def convert_country_codes(self, code_file):
+        codes = pd.read_csv(code_file)
+
+        # line inspired by answer on SO https://stackoverflow.com/a/53118885
+        self.df['Country'] = self.df['Country'].replace(dict(zip(codes['ISO3'], codes['Menu Name'])))
+        self.countries = sorted(self.df['Country'].unique())
+        
+        return

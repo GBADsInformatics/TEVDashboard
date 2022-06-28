@@ -35,6 +35,7 @@ with open("datasets/world_map_110m.geojson") as file:
 import urllib.request
 urllib.request.urlretrieve("http://gbadskedoc.org/api/tevHook", "datasets/tev_data.csv")
 tevdata = TEVdata('datasets/tev_data.csv' if exists("datasets/tev_data.csv") else 'datasets/tev_data_backup.csv')
+tevdata.convert_country_codes('datasets/adminunits.csv')
 
 stylesheet = [
     'https://codepen.io/chriddyp/pen/bWLwgP.css'
