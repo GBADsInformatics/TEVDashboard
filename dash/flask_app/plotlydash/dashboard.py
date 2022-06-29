@@ -34,8 +34,9 @@ with open("datasets/world_map_110m.geojson") as file:
 # Where to get the table dataset from
 import urllib.request
 urllib.request.urlretrieve("http://gbadskedoc.org/api/tevHook", "datasets/tev_data.csv")
-tevdata = TEVdata('datasets/tev_data.csv' if exists("datasets/tev_data.csv") else 'datasets/tev_data_backup.csv')
-tevdata.convert_country_codes('datasets/adminunits.csv')
+
+# Creating Dataset
+tevdata = TEVdata('datasets/tev_data.csv' if exists("datasets/tev_data.csv") else 'datasets/tev_data_backup.csv','datasets/adminunits.csv')
 
 stylesheet = [
     'https://codepen.io/chriddyp/pen/bWLwgP.css'
@@ -246,7 +247,7 @@ def init_callbacks(dash_app):
             fig = px.choropleth_mapbox(
                 new_df, 
                 geojson=plotly_countries, 
-                locations='Country',
+                locations='ISO3',
                 color='Value',
                 range_color=(min_value,max_value),
                 hover_data=['Country', 'Value'],

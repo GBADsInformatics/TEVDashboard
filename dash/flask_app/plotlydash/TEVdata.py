@@ -8,15 +8,20 @@ import pandas as pd
 # TEVdata object
 # Used to store data and return manipulated data
 class TEVdata():
-    def __init__(self, datasource):
+    def __init__(self, datasource,iso3codes):
         self.ds = datasource
+        codes = pd.read_csv(iso3codes)
 
         # Retrieve and clean data
         self.df = pd.read_csv(self.ds)
         self.df['iso3_code'] = self.df['iso3_code'].str.upper()
+        
+        # Adding ISO3 column, and converting iso3_code to 'country menu names'
+        self.df['ISO3'] = self.df['iso3_code']
+        self.df['iso3_code'] = self.df['ISO3'].replace(dict(zip(codes['ISO3'], codes['Menu Name'])))
 
         self.df.rename(columns={
-            'year':'Year', 
+            'year':'Year',
             'iso3_code':'Country',
             'category':'Species',
             'value':'Value', 
@@ -53,12 +58,3 @@ class TEVdata():
             return df
         year = int(year)
         return df[df['Year']==year]
-
-    def convert_country_codes(self, code_file):
-        codes = pd.read_csv(code_file)
-
-        # line inspired by answer on SO https://stackoverflow.com/a/53118885
-        self.df['Country'] = self.df['Country'].replace(dict(zip(codes['ISO3'], codes['Menu Name'])))
-        self.countries = sorted(self.df['Country'].unique())
-        
-        return
