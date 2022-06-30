@@ -135,11 +135,7 @@ page_1 = html.Div([
                                                         dcc.Dropdown(
                                                             className="graph-options-dropdown-TEV",
                                                             id="species-dropdown",
-                                                            options=[
-                                                                {'label': 'some-label', 'value': 'some-value'},
-                                                                {'label': 'some-label', 'value': 'some-value'},
-                                                                {'label': 'some-label', 'value': 'some-value'}
-                                                            ],
+                                                            options=[],
                                                             clearable=False,
                                                             value='Chicken',
                                                             style={"color": "black"},
@@ -150,29 +146,27 @@ page_1 = html.Div([
                                                         dcc.Dropdown(
                                                             className="graph-options-dropdown-TEV",
                                                             id="livestock-or-asset-dropdown",
-                                                            options=[
-                                                                {'label': 'some-label', 'value': 'some-value'},
-                                                                {'label': 'some-label', 'value': 'some-value'},
-                                                                {'label': 'some-label', 'value': 'some-value'}
-                                                            ],
+                                                            options=[],
                                                             clearable=False,
                                                             value='Output',
                                                             style={"color": "black"},
                                                         ),
 
-                                                        # #Value
-                                                        # html.H5(children="Value",style={"margin":"0.4rem 0 0.2rem 0"}), 
-                                                        # dcc.Dropdown(
-                                                        #     className="graph-options-dropdown-TEV",
-                                                        #     id="value-dropdown",
-                                                        #     options=[
-                                                        #         {'label': 'some-label', 'value': 'some-value'},
-                                                        #         {'label': 'some-label', 'value': 'some-value'},
-                                                        #         {'label': 'some-label', 'value': 'some-value'}
-                                                        #     ],
-                                                        #     value='A value',
-                                                        #     style={"color": "black"},
-                                                        # ),
+                                                        #Colour By
+                                                        html.H5(children="Colour By",style={"margin":"0.4rem 0 0.2rem 0"},id='colour-by-title'), 
+                                                        dcc.Dropdown(
+                                                            className="graph-options-dropdown-TEV",
+                                                            id="colour-dropdown",
+                                                            options=[
+                                                                'Auto',
+                                                                'Country',
+                                                                'Species',
+                                                                'Type',
+                                                            ],
+                                                            clearable=False,
+                                                            value='Auto',
+                                                            style={"color": "black"},
+                                                        ),
 
                                                     ], className='graph-section-options'),
                                                 ], className='graph-section-left-top'),

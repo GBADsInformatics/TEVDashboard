@@ -169,6 +169,8 @@ def init_callbacks(dash_app):
         Output('livestock-or-asset-dropdown','clearable'),
         Output('species-dropdown','options'),
         Output('species-dropdown','clearable'),
+        Output('colour-dropdown','style'),
+        Output('colour-by-title','style'),
         Output('graph-type','data'),
         Input('area-graph','n_clicks'),
         Input('world-map','n_clicks'),
@@ -183,13 +185,15 @@ def init_callbacks(dash_app):
             button_id = ctx.triggered[0]['prop_id'].split('.')[0]
         
         # Setting variables based on graph type
-        YearOrGeo,geoStyle,yearStyle,typeClearable,speciesClearable,graphType = None,None,None,None,None,None
+        YearOrGeo,geoStyle,yearStyle,typeClearable,speciesClearable,colourTitleStyle,colourStyle,graphType = None,None,None,None,None,None,None,None
         if button_id=="area-graph" or button_id=='No clicks':
             YearOrGeo = 'Geography'
             geoStyle = {'display':'block'}
             yearStyle = {'display':'none'}
             typeClearable = True
             speciesClearable = True
+            colourTitleStyle = {"margin":"0.4rem 0 0.2rem 0"}
+            colourStyle = {'display':'block'}
             graphType = 'line'
         else:
             YearOrGeo = 'Year'
@@ -197,6 +201,8 @@ def init_callbacks(dash_app):
             yearStyle = {'display':'block'}
             typeClearable = False
             speciesClearable = False
+            colourTitleStyle = {'display':'none'}
+            colourStyle = {'display':'none'}
             graphType = 'world'
 
         countries = tevdata.countries
@@ -205,7 +211,7 @@ def init_callbacks(dash_app):
         categories = tevdata.types
         species = tevdata.species
 
-        return YearOrGeo,countries,geoStyle,yearStyle,minyear,maxyear,categories,typeClearable,species,speciesClearable,graphType
+        return YearOrGeo,countries,geoStyle,yearStyle,minyear,maxyear,categories,typeClearable,species,speciesClearable,colourTitleStyle,colourStyle,graphType
 
 
     ### Updating Figure ###
@@ -218,9 +224,10 @@ def init_callbacks(dash_app):
         Input('year-input','value'),
         Input('livestock-or-asset-dropdown','value'),
         Input('species-dropdown','value'),
+        Input('colour-dropdown','value'),
         Input('graph-type','data'),
     )
-    def render_figure(country,year,asset_type_value,species_value,graph_type):
+    def render_figure(country,year,asset_type_value,species_value,color_by_input,graph_type):
         # Overriding asset type if crops
         asset_type = 'Crops' if species_value == 'Crops' else asset_type_value
 
@@ -235,10 +242,14 @@ def init_callbacks(dash_app):
 
         # Deciding on how to colour the graph, this should be added as a dropdown later
         # with options like [auto, country, type, species_value]
-        color_by = 'Species'
-        if asset_type is None: color_by = 'Type'
-        if country is None or len(country) == 0 or len(country) > 1  : color_by = 'Country'
-
+        color_by = None
+        if color_by_input == 'Auto':
+            color_by = 'Species'
+            if asset_type is None: color_by = 'Type'
+            if country is None or len(country) == 0 or len(country) > 1  : color_by = 'Country'
+        else:
+            color_by = color_by_input
+            
         # Building the world plot
         figure = None
         if(graph_type=='world'):
@@ -257,7 +268,7 @@ def init_callbacks(dash_app):
                 mapbox_style='carto-positron',
                 opacity=0.5,
                 zoom=1,
-                title='World Map Of '+species_value+' '+(asset_type+' ' if asset_type != 'Crops' else '')+'Value In '+str(year)+' (2014-2016 Constant USD $)',
+                title='World Map of '+species_value+' '+(asset_type+' ' if asset_type != 'Crops' else '')+'Value in '+str(year)+' (2014-2016 Constant USD $)',
             )
             fig.update_layout(margin={"r":5,"t":45,"l":5,"b":5})
             # fig.layout.autosize = True
@@ -267,10 +278,10 @@ def init_callbacks(dash_app):
         else:
             # Creating graph title
             fig_title = \
-                f'Economic Value Of '+\
+                f'Economic Value of '+\
                 f'{species_value if species_value != None else "Animal"} '+\
                 f'{"" if asset_type == None or asset_type == "Crops" else asset_type + " "}'+\
-                f'{"In All Countries" if country is None or len(country) == 0 else "In " + ",".join(new_df["Country"].unique())}'+\
+                f'{"in All Countries" if country is None or len(country) == 0 else "in " + ",".join(new_df["Country"].unique())}'+\
                 ' (2014-2016 Constant USD $)'
 
             fig = px.line(
@@ -280,7 +291,12 @@ def init_callbacks(dash_app):
                 color=color_by,
                 title=fig_title,
             )
-            fig.update_layout(margin={"r":10,"t":45,"l":10,"b":10})
+            fig.update_layout(
+                margin={"r":10,"t":45,"l":10,"b":10},
+                font=dict(
+                    size=16,
+                )
+            )
             fig.layout.autosize = True
             figure = dcc.Graph(className='main-graph-size', id="main-graph", figure=fig)
 
