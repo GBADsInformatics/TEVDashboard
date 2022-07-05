@@ -69,8 +69,12 @@ page_1 = html.Div([
                 dcc.Tab(
                     label='Graphs & Data', 
                     children=[
-                        html.Div([
-                            html.Div([
+                        html.Div(
+                            className="f-h-scroll-div",
+                            children=[
+                            html.Div(
+                                className='tab-section-container',
+                                children=[
                                 html.Div(
                                     id='tab-section-loading',
                                     className='tab-section-container-div',
@@ -82,8 +86,7 @@ page_1 = html.Div([
                                             )
                                         ],className='tab-section'),
                                         html.Div(
-                                            className='tab-section',
-                                            style={'color':'#000','overflow-y':'scroll','height':'50%'},
+                                            className='tab-section tab-section-table',
                                             children=[
                                                 dcc.Loading(
                                                     id='data-table-parent',
@@ -173,7 +176,7 @@ page_1 = html.Div([
                                                 html.Div([html.P('Data from SOURCE. Retrieved DATE from [URL]',style={'color':'#000','margin':'0'}),], className='graph-section-left-bottom'),
                                             ],className='graph-section-left'),
                                             dcc.Loading(
-                                                id='tab-section-loading',
+                                                id='main-graph-parent',
                                                 type='cube',
                                                 parent_className='graph-section-right',
                                                 children=[html.P('Please select appropriate dropdown options.')]
@@ -181,8 +184,8 @@ page_1 = html.Div([
                                         ],className='tab-section graph-section')
                                     ]
                                 )
-                            ], className='tab-section-container'),
-                        ], className="f-h-scroll-div"),
+                            ]),
+                        ]),
                     ],  
                     className='cattabs',
                     selected_style=selectedTabStyle,
@@ -192,16 +195,54 @@ page_1 = html.Div([
                     className='cattabs', 
                     selected_style=selectedTabStyle,
                     children=[
-                        html.Div([
-                            dcc.Loading(
-                                # parent_className='loading-wrapper',
-                                id='faostat-choro-map-loading-2',
-                                type='circle',
-                                children=[
-                                    dcc.Graph(id='faostat-choromap-2', className='graph-size')
-                                ],
-                            ),
-                        ], className="f-h-scroll-div"),
+                        html.Div(
+                            className="f-h-scroll-div",
+                            children=[
+                                html.Div(
+                                    className='tab-section-container',
+                                    children=[
+                                        html.Div(
+                                            id='tab-section-loading',
+                                            className='tab-section-container-div',
+                                            children=[
+                                                html.Div([
+                                                    html.P(
+                                                        'GBADs Informatics metadata provides information about data presented in the \'Data and Graphs\' tab. Metadata is provided for data that is used as inputs to the model used to produce data outputs. Metadata is provided for output data including provenance information and methodology for the model.',
+                                                        style={'color':'#000','margin':'0'}
+                                                    )
+                                                ],className='tab-section'),
+                                                html.Div(
+                                                    className='meta-section-wrapper',
+                                                    children=[
+                                                        html.Div(
+                                                            className='meta-section',
+                                                            children=[
+                                                                html.Div(
+                                                                    className='meta-section-left tab-section',
+                                                                    children=[
+                                                                        
+                                                                    ]
+                                                                ),
+                                                                html.Div([
+                                                                    dcc.Loading(
+                                                                        # parent_className='loading-wrapper',
+                                                                        id='metadata-container',
+                                                                        type='cube',
+                                                                        children=[
+                                                                            dcc.Graph(id='faostat-choromap-2', className='graph-size')
+                                                                        ],
+                                                                    ),
+                                                                ],className='meta-section-right tab-section'),
+                                                            ]
+                                                        ),
+                                                    ]
+                                                ),
+                                            ],
+                                        ),
+                                    ],
+                                ),
+                            ]
+                        ),
                     ],  
                 ),
             ]),

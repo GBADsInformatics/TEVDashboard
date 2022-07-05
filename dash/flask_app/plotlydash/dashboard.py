@@ -192,8 +192,8 @@ def init_callbacks(dash_app):
             yearStyle = {'display':'none'}
             typeClearable = True
             speciesClearable = True
-            colourTitleStyle = {"margin":"0.4rem 0 0.2rem 0"}
             colourStyle = {'display':'block'}
+            colourTitleStyle = {"margin":"0.4rem 0 0.2rem 0"}
             graphType = 'line'
         else:
             YearOrGeo = 'Year'
@@ -201,8 +201,8 @@ def init_callbacks(dash_app):
             yearStyle = {'display':'block'}
             typeClearable = False
             speciesClearable = False
-            colourTitleStyle = {'display':'none'}
             colourStyle = {'display':'none'}
+            colourTitleStyle = {'display':'none'}
             graphType = 'world'
 
         countries = tevdata.countries
@@ -211,12 +211,12 @@ def init_callbacks(dash_app):
         categories = tevdata.types
         species = tevdata.species
 
-        return YearOrGeo,countries,geoStyle,yearStyle,minyear,maxyear,categories,typeClearable,species,speciesClearable,colourTitleStyle,colourStyle,graphType
+        return YearOrGeo,countries,geoStyle,yearStyle,minyear,maxyear,categories,typeClearable,species,speciesClearable,colourStyle,colourTitleStyle,graphType
 
 
     ### Updating Figure ###
     @dash_app.callback(
-        Output('tab-section-loading','children'),
+        Output('main-graph-parent','children'),
         Output('livestock-or-asset-dropdown','disabled'),
         # Input('area-graph','n_clicks'),
         # Input('world-map','n_clicks'),
@@ -307,6 +307,40 @@ def init_callbacks(dash_app):
     ### Updating Datatable ###
     @dash_app.callback(
         Output('data-table-parent','children'),
+        # Input('area-graph','n_clicks'),
+        # Input('world-map','n_clicks'),
+        Input('country-dropdown','value'),
+        Input('year-input','value'),
+        Input('livestock-or-asset-dropdown','value'),
+        Input('species-dropdown','value'),
+        Input('graph-type','data'),
+    )
+    def render_table(country,year,asset_type_value,species,graph_type):
+        # Overriding asset type if crops
+        asset_type = 'Crops' if species == 'Crops' else asset_type_value
+        
+        # Filtering data with the menu values
+        new_df = tevdata.df
+        new_df = tevdata.filter_type(asset_type, new_df)
+        new_df = tevdata.filter_species(species, new_df)
+        if(graph_type=='world'):
+            new_df = tevdata.filter_year(year, new_df)
+        else:
+            new_df = tevdata.filter_country(country, new_df)
+
+        # Rendering the world plot
+        cols = [{"name": i, "id": i,"hideable":True} for i in new_df.columns]
+        cols[0] = {"name": "ID", "id": cols[0]["id"],"hideable":True}
+        datatable = dash_table.DataTable(
+            data=new_df.to_dict('records'),
+            columns=cols,
+            export_format="csv",
+        )
+        return datatable
+
+    ### Updating METADATA ###
+    @dash_app.callback(
+        Output('metadata-container','children'),
         # Input('area-graph','n_clicks'),
         # Input('world-map','n_clicks'),
         Input('country-dropdown','value'),
