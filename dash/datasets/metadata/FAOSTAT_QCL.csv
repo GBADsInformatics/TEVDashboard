@@ -1,0 +1,18 @@
+About,"The Global Burden of Animal Disease Informatics Metadata provides information about how data can be accessed via the GBADs API, as well as other relevant information about the data. All metadata presented here pertains to the data after it was collected by GBADs (i.e. publication date on the GBADs API). This page provides a summary of metadata in a user-friendly format. To download the full metadata for this dataset select the ""download as json-ld"" button at the top of this page. Information about terms used or to access FAOSTAT metadata for this dataset can be found here: [https://www.fao.org/faostat/en/#data/QCL/metadata](https://www.fao.org/faostat/en/#data/QCL/metadata) "
+Name,FAOSTAT LIVE ANIMALS (QCL)
+Identifier,[http://gbadske.org:9000/dataportal/](http://gbadske.org:9000/dataportal/)
+Publication Date,2022-06-03
+Creator,Food and Agriculture Organization of the United Nations
+Contact Point,The Global Burden of Animal Disease Informatics 
+,informatics@gbadske.org 
+Description,"Livestock population numbers for each country from 1961-2019 from the Food and Agriculture Organization of the United Nations (FAOSTAT) Crop and livestock products (QCL) dataset. Data were accessed by navigating to the [FAOSTAT QCL data portal](https://www.fao.org/faostat/en/#data/QCL), and selecting the 'stocks', and 'live animals' as parameters."
+Statistical Unit,Population in number of heads.
+Periodocity ,Annual
+License,FAO Open Data for Statistical Databases Policy
+,[http://www.fao.org/3/ca7570en/ca7570en.pdf](http://www.fao.org/3/ca7570en/ca7570en.pdf)
+Language,English
+Date Modified,Data have not been modified since obtaining it from the source. The date modified will be updated if data gets modified. 
+Species,"Asses, Beehives, Buffaloes, Camelids and other, Camels, Cattle, Chickens, Ducks, Geese and guinea fowls, Goats, Horses, Mules, Pigs, Rabbits and Hares, Rodents and other, Sheep, Turkeys, Cattle and Buffaloes, Poultry Birds, Sheep and Goats"
+Subject,Livestock population numbers 
+Temporal Coverage,Start: 1961; End: 2019
+Spatial Coverage,Data are reported by country. Countries are reported in the M49 format as described in the original FAOSTAT metadata [https://www.fao.org/faostat/en/#data/QCL/metadata](https://www.fao.org/faostat/en/#data/QCL/metadata)

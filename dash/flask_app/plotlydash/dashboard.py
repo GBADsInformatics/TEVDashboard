@@ -23,7 +23,7 @@ from dash.dependencies import Input, Output, State
 # from dash_extensions.enrich import Output, DashProxy, Input, MultiplexerTransform
 import json
 from textwrap import dedent
-from .TEVdata import TEVdata
+from .TEVdata import *
 
 # Chloropleth map country data
 from urllib.request import urlopen
@@ -341,33 +341,35 @@ def init_callbacks(dash_app):
     ### Updating METADATA ###
     @dash_app.callback(
         Output('metadata-container','children'),
-        # Input('area-graph','n_clicks'),
-        # Input('world-map','n_clicks'),
-        Input('country-dropdown','value'),
-        Input('year-input','value'),
-        Input('livestock-or-asset-dropdown','value'),
-        Input('species-dropdown','value'),
-        Input('graph-type','data'),
+        Input('meta-gbads-button','n_clicks'),
     )
-    def render_table(country,year,asset_type_value,species,graph_type):
-        # Overriding asset type if crops
-        asset_type = 'Crops' if species == 'Crops' else asset_type_value
-        
+    def render_table(metadata):        
         # Filtering data with the menu values
-        new_df = tevdata.df
-        new_df = tevdata.filter_type(asset_type, new_df)
-        new_df = tevdata.filter_species(species, new_df)
-        if(graph_type=='world'):
-            new_df = tevdata.filter_year(year, new_df)
-        else:
-            new_df = tevdata.filter_country(country, new_df)
+        df = pd.read_csv(FAO_QCL_CSV, names=['Col1', 'Col2'])
 
-        # Rendering the world plot
-        cols = [{"name": i, "id": i,"hideable":True} for i in new_df.columns]
-        cols[0] = {"name": "ID", "id": cols[0]["id"],"hideable":True}
         datatable = dash_table.DataTable(
-            data=new_df.to_dict('records'),
-            columns=cols,
-            export_format="csv",
+            data=df.to_dict('records'),
+            # Removing header
+            css=[{'selector': 'tr:first-child','rule': 'display: none'}],
+            # Adding hyperlinks
+            columns=[
+                {'name': 'Col1', 'id': 'Col1'},
+                {'name': 'Col2', 'id': 'Col2', 'presentation': 'markdown'}
+            ],
+            # Styling
+            style_cell={'textAlign': 'left'},
+            style_data={
+                'whiteSpace': 'normal',
+                'height': 'auto',
+            },
+            style_data_conditional=[
+                {
+                    'if': {
+                        'column_id': 'Col1',
+                    },
+                    'fontWeight': 'bold'
+                }
+            ],
+            cell_selectable=True,
         )
         return datatable

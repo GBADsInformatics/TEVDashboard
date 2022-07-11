@@ -424,11 +424,39 @@ html,body{
 }
 .meta-section-right{
     flex: 7;
-    overflow: scroll;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+}
+.meta-data-container{
+    overflow-y: scroll;
+    flex:1;
+}
+.meta-source-button{
+    cursor: pointer;
+    text-align: center;
+    background: white;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 0.4rem;
+}
+.meta-gbads-button{
+    cursor: pointer;
+    text-align: center;
+    background: white;
+    padding: 0.5rem;
+    border-radius: 0.4rem 0.4rem 0 0;
     margin-bottom: 0;
 }
-
-
+.meta-source-dropdown{
+    background: white;
+    padding: 0 0.5rem 0.5rem;
+    border-radius: 0 0 0.5rem 0.5rem;
+}
+.meta-gbads-source{
+    margin-bottom: 1rem;
+    border-radius: 0 0 0.4rem 0.4rem;
+}
 
 /* scroll bar */
     /* width */

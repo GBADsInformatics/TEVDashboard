@@ -219,18 +219,60 @@ page_1 = html.Div([
                                                             children=[
                                                                 html.Div(
                                                                     className='meta-section-left tab-section',
+                                                                    id='meta-left',
                                                                     children=[
-                                                                        
+                                                                        html.H5(children="Data Source",style={"text-align":"center"}), 
+                                                                        html.Div(
+                                                                            className='meta-gbads-source',
+                                                                            id='gbads-source',
+                                                                            children=[
+                                                                                html.P(
+                                                                                    'GBADs Metadata',
+                                                                                    className='meta-gbads-button',
+                                                                                    id='meta-gbads-button'
+                                                                                ),
+                                                                                dcc.Dropdown(
+                                                                                    className="meta-source-dropdown",
+                                                                                    id="meta-source-dropdown",
+                                                                                    options=[
+                                                                                        'FAO',
+                                                                                    ],
+                                                                                    clearable=False,
+                                                                                    value='FAO',
+                                                                                    style={"color": "black"},
+                                                                                ),
+                                                                            ]
+                                                                        ),
+                                                                        html.Div(
+                                                                            className='meta-source-button',
+                                                                            id='provenance-button',
+                                                                            children=[
+                                                                                'Provenance'
+                                                                                # html.Div(),
+                                                                            ]
+                                                                        ),
+                                                                        html.Div(
+                                                                            className='meta-source-button',
+                                                                            id='glossary-button',
+                                                                            children=[
+                                                                                'Metadata Glossary'
+                                                                                # html.Div(),
+                                                                            ]
+                                                                        ),
                                                                     ]
                                                                 ),
                                                                 html.Div([
-                                                                    dcc.Loading(
-                                                                        # parent_className='loading-wrapper',
-                                                                        id='metadata-container',
-                                                                        type='cube',
-                                                                        children=[
-                                                                            dcc.Graph(id='faostat-choromap-2', className='graph-size')
-                                                                        ],
+                                                                    html.H5(children="Metadata",style={"text-align":"center"}), 
+                                                                    html.Div(
+                                                                        dcc.Loading(
+                                                                            # parent_className='loading-wrapper',
+                                                                            id='metadata-container',
+                                                                            type='cube',
+                                                                            children=[
+                                                                                'Metadata shows here'
+                                                                            ],
+                                                                        ),
+                                                                        className='meta-data-container',
                                                                     ),
                                                                 ],className='meta-section-right tab-section'),
                                                             ]
@@ -251,5 +293,6 @@ page_1 = html.Div([
         
     # Storing data in the session. Data gets deleted once tab is closed
     dcc.Store(id='graph-type', storage_type='memory', data='line'),
+    dcc.Store(id='meta-type', storage_type='memory', data='QCL'),
 
 ], className="main-div")

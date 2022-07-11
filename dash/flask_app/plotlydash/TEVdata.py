@@ -6,10 +6,10 @@ import numpy
 import pandas as pd
 
 # Metadata constants
-AWS_BUCKET = 'https://gbads-metadata.s3.ca-central-1.amazonaws.com/'
 METASET = 'datasets/metadata/'
-FAO_QCL_CSV = METASET + '20220613_FAOSTAT_QCL.csv'
-FAO_QCL_JSON = METASET + '20220613_FAOSTAT_QCL.json'
+AWS_BUCKET = 'https://gbads-metadata.s3.ca-central-1.amazonaws.com/'
+FAO_QCL_CSV = METASET + 'FAOSTAT_QCL.csv'
+FAO_QCL_JSON = AWS_BUCKET + '20220613_FAOSTAT_QCL.json'
 
 
 # TEVdata object
