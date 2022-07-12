@@ -15,6 +15,7 @@ import pandas as pd
 import numpy as np
 import json
 import plotly.express as px
+from flask_app.plotlydash.TEVdata import *
 # from dash_extensions.enrich import FileSystemStore
 
 #  IMAGES
@@ -234,11 +235,9 @@ page_1 = html.Div([
                                                                                 dcc.Dropdown(
                                                                                     className="meta-source-dropdown",
                                                                                     id="meta-source-dropdown",
-                                                                                    options=[
-                                                                                        'FAO',
-                                                                                    ],
+                                                                                    options=[*METADATA_SOURCES],
+                                                                                    value=[*METADATA_SOURCES][0],
                                                                                     clearable=False,
-                                                                                    value='FAO',
                                                                                     style={"color": "black"},
                                                                                 ),
                                                                             ]

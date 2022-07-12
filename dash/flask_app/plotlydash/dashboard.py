@@ -7,7 +7,7 @@ import pandas as pd
 import math
 import urllib.parse
 import dash
-from dash import dcc,html,dash_table
+from dash import dcc,html,dash_table,callback_context
 import dash_bootstrap_components as dbc
 import plotly.express as px
 from datetime import date, datetime
@@ -40,7 +40,6 @@ tevdata = TEVdata('datasets/tev_data.csv' if exists("datasets/tev_data.csv") els
 
 stylesheet = [
     'https://codepen.io/chriddyp/pen/bWLwgP.css'
-    # dbc.themes.BOOTSTRAP
 ]
 
 PROFILE_KEY = 'profile'
@@ -342,10 +341,21 @@ def init_callbacks(dash_app):
     @dash_app.callback(
         Output('metadata-container','children'),
         Input('meta-gbads-button','n_clicks'),
+        Input('provenance-button','n_clicks'),
+        Input('glossary-button','n_clicks'),
+        Input('meta-source-dropdown','value'),
     )
-    def render_table(metadata):        
+    def render_table(MetaButton,ProvButton,GlossButton,MetaValue):        
         # Filtering data with the menu values
-        df = pd.read_csv(FAO_QCL_CSV, names=['Col1', 'Col2'])
+        pressed = callback_context.triggered[0]['prop_id'].split('.')[0]
+        df = pd.read_csv(METADATA_SOURCES[[*METADATA_SOURCES][0]]['CSV'], names=['Col1', 'Col2'])
+        
+        if pressed == 'meta-gbads-button' or pressed == 'meta-source-dropdown':
+            df = pd.read_csv(METADATA_SOURCES[MetaValue]['CSV'], names=['Col1', 'Col2'])
+        elif pressed == 'provenance-button':
+            df = pd.read_csv(METADATA_OTHER['GLOSSARY']['CSV'], names=['Col1', 'Col2'])
+        elif pressed == 'glossary-button':
+            df = pd.read_csv(METADATA_OTHER['GLOSSARY']['CSV'], names=['Col1', 'Col2'])
 
         datatable = dash_table.DataTable(
             data=df.to_dict('records'),
