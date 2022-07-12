@@ -261,7 +261,17 @@ page_1 = html.Div([
                                                                     ]
                                                                 ),
                                                                 html.Div([
-                                                                    html.H5(children="Metadata",style={"text-align":"center"}), 
+                                                                    html.Div(
+                                                                        children=[
+                                                                            html.H5(children='Metadata',style={"text-align":"center",'height':'2rem'}), 
+                                                                            html.Div(
+                                                                                children=[],
+                                                                                id='download-container',
+                                                                                className='download-container',
+                                                                            ),
+                                                                        ],
+                                                                        style={'position':'relative'}
+                                                                    ),
                                                                     html.Div(
                                                                         dcc.Loading(
                                                                             # parent_className='loading-wrapper',

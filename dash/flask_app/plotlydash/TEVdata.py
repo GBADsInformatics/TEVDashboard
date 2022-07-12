@@ -12,13 +12,15 @@ AWS_BUCKET = 'https://gbads-metadata.s3.ca-central-1.amazonaws.com/'
 METADATA_SOURCES = {
     'FAOSTAT QCL':{
         'CSV': METASET+'FAOSTAT_QCL.csv',
-        'DOWNLOAD': AWS_BUCKET+'20220613_FAOSTAT_QCL.json'
+        'DOWNLOAD': AWS_BUCKET+'20220613_FAOSTAT_QCL.json',
     },
 }
 METADATA_OTHER = {
     'GLOSSARY':{
         'CSV': METASET+'MetadataGlossary.csv',
-        'DOWNLOAD': AWS_BUCKET+'MetadataGlossary.csv'
+    },
+    'PROVENANCE':{
+        'TXT': METASET+'dataProvenance.txt',
     },
 }
 

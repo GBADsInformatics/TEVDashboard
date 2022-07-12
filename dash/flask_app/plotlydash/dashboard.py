@@ -340,20 +340,30 @@ def init_callbacks(dash_app):
     ### Updating METADATA ###
     @dash_app.callback(
         Output('metadata-container','children'),
+        Output('download-container','children'),
         Input('meta-gbads-button','n_clicks'),
         Input('provenance-button','n_clicks'),
         Input('glossary-button','n_clicks'),
         Input('meta-source-dropdown','value'),
     )
-    def render_table(MetaButton,ProvButton,GlossButton,MetaValue):        
+    def update_meta(MetaButton,ProvButton,GlossButton,MetaValue):        
         # Filtering data with the menu values
         pressed = callback_context.triggered[0]['prop_id'].split('.')[0]
-        df = pd.read_csv(METADATA_SOURCES[[*METADATA_SOURCES][0]]['CSV'], names=['Col1', 'Col2'])
-        
-        if pressed == 'meta-gbads-button' or pressed == 'meta-source-dropdown':
+        df = ''
+        downloadButton = ''
+
+        if pressed == 'meta-gbads-button' or pressed == 'meta-source-dropdown' or pressed == '':
             df = pd.read_csv(METADATA_SOURCES[MetaValue]['CSV'], names=['Col1', 'Col2'])
+            req = requests.get(METADATA_SOURCES[MetaValue]['DOWNLOAD'])
+            json_data = json.dumps(req.json(), indent=2, ensure_ascii=False).replace('#', '%23')
+            downloadButton = html.A(
+                href=f"data:text/json;charset=utf-8,{json_data}",
+                children='Download Metadata',download=METADATA_SOURCES[MetaValue]['DOWNLOAD'].split('/')[-1],id='meta-download-button',className='download-button'
+            )
         elif pressed == 'provenance-button':
-            df = pd.read_csv(METADATA_OTHER['GLOSSARY']['CSV'], names=['Col1', 'Col2'])
+            with open(METADATA_OTHER['PROVENANCE']['TXT']) as file:
+                df = dcc.Markdown(file.readlines())
+            return df,downloadButton
         elif pressed == 'glossary-button':
             df = pd.read_csv(METADATA_OTHER['GLOSSARY']['CSV'], names=['Col1', 'Col2'])
 
@@ -382,4 +392,4 @@ def init_callbacks(dash_app):
             ],
             cell_selectable=True,
         )
-        return datatable
+        return datatable,downloadButton

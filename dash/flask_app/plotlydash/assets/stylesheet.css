@@ -457,6 +457,22 @@ html,body{
     margin-bottom: 1rem;
     border-radius: 0 0 0.4rem 0.4rem;
 }
+.download-button{
+    cursor: pointer;
+    background: #F7931D;
+    width: fit-content;
+    border-radius: 0.2rem;
+    padding: 0.2rem 0.4rem;
+    font-weight: bold;
+    margin: auto;
+    text-decoration: none;
+    color: #000;
+}
+.download-container{
+    position:absolute !important;
+    top: 0;
+}
+
 
 /* scroll bar */
     /* width */
