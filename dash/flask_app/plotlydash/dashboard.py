@@ -269,7 +269,13 @@ def init_callbacks(dash_app):
                 zoom=1,
                 title='World Map of '+species_value+' '+(asset_type+' ' if asset_type != 'Crops' else '')+'Value in '+str(year)+' (2014-2016 Constant USD $)',
             )
-            fig.update_layout(margin={"r":5,"t":45,"l":5,"b":5})
+            fig.update_layout(
+                margin={"r":5,"t":45,"l":5,"b":5},
+                font=dict(
+                    size=16,
+                )
+            )
+            fig.layout.autosize = True
             # fig.layout.autosize = True
             figure = dcc.Graph(className='main-graph-size', id="main-graph", figure=fig)
 
@@ -306,8 +312,6 @@ def init_callbacks(dash_app):
     ### Updating Datatable ###
     @dash_app.callback(
         Output('data-table-parent','children'),
-        # Input('area-graph','n_clicks'),
-        # Input('world-map','n_clicks'),
         Input('country-dropdown','value'),
         Input('year-input','value'),
         Input('livestock-or-asset-dropdown','value'),
@@ -341,29 +345,34 @@ def init_callbacks(dash_app):
     @dash_app.callback(
         Output('metadata-container','children'),
         Output('download-container','children'),
+        Output('meta-type','data'),
         Input('meta-gbads-button','n_clicks'),
         Input('provenance-button','n_clicks'),
         Input('glossary-button','n_clicks'),
         Input('meta-source-dropdown','value'),
+        State('meta-type','data'),
     )
-    def update_meta(MetaButton,ProvButton,GlossButton,MetaValue):        
+    def update_meta(MetaButton,ProvButton,GlossButton,MetaValue,MetaType):        
         # Filtering data with the menu values
         pressed = callback_context.triggered[0]['prop_id'].split('.')[0]
         df = ''
         downloadButton = ''
+        meta=MetaType
 
-        if pressed == 'meta-gbads-button' or pressed == 'meta-source-dropdown' or pressed == '':
-            df = pd.read_csv(METADATA_SOURCES[MetaValue]['CSV'], names=['Col1', 'Col2'])
+        if (pressed == 'meta-source-dropdown' and MetaType == 'meta') or pressed == 'meta-gbads-button' or pressed == '':
+            meta = 'meta'
+            df = pd.read_csv(METADATA_SOURCES[MetaValue]['METADATA'], names=['Col1', 'Col2'])
             req = requests.get(METADATA_SOURCES[MetaValue]['DOWNLOAD'])
             json_data = json.dumps(req.json(), indent=2, ensure_ascii=False).replace('#', '%23')
             downloadButton = html.A(
                 href=f"data:text/json;charset=utf-8,{json_data}",
                 children='Download Metadata',download=METADATA_SOURCES[MetaValue]['DOWNLOAD'].split('/')[-1],id='meta-download-button',className='download-button'
             )
-        elif pressed == 'provenance-button':
-            with open(METADATA_OTHER['PROVENANCE']['TXT']) as file:
+        elif (pressed == 'meta-source-dropdown' and MetaType == 'pro') or pressed == 'provenance-button':
+            meta = 'pro'
+            with open(METADATA_SOURCES[MetaValue]['PROVENANCE']) as file:
                 df = dcc.Markdown(file.readlines())
-            return df,downloadButton
+            return df,downloadButton,meta
         elif pressed == 'glossary-button':
             df = pd.read_csv(METADATA_OTHER['GLOSSARY']['CSV'], names=['Col1', 'Col2'])
 
@@ -392,4 +401,4 @@ def init_callbacks(dash_app):
             ],
             cell_selectable=True,
         )
-        return datatable,downloadButton
+        return datatable,downloadButton,meta

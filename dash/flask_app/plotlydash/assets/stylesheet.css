@@ -432,6 +432,10 @@ html,body{
     overflow-y: scroll;
     flex:1;
 }
+.meta-gbads-source{
+    margin-bottom: 1rem;
+    border-radius: 0 0 0.4rem 0.4rem;
+}
 .meta-source-button{
     cursor: pointer;
     text-align: center;
@@ -439,23 +443,26 @@ html,body{
     padding: 0.5rem;
     margin-bottom: 1rem;
     border-radius: 0.4rem;
+    transition: ease-in-out 0.1s;
 }
-.meta-gbads-button{
-    cursor: pointer;
-    text-align: center;
+.meta-source-button:hover{
+    background-color: lightgray;
+}
+.meta-source-dropdown{
     background: white;
     padding: 0.5rem;
     border-radius: 0.4rem 0.4rem 0 0;
     margin-bottom: 0;
+    border-bottom: solid 1px lightgray;
 }
-.meta-source-dropdown{
-    background: white;
-    padding: 0 0.5rem 0.5rem;
+.meta-gbads-button{
+    border-radius: 0;
+    margin-bottom: 0;
+    border-bottom: solid 1px lightgray;
+}
+.provenance-button{
     border-radius: 0 0 0.5rem 0.5rem;
-}
-.meta-gbads-source{
-    margin-bottom: 1rem;
-    border-radius: 0 0 0.4rem 0.4rem;
+    margin-bottom: 0;
 }
 .download-button{
     cursor: pointer;

@@ -227,27 +227,24 @@ page_1 = html.Div([
                                                                             className='meta-gbads-source',
                                                                             id='gbads-source',
                                                                             children=[
-                                                                                html.P(
-                                                                                    'GBADs Metadata',
-                                                                                    className='meta-gbads-button',
-                                                                                    id='meta-gbads-button'
-                                                                                ),
                                                                                 dcc.Dropdown(
-                                                                                    className="meta-source-dropdown",
+                                                                                    className="meta-source-button meta-source-dropdown",
                                                                                     id="meta-source-dropdown",
                                                                                     options=[*METADATA_SOURCES],
                                                                                     value=[*METADATA_SOURCES][0],
                                                                                     clearable=False,
                                                                                     style={"color": "black"},
                                                                                 ),
-                                                                            ]
-                                                                        ),
-                                                                        html.Div(
-                                                                            className='meta-source-button',
-                                                                            id='provenance-button',
-                                                                            children=[
-                                                                                'Provenance'
-                                                                                # html.Div(),
+                                                                                html.P(
+                                                                                    'GBADs Metadata',
+                                                                                    className='meta-source-button meta-gbads-button',
+                                                                                    id='meta-gbads-button'
+                                                                                ),
+                                                                                html.P(
+                                                                                    'Provenance',
+                                                                                    className='meta-source-button provenance-button',
+                                                                                    id='provenance-button',
+                                                                                ),
                                                                             ]
                                                                         ),
                                                                         html.Div(
@@ -302,6 +299,6 @@ page_1 = html.Div([
         
     # Storing data in the session. Data gets deleted once tab is closed
     dcc.Store(id='graph-type', storage_type='memory', data='line'),
-    dcc.Store(id='meta-type', storage_type='memory', data='QCL'),
+    dcc.Store(id='meta-type', storage_type='memory', data='meta'),
 
 ], className="main-div")
