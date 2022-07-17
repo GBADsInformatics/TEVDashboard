@@ -6,6 +6,7 @@
 # These are the imports required for building a dashboard with visualizations and user 
 # authentication.
 from logging import PlaceHolder, disable
+from pydoc import classname
 import dash
 from dash import dcc,html,dash_table
 import dash_bootstrap_components as dbc
@@ -38,7 +39,6 @@ while y_value <= y_max:
 
 # Sky's defs in "biomass_dashboard.py"
 # fss = FileSystemStore(cache_dir='TEV_cache')
-# external_stylesheets = [dbc.themes.BOOTSTRAP]
 
 
 # TAB STYLING
@@ -88,14 +88,20 @@ page_1 = html.Div([
                                         ],className='tab-section'),
                                         html.Div(
                                             className='tab-section tab-section-table',
+                                            id='tab-section-table',
                                             children=[
                                                 dcc.Loading(
                                                     id='data-table-parent',
-                                                    parent_style={'height':'100%','width':'100%'},
+                                                    parent_style={'height':'100%','width':'100%','overflow':'scroll'},
                                                     type='cube',
                                                     children=[html.P('Please select appropriate dropdown options.')]
                                                 ),
                                             ],
+                                        ),
+                                        html.Div(
+                                            html.I(className="bi bi-chevron-up",id='tbl-btn-chevron'),
+                                            id='table-collapse-button',
+                                            className='tab-section table-collapse-button',
                                         ),
                                         html.Div([
                                             html.Div([
@@ -300,5 +306,6 @@ page_1 = html.Div([
     # Storing data in the session. Data gets deleted once tab is closed
     dcc.Store(id='graph-type', storage_type='memory', data='line'),
     dcc.Store(id='meta-type', storage_type='memory', data='meta'),
+    dcc.Store(id='table-collapsed', storage_type='memory', data=False),
 
 ], className="main-div")

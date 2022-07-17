@@ -53,7 +53,8 @@ def init_dashboard(server):
         routes_pathname_prefix="/dash/",
         external_stylesheets=[
             # 'https://codepen.io/chriddyp/pen/bWLwgP.css',
-            dbc.themes.BOOTSTRAP
+            dbc.themes.BOOTSTRAP,
+            dbc.icons.BOOTSTRAP
         ],
     )
     # Setting active page
@@ -340,6 +341,29 @@ def init_callbacks(dash_app):
             export_format="csv",
         )
         return datatable
+
+    ### Collapsing Datatable ###
+    @dash_app.callback(
+        Output('tab-section-table','style'),
+        Output('tbl-btn-chevron','style'),
+        Output('table-collapsed','data'),
+        Input('table-collapse-button','n_clicks'),
+        State('table-collapsed','data'),
+    )
+    def collapse_table(_a, collapsed):
+        tabstyle = None
+        chevronstyle = None
+
+        if _a is None:
+            return tabstyle,chevronstyle,collapsed
+            
+        if not collapsed:
+            tabstyle = {'flex':'0'}
+            chevronstyle = {'transform': 'rotate3d(1, 0, 0, 180deg)'}
+            
+        
+        return tabstyle,chevronstyle,not collapsed
+
 
     ### Updating METADATA ###
     @dash_app.callback(
