@@ -93,6 +93,7 @@ html,body{
     background: #7a7a7a;
     cursor: pointer;
     border-radius: 0 0 0.5rem 0.5rem;
+    padding: 0;
 }
 .table-collapse-button i{
     color:white;

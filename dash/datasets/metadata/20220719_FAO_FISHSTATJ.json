@@ -1,0 +1,60 @@
+{
+  "@context": "http://schema.org",
+  "@type": "Dataset",
+  "@id": "",
+  "identifier": "http://gbadske.org:9000/dataportal/",
+  "name": "FAO FISHSTATJ",
+  "about:": "The Global Burden of Animal Disease Informatics Metadata provides information about how data can be accessed via the GBADs API, as well as other relevant information about the data. Information about FishStatJ data sources for this dataset and more can be found here: https://www.fao.org/fishery/en/statistics/software/fishstatj/en",
+  "creator": [
+    {
+      "@type": "Organization",
+      "name": "Food and Agriculture Organization of the United Nations (FAO)",
+      "contact": "faostat@fao.org"
+    }
+  ],
+  "contactPoint": [
+    {
+      "@type": "Organization",
+      "name": "The Global Burden of Animal Diseases Informatics",
+      "email": "metadata@gbadske.org"
+    }
+  ],
+  "dcmi:periodocity": "Annual",
+  "datePublished": "2022-06-03",
+  "description": "Aquaculture quantity and value numbers for each country from 1950-2019 are from the Food and Agriculture Organization of the United Nations (FAO) FishStatJ software. This software is a compilation of multiple datasets. Data can be accessed by navigating to the Global Aquaculture Production Statistical Query Panel https://www.fao.org/fishery/statistics-query/en/aquaculture.",
+  "spatialCoverage": "Data are reported by country. Countries are reported in the ISO3 format as described in the original FAO Global Aquaculture Production metadata https://www.fao.org/fishery/en/collection/aquaculture",
+  "temporalCoverage": "1950/2019",
+  "keywords": [
+    "Aquaculture",
+    "Production",
+    "Value",
+    "Population"
+  ],
+  "species": "Approximately 500 species items are also arranged into the 50 ISSCAAP groups of species items, which constitute the 9 ISSCAAP divisions (or Major groups) of the FAO 'International Standard Statistical Classification of Aquatic Animals and Plants' (ISSCAAP)",
+  "citation": [
+    {
+      "text": "FAO. 2021. Fishery and Aquaculture Statistics. Global aquaculture production 1950-2019 (FishstatJ). In: FAO Fisheries Division [online]. Rome. Updated 2021. www.fao.org/fishery/statistics/software/fishstatj/en",
+      "@id": "http://www.fao.org/fishery/statistics/software/fishstatj/en",
+      "identifier": "http://www.fao.org/fishery/statistics/software/fishstatj/en"
+    }
+  ],
+  "license": {
+    "text": "FAO Open Data for Statistical Databases Policy",
+    "url": "http://www.fao.org/3/ca7570en/ca7570en.pdf"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Food and Agriculture Organization of the United Nations (FAO)"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "Food and Agriculture Organization of the United Nations (FAO)"
+  },
+  "distribution": [
+    {
+      "@type": "DataDownload",
+      "fileFormat": "csv",
+      "contentUrl": "Data can be downloaded via the GBADs API. For more information about specific API calls please visit http://gbadske.org:9000/dataportal/"
+    }
+  ]
+}

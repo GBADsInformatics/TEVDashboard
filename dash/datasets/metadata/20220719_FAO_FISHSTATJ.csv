@@ -1,0 +1,18 @@
+About,"The Global Burden of Animal Disease Informatics Metadata provides information about how data can be accessed via the GBADs API, as well as other relevant information about the data. Information about FishStatJ data sources for this dataset and more can be found here: [https://www.fao.org/fishery/en/statistics/software/fishstatj/en](https://www.fao.org/fishery/en/statistics/software/fishstatj/en)"
+Name,FAO FISHSTATJ
+Identifier,[http://gbadske.org:9000/dataportal/](http://gbadske.org:9000/dataportal/)
+Publication Date,7/19/2022
+Creator,Food and Agriculture Organization of the United Nations
+Contact Point,The Global Burden of Animal Disease Informatics 
+,informatics@gbadske.org 
+Description,Aquaculture quantity and value numbers for each country from 1950-2019 are from the Food and Agriculture Organization of the United Nations (FAO) FishStatJ software. This software is a compilation of multiple datasets. Data can be accessed by navigating to the [Global Aquaculture Production Statistical Query Panel](https://www.fao.org/fishery/statistics-query/en/aquaculture).
+Statistical Unit,2014-2016 Constant USD ($)
+Periodocity ,Annual
+License,FAO Open Data for Statistical Databases Policy
+,[http://www.fao.org/3/ca7570en/ca7570en.pdf](http://www.fao.org/3/ca7570en/ca7570en.pdf)
+Language,English
+Date Modified,Data was collected from 2 databases and combined to create country aquaculture value data.
+Species,"Approximately 500 species items are also arranged into the 50 ISSCAAP groups of species items, which constitute the 9 ISSCAAP divisions (or Major groups) of the FAO 'International Standard Statistical Classification of Aquatic Animals and Plants' (ISSCAAP)"
+Subject,Aquaculture value per country
+Temporal Coverage,Start: 1950; End: 2019
+Spatial Coverage,Data are reported by country. Countries are reported in the ISO3 format as described in the original FAO Global Aquaculture Production metadata [https://www.fao.org/fishery/en/collection/aquaculture](https://www.fao.org/fishery/en/collection/aquaculture)
