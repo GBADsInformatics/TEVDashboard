@@ -188,17 +188,17 @@ def init_callbacks(dash_app):
         YearOrGeo,geoStyle,yearStyle,typeClearable,speciesClearable,colourTitleStyle,colourStyle,graphType = None,None,None,None,None,None,None,None
         if button_id=="area-graph" or button_id=='No clicks':
             YearOrGeo = 'Geography'
-            geoStyle = {'display':'block'}
+            geoStyle = None
             yearStyle = {'display':'none'}
             typeClearable = True
             speciesClearable = True
-            colourStyle = {'display':'block'}
+            colourStyle = None
             colourTitleStyle = {"margin":"0.4rem 0 0.2rem 0"}
             graphType = 'line'
         else:
             YearOrGeo = 'Year'
             geoStyle = {'display':'none'}
-            yearStyle = {'display':'block'}
+            yearStyle = None
             typeClearable = False
             speciesClearable = False
             colourStyle = {'display':'none'}

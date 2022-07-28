@@ -124,7 +124,7 @@ page_1 = html.Div([
                                                         # Geography dropdown
                                                         html.H5(id="first-dropdown-title",children="Geography",style={"margin":"0.4rem 0 0.2rem 0"}),
                                                         dcc.Dropdown(
-                                                            className="graph-options-dropdown-TEV",
+                                                            # className="graph-options-dropdown-TEV",
                                                             id='country-dropdown',
                                                             multi=True,
                                                             options=[],
@@ -143,7 +143,7 @@ page_1 = html.Div([
                                                         #Species
                                                         html.H5(children="Species",style={"margin":"0.4rem 0 0.2rem 0"}), 
                                                         dcc.Dropdown(
-                                                            className="graph-options-dropdown-TEV",
+                                                            # className="graph-options-dropdown-TEV",
                                                             id="species-dropdown",
                                                             options=[],
                                                             clearable=False,
@@ -154,7 +154,7 @@ page_1 = html.Div([
                                                         #Livestock or Asset dropdown
                                                         html.H5(children="Value Type",style={"margin":"0.4rem 0 0.2rem 0"}), 
                                                         dcc.Dropdown(
-                                                            className="graph-options-dropdown-TEV",
+                                                            # className="graph-options-dropdown-TEV",
                                                             id="livestock-or-asset-dropdown",
                                                             options=[],
                                                             clearable=False,
@@ -165,7 +165,7 @@ page_1 = html.Div([
                                                         #Colour By
                                                         html.H5(children="Colour By",style={"margin":"0.4rem 0 0.2rem 0"},id='colour-by-title'), 
                                                         dcc.Dropdown(
-                                                            className="graph-options-dropdown-TEV",
+                                                            # className="graph-options-dropdown-TEV",
                                                             id="colour-dropdown",
                                                             options=[
                                                                 'Auto',
@@ -180,7 +180,7 @@ page_1 = html.Div([
 
                                                     ], className='graph-section-options'),
                                                 ], className='graph-section-left-top'),
-                                                html.Div([html.P('Data from SOURCE. Retrieved DATE from [URL]',style={'color':'#000','margin':'0'}),], className='graph-section-left-bottom'),
+                                                # html.Div([html.P('Data from SOURCE. Retrieved DATE from [URL]',style={'color':'#000','margin':'0'}),], className='graph-section-left-bottom'),
                                             ],className='graph-section-left'),
                                             dcc.Loading(
                                                 id='main-graph-parent',
