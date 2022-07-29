@@ -55,7 +55,7 @@ selectedTabStyle = {
 page_1 = html.Div([
     html.Div([
         html.Img(src=GBADSLOGOW, className="header-logo"),
-        html.Div([html.H1('Total Economic Value of Livestock', className="header-title")], className="header-title-div"),
+        html.Div([html.H1('Economic Value of Livestock', className="header-title")], className="header-title-div"),
         # dbc.Button("Login", id="login-button", href=env.get("AUTH0_LOGIN"), style={'margin-top': '10px', 'margin-right':'10px', 'float': 'right'}),
         # dbc.Button("Logout", id="logout-button", href=env.get("AUTH0_LOGOUT"), style={'margin-top': '10px', 'margin-right':'10px', 'float': 'right', 'display':'none'}),
     ],className='header-section'),
