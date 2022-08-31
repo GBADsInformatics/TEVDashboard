@@ -33,7 +33,10 @@ with open("datasets/world_map_110m.geojson") as file:
 
 # Where to get the table dataset from
 import urllib.request
-urllib.request.urlretrieve("http://gbadskedoc.org/api/tevHook", "datasets/tev_data.csv")
+try:
+    urllib.request.urlretrieve("http://gbadskedoc.org/api/tevHook", "datasets/tev_data.csv")
+except:
+    print('ERROR: http://gbadskedoc.org/api/tevHook threw an exception.')
 
 # Creating Dataset
 tevdata = TEVdata('datasets/tev_data.csv' if exists("datasets/tev_data.csv") else 'datasets/tev_data_backup.csv','datasets/adminunits.csv')
@@ -169,8 +172,8 @@ def init_callbacks(dash_app):
         Output('livestock-or-asset-dropdown','clearable'),
         Output('species-dropdown','options'),
         Output('species-dropdown','clearable'),
-        Output('colour-dropdown','style'),
-        Output('colour-by-title','style'),
+        # Output('colour-dropdown','style'),
+        # Output('colour-by-title','style'),
         Output('graph-type','data'),
         Input('area-graph','n_clicks'),
         Input('world-map','n_clicks'),
@@ -185,15 +188,16 @@ def init_callbacks(dash_app):
             button_id = ctx.triggered[0]['prop_id'].split('.')[0]
         
         # Setting variables based on graph type
-        YearOrGeo,geoStyle,yearStyle,typeClearable,speciesClearable,colourTitleStyle,colourStyle,graphType = None,None,None,None,None,None,None,None
+        YearOrGeo,geoStyle,yearStyle,typeClearable,speciesClearable,graphType = None,None,None,None,None,None
+        # YearOrGeo,geoStyle,yearStyle,typeClearable,speciesClearable,colourTitleStyle,colourStyle,graphType = None,None,None,None,None,None,None,None
         if button_id=="area-graph" or button_id=='No clicks':
             YearOrGeo = 'Geography'
             geoStyle = None
             yearStyle = {'display':'none'}
             typeClearable = True
             speciesClearable = True
-            colourStyle = None
-            colourTitleStyle = {"margin":"0.4rem 0 0.2rem 0"}
+            # colourStyle = None
+            # colourTitleStyle = {"margin":"0.4rem 0 0.2rem 0"}
             graphType = 'line'
         else:
             YearOrGeo = 'Year'
@@ -201,8 +205,8 @@ def init_callbacks(dash_app):
             yearStyle = None
             typeClearable = False
             speciesClearable = False
-            colourStyle = {'display':'none'}
-            colourTitleStyle = {'display':'none'}
+            # colourStyle = {'display':'none'}
+            # colourTitleStyle = {'display':'none'}
             graphType = 'world'
 
         countries = tevdata.countries
@@ -211,7 +215,8 @@ def init_callbacks(dash_app):
         categories = tevdata.types
         species = tevdata.species
 
-        return YearOrGeo,countries,geoStyle,yearStyle,minyear,maxyear,categories,typeClearable,species,speciesClearable,colourStyle,colourTitleStyle,graphType
+        return YearOrGeo,countries,geoStyle,yearStyle,minyear,maxyear,categories,typeClearable,species,speciesClearable,graphType
+        # return YearOrGeo,countries,geoStyle,yearStyle,minyear,maxyear,categories,typeClearable,species,speciesClearable,colourStyle,colourTitleStyle,graphType
 
 
     ### Updating Figure ###
@@ -224,10 +229,10 @@ def init_callbacks(dash_app):
         Input('year-input','value'),
         Input('livestock-or-asset-dropdown','value'),
         Input('species-dropdown','value'),
-        Input('colour-dropdown','value'),
+        # Input('colour-dropdown','value'),
         Input('graph-type','data'),
     )
-    def render_figure(country,year,asset_type_value,species_value,color_by_input,graph_type):
+    def render_figure(country,year,asset_type_value,species_value,graph_type):
         # Overriding asset type if crops
         asset_type = 'Crops' if species_value == 'Crops' else asset_type_value
 
@@ -242,13 +247,10 @@ def init_callbacks(dash_app):
 
         # Deciding on how to colour the graph, this should be added as a dropdown later
         # with options like [auto, country, type, species_value]
-        color_by = None
-        if color_by_input == 'Auto':
-            color_by = 'Species'
-            if asset_type is None: color_by = 'Type'
-            if country is None or len(country) == 0 or len(country) > 1  : color_by = 'Country'
-        else:
-            color_by = color_by_input
+        color_by = 'Species'
+        if asset_type is None: color_by = 'Type'
+        if country is None or len(country) == 0 or len(country) > 1  : color_by = 'Country'
+
             
         # Building the world plot
         figure = None
