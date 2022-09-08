@@ -209,11 +209,15 @@ def init_callbacks(dash_app):
             # colourTitleStyle = {'display':'none'}
             graphType = 'world'
 
-        countries = tevdata.countries
+        # print(type(tevdata.countries))
+        # print(type(tevdata.types))
+        # print(type(tevdata.species))
+
+        countries = ['All'] + tevdata.countries
         minyear = tevdata.min_year
         maxyear = tevdata.max_year
-        categories = tevdata.types
-        species = tevdata.species
+        categories = ['Total'] + list(tevdata.types)
+        species = ['All'] + list(tevdata.species)
 
         return YearOrGeo,countries,geoStyle,yearStyle,minyear,maxyear,categories,typeClearable,species,speciesClearable,graphType
         # return YearOrGeo,countries,geoStyle,yearStyle,minyear,maxyear,categories,typeClearable,species,speciesClearable,colourStyle,colourTitleStyle,graphType
@@ -249,7 +253,7 @@ def init_callbacks(dash_app):
         # with options like [auto, country, type, species_value]
         color_by = 'Species'
         if asset_type is None: color_by = 'Type'
-        if country is None or len(country) == 0 or len(country) > 1  : color_by = 'Country'
+        if country is None or len(country) == 0 or len(country) > 1 or "All" in country : color_by = 'Country'
 
             
         # Building the world plot
@@ -289,7 +293,7 @@ def init_callbacks(dash_app):
                 f'Economic Value of '+\
                 f'{species_value if species_value != None else "Animal"} '+\
                 f'{"" if asset_type == None or asset_type == "Crops" else asset_type + " "}'+\
-                f'{"in All Countries" if country is None or len(country) == 0 else "in " + ",".join(new_df["Country"].unique())}'+\
+                f'{"in All Countries" if country is None or len(country) == 0 or "All" in country else "in " + ",".join(new_df["Country"].unique())}'+\
                 ' (2014-2016 Constant USD $)'
 
             fig = px.line(

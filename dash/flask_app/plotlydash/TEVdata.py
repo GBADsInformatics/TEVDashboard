@@ -63,7 +63,12 @@ class TEVdata():
         if code is None or len(code) == 0:
             return df
         if isinstance(code,list):
+            if 'All' in code:
+                return df
             return df[df['Country'].isin(code)]
+        else:
+            if code == 'All':
+                return df
         return df[df['Country']==code]
     
     def filter_type(self, type, df):
@@ -73,6 +78,8 @@ class TEVdata():
     
     def filter_species(self, spec, df):
         if spec is None:
+            return df
+        if spec == 'All':
             return df
         return df[df['Species']==spec]
     
