@@ -52,6 +52,10 @@ class TEVdata():
             'unit':'Currency',
         }, inplace=True)
 
+
+        # Replacing asset value with live animals
+        self.df.loc[(self.df['Type'] == 'Asset'),'Type']='Live Animals'
+
         self.countries = sorted(self.df['Country'].unique())
         self.types = self.df['Type'].unique()
         self.types = numpy.delete(self.types, numpy.where(self.types == 'Crops'))
