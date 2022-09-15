@@ -56,6 +56,18 @@ class TEVdata():
         # Replacing asset value with live animals
         self.df.loc[(self.df['Type'] == 'Asset'),'Type']='Live Animals'
 
+        # Adding total value
+        testdf = self.df.groupby(['Year','Country','Species','Currency','ISO3'])['Value'].sum().to_frame()
+        testdf['Type'] = 'Total'
+        print(type(testdf['Value']))
+        print(self.df.shape)
+        self.df.append(testdf,ignore_index=True)
+        print(self.df.shape)
+# 
+        # print(testdf.where(testdf['Year'] == 1994))
+
+        # print(testdf[testdf['Country'] == 'China'])
+
         self.countries = sorted(self.df['Country'].unique())
         self.types = self.df['Type'].unique()
         self.types = numpy.delete(self.types, numpy.where(self.types == 'Crops'))
@@ -66,15 +78,11 @@ class TEVdata():
     def filter_country(self, code, df):
         if code is None or len(code) == 0:
             return df
-        if isinstance(code,list):
-            if 'All' in code:
-                return df
-            return df[df['Country'].isin(code)]
-        else:
-            if code == 'All':
-                return df
-        return df[df['Country']==code]
-    
+        code = list(code)
+        if 'All' in code:
+            return df
+        return df[df['Country'].isin(code)]
+        
     def filter_type(self, type, df):
         if type is None:
             return df
