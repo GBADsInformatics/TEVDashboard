@@ -57,16 +57,14 @@ class TEVdata():
         self.df.loc[(self.df['Type'] == 'Asset'),'Type']='Live Animals'
 
         # Adding total value
-        testdf = self.df.groupby(['Year','Country','Species','Currency','ISO3'])['Value'].sum().to_frame()
+        testdf = self.df.groupby(['Year','Country','Species','Currency','ISO3'],as_index=False)['Value'].sum()
+        # Adding type column back
         testdf['Type'] = 'Total'
-        print(type(testdf['Value']))
-        print(self.df.shape)
-        self.df.append(testdf,ignore_index=True)
-        print(self.df.shape)
-# 
-        # print(testdf.where(testdf['Year'] == 1994))
+        # Deleting aquaculture rows (these rows only have Output types, so Total and Output types would be the same)
+        testdf = testdf.drop(testdf[testdf['Species'] == 'Aquaculture'].index)
+        # Adding total to original df
+        self.df = pd.concat([self.df,testdf],ignore_index=True)
 
-        # print(testdf[testdf['Country'] == 'China'])
 
         self.countries = sorted(self.df['Country'].unique())
         self.types = self.df['Type'].unique()

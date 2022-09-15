@@ -216,7 +216,7 @@ def init_callbacks(dash_app):
         countries = ['All'] + tevdata.countries
         minyear = tevdata.min_year
         maxyear = tevdata.max_year
-        categories = ['Total'] + list(tevdata.types)
+        categories = list(tevdata.types)
         species = ['All'] + list(tevdata.species)
 
         return YearOrGeo,countries,geoStyle,yearStyle,minyear,maxyear,categories,typeClearable,species,speciesClearable,graphType
@@ -239,6 +239,7 @@ def init_callbacks(dash_app):
     def render_figure(country,year,asset_type_value,species_value,graph_type):
         # Overriding asset type if crops
         asset_type = 'Crops' if species_value == 'Crops' else asset_type_value
+        asset_type = 'Output' if species_value == 'Aquaculture' else asset_type
 
         # Filtering data with the menu values
         new_df = tevdata.df
@@ -313,7 +314,7 @@ def init_callbacks(dash_app):
             figure = dcc.Graph(className='main-graph-size', id="main-graph", figure=fig)
 
         # Returning graph
-        typeDisabled = True if species_value == 'Crops' else False
+        typeDisabled = True if species_value == 'Crops' or species_value == 'Aquaculture' else False
         return figure,typeDisabled
 
     ### Updating Datatable ###
@@ -328,6 +329,7 @@ def init_callbacks(dash_app):
     def render_table(country,year,asset_type_value,species,graph_type):
         # Overriding asset type if crops
         asset_type = 'Crops' if species == 'Crops' else asset_type_value
+        asset_type = 'Output' if species == 'Aquaculture' else asset_type
         
         # Filtering data with the menu values
         new_df = tevdata.df
