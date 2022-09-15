@@ -281,7 +281,8 @@ def init_callbacks(dash_app):
                 margin={"r":5,"t":45,"l":5,"b":5},
                 font=dict(
                     size=16,
-                )
+                ),
+                template='plotly_white'
             )
             fig.layout.autosize = True
             # fig.layout.autosize = True
@@ -308,7 +309,8 @@ def init_callbacks(dash_app):
                 margin={"r":10,"t":45,"l":10,"b":10},
                 font=dict(
                     size=16,
-                )
+                ),
+                template='plotly_white'
             )
             fig.layout.autosize = True
             figure = dcc.Graph(className='main-graph-size', id="main-graph", figure=fig)
