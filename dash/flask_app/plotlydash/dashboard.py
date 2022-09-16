@@ -319,9 +319,10 @@ def init_callbacks(dash_app):
         typeDisabled = True if species_value == 'Crops' or species_value == 'Aquaculture' else False
         return figure,typeDisabled
 
-    ### Updating Datatable ###
+    ### Updating Datatable and Alert###
     @dash_app.callback(
         Output('data-table-parent','children'),
+        Output('alert-container','children'),
         Input('country-dropdown','value'),
         Input('year-input','value'),
         Input('livestock-or-asset-dropdown','value'),
@@ -332,6 +333,9 @@ def init_callbacks(dash_app):
         # Overriding asset type if crops
         asset_type = 'Crops' if species == 'Crops' else asset_type_value
         asset_type = 'Output' if species == 'Aquaculture' else asset_type
+        
+        # Wrapping items in list
+        country = list() if country is None else list(country)
         
         # Filtering data with the menu values
         new_df = tevdata.df
@@ -350,7 +354,36 @@ def init_callbacks(dash_app):
             columns=cols,
             export_format="csv",
         )
-        return datatable
+
+        # Default message
+        amsg = None
+        if graph_type == 'world':
+            pass
+            # if (country is None or (isinstance(country, list) and (len(country) > 1 or len(country) == 0))) and (prodsys is None or (isinstance(prodsys, list) and (len(prodsys) > 1 or len(prodsys) == 0))):
+            #     amsg = ['Please choose 1 production system when graphing multiple countries.','danger']
+        else:
+            multidim = 0
+            # summing multi dimensional data
+            if len(country) == 0 or 'All' in country:
+                multidim += 1
+            if species is None or 'All' in species:
+                multidim += 1
+            if asset_type is None or 'Total' in asset_type:
+                multidim += 1
+
+            if multidim > 1:
+                amsg = ['You are trying to graph multi-dimensional data, please narrow your selection.','danger']
+
+            print(new_df.shape)
+            if new_df.shape[0] == 0:
+                amsg = ['No data avaliable for your selection.','warning']
+
+            # if country is None or isinstance(country, str) or (isinstance(country, list) and len(country) < 2):
+            #     amsg = ['You must select 2 countries when comparing pie charts.','danger']
+            # elif (isinstance(country, list) and len(country) > 2):
+            #     amsg = ['Only the first 2 countries selected will be used for the pie charts.','warning']
+
+        return datatable,None if amsg is None else dbc.Alert([html.H5('Warning'),amsg[0]], color=amsg[1])
 
     ### Collapsing Datatable ###
     @dash_app.callback(

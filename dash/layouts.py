@@ -178,7 +178,13 @@ page_1 = html.Div([
 
                                                     ], className='graph-section-options'),
                                                 ], className='graph-section-left-top'),
-                                                # html.Div([html.P('Data from SOURCE. Retrieved DATE from [URL]',style={'color':'#000','margin':'0'}),], className='graph-section-left-bottom'),
+                                                html.Div([
+                                                    html.Div(
+                                                        id='alert-container',
+                                                        children=[],
+                                                        style={'margin-top':'1rem'}
+                                                    ),
+                                                ], className='graph-section-left-bottom'),
                                             ],className='graph-section-left'),
                                             dcc.Loading(
                                                 id='main-graph-parent',

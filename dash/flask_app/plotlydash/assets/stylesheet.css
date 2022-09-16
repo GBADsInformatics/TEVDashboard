@@ -107,9 +107,9 @@ html,body{
     flex: 2;
 }
 .graph-section-left{
+    width: 31rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 }
 .graph-section-left-bottom{
     padding: 0.5rem 0.5rem 0 0;
