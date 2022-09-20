@@ -73,22 +73,30 @@ class TEVdata():
         self.max_year = int(self.df['Year'].max())
         self.min_year = int(self.df['Year'].min())
     
-    def filter_country(self, code, df):
+    def filter_country(self, code, df, default):
         if code is None or len(code) == 0:
-            return df
+            code = [default]
+        if code is None or len(code) == 0:
+            return df[df['Type']=='ThisReturnsEmptyDF']
         code = list(code)
         if 'All' in code:
             return df
         return df[df['Country'].isin(code)]
         
-    def filter_type(self, type, df):
+    def filter_type(self, type, df, default):
         if type is None:
+            type = default
+        if type is None:
+            return df[df['Type']=='ThisReturnsEmptyDF']
+        if type == 'All':
             return df
         return df[df['Type']==type]
     
-    def filter_species(self, spec, df):
+    def filter_species(self, spec, df, default):
         if spec is None:
-            return df
+            spec = default
+        if spec is None:
+            return df[df['Type']=='ThisReturnsEmptyDF']
         if spec == 'All':
             return df
         return df[df['Species']==spec]

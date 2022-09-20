@@ -199,6 +199,9 @@ def init_callbacks(dash_app):
             # colourStyle = None
             # colourTitleStyle = {"margin":"0.4rem 0 0.2rem 0"}
             graphType = 'line'
+            countries = ['All'] + tevdata.countries
+            categories = ['All'] + list(tevdata.types)
+            species = ['All'] + list(tevdata.species)
         else:
             YearOrGeo = 'Year'
             geoStyle = {'display':'none'}
@@ -208,16 +211,16 @@ def init_callbacks(dash_app):
             # colourStyle = {'display':'none'}
             # colourTitleStyle = {'display':'none'}
             graphType = 'world'
+            countries = tevdata.countries
+            categories = list(tevdata.types)
+            species = list(tevdata.species)
 
         # print(type(tevdata.countries))
         # print(type(tevdata.types))
         # print(type(tevdata.species))
 
-        countries = ['All'] + tevdata.countries
         minyear = tevdata.min_year
         maxyear = tevdata.max_year
-        categories = list(tevdata.types)
-        species = ['All'] + list(tevdata.species)
 
         return YearOrGeo,countries,geoStyle,yearStyle,minyear,maxyear,categories,typeClearable,species,speciesClearable,graphType
         # return YearOrGeo,countries,geoStyle,yearStyle,minyear,maxyear,categories,typeClearable,species,speciesClearable,colourStyle,colourTitleStyle,graphType
@@ -243,12 +246,12 @@ def init_callbacks(dash_app):
 
         # Filtering data with the menu values
         new_df = tevdata.df
-        new_df = tevdata.filter_type(asset_type, new_df)
-        new_df = tevdata.filter_species(species_value, new_df)
+        new_df = tevdata.filter_type(asset_type, new_df,None if graph_type == 'world' else 'All')
+        new_df = tevdata.filter_species(species_value, new_df,None if graph_type == 'world' else 'All')
         if(graph_type=='world'):
             new_df = tevdata.filter_year(year, new_df)
         else:
-            new_df = tevdata.filter_country(country, new_df)
+            new_df = tevdata.filter_country(country, new_df,'All')
 
         # Deciding on how to colour the graph, this should be added as a dropdown later
         # with options like [auto, country, type, species_value]
@@ -260,8 +263,14 @@ def init_callbacks(dash_app):
         # Building the world plot
         figure = None
         if(graph_type=='world'):
-            max_value = int(new_df['Value'].max())
+            max_value = 0
             min_value = 0 # int(new_df['value'].min())
+            if new_df.shape[0] != 0:
+                max_value = int(new_df['Value'].max())
+            else:
+                if species_value is None: species_value = 'None'
+                if asset_type is None: asset_type = 'None'
+            
             fig = px.choropleth_mapbox(
                 new_df, 
                 geojson=plotly_countries, 
@@ -339,12 +348,12 @@ def init_callbacks(dash_app):
         
         # Filtering data with the menu values
         new_df = tevdata.df
-        new_df = tevdata.filter_type(asset_type, new_df)
-        new_df = tevdata.filter_species(species, new_df)
+        new_df = tevdata.filter_type(asset_type, new_df,None if graph_type == 'world' else 'All')
+        new_df = tevdata.filter_species(species, new_df,None if graph_type == 'world' else 'All')
         if(graph_type=='world'):
             new_df = tevdata.filter_year(year, new_df)
         else:
-            new_df = tevdata.filter_country(country, new_df)
+            new_df = tevdata.filter_country(country, new_df,None if graph_type == 'world' else 'All')
 
         # Rendering the world plot
         cols = [{"name": i, "id": i,"hideable":True} for i in new_df.columns]
@@ -358,7 +367,8 @@ def init_callbacks(dash_app):
         # Default message
         amsg = None
         if graph_type == 'world':
-            pass
+            if new_df.shape[0] == 0:
+                amsg = ['No data avaliable for your selection.','warning']
             # if (country is None or (isinstance(country, list) and (len(country) > 1 or len(country) == 0))) and (prodsys is None or (isinstance(prodsys, list) and (len(prodsys) > 1 or len(prodsys) == 0))):
             #     amsg = ['Please choose 1 production system when graphing multiple countries.','danger']
         else:
@@ -368,13 +378,12 @@ def init_callbacks(dash_app):
                 multidim += 1
             if species is None or 'All' in species:
                 multidim += 1
-            if asset_type is None or 'Total' in asset_type:
+            if asset_type is None or 'All' in asset_type:
                 multidim += 1
 
             if multidim > 1:
                 amsg = ['You are trying to graph multi-dimensional data, please narrow your selection.','danger']
 
-            print(new_df.shape)
             if new_df.shape[0] == 0:
                 amsg = ['No data avaliable for your selection.','warning']
 
