@@ -374,7 +374,7 @@ def init_callbacks(dash_app):
         else:
             multidim = 0
             # summing multi dimensional data
-            if len(country) == 0 or 'All' in country:
+            if len(country) != 1 or 'All' in country:
                 multidim += 1
             if species is None or 'All' in species:
                 multidim += 1
