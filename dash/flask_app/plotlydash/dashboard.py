@@ -277,7 +277,8 @@ def init_callbacks(dash_app):
                 locations='ISO3',
                 color='Value',
                 range_color=(min_value,max_value),
-                hover_data=['Country', 'Value'],
+                # hover_data=['Country', 'Value'],
+                hover_data={'Country':True,'Human':True, 'Value':False},
                 featureidkey='properties.ISO_A3_EH',
                 color_continuous_scale='magma_r',
                 center={'lat':19, 'lon':11},
@@ -293,8 +294,8 @@ def init_callbacks(dash_app):
                 ),
                 template='plotly_white'
             )
+            fig.update_traces(hovertemplate=fig.data[0].hovertemplate.replace('Human','Value'))
             fig.layout.autosize = True
-            # fig.layout.autosize = True
             figure = dcc.Graph(className='main-graph-size', id="main-graph", figure=fig)
 
         # Building the line graph
@@ -314,15 +315,16 @@ def init_callbacks(dash_app):
                 color=color_by,
                 title=fig_title,
                 markers=True,
-                # hover_data={'Value':':.2f'},
+                hover_data={'Human':True, 'Value':False},
             )
             fig.update_layout(
                 margin={"r":10,"t":45,"l":10,"b":10},
                 font=dict(
                     size=16,
                 ),
-                template='plotly_white'
+                template='plotly_white',
             )
+            fig.update_traces(hovertemplate=fig.data[0].hovertemplate.replace('Human','Value'))
             fig.layout.autosize = True
             figure = dcc.Graph(className='main-graph-size', id="main-graph", figure=fig)
 

@@ -2,6 +2,7 @@
 # This file contains helpful classes and data used by the dashboard
 
 # Imports
+import math
 import numpy
 import pandas as pd
 
@@ -27,6 +28,14 @@ METADATA_OTHER = {
         'CSV': METASET+'MetadataGlossary.csv',
     },
 }
+
+# Code from SA: https://stackoverflow.com/q/3154460
+NumberWords = ['',' Thousand',' Million',' Billion',' Trillion']
+def humanize(n):
+    n = float(n)
+    magnitude = max(0,min(len(NumberWords)-1,
+                        int(math.floor(0 if n == 0 else math.log10(abs(n))/3))))
+    return '{:.2f}{}'.format(n / 10**(3 * magnitude), NumberWords[magnitude])
 
 # TEVdata object
 # Used to store data and return manipulated data
@@ -65,6 +74,8 @@ class TEVdata():
         # Adding total to original df
         self.df = pd.concat([self.df,testdf],ignore_index=True)
 
+        # Adding formatted code
+        self.df['Human'] = self.df['Value'].apply(lambda x : humanize(x))
 
         self.countries = sorted(self.df['Country'].unique())
         self.types = self.df['Type'].unique()
