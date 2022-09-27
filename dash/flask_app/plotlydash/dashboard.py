@@ -256,7 +256,7 @@ def init_callbacks(dash_app):
         # Deciding on how to colour the graph, this should be added as a dropdown later
         # with options like [auto, country, type, species_value]
         color_by = 'Species'
-        if asset_type is None: color_by = 'Type'
+        if asset_type is None or asset_type == 'All': color_by = 'Type'
         if country is None or len(country) == 0 or len(country) > 1 or "All" in country : color_by = 'Country'
 
             
@@ -313,6 +313,8 @@ def init_callbacks(dash_app):
                 y='Value',
                 color=color_by,
                 title=fig_title,
+                markers=True,
+                # hover_data={'Value':':.2f'},
             )
             fig.update_layout(
                 margin={"r":10,"t":45,"l":10,"b":10},
