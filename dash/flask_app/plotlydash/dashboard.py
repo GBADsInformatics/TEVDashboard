@@ -352,6 +352,8 @@ def init_callbacks(dash_app):
         
         # Filtering data with the menu values
         new_df = tevdata.df
+        # Drop Human Column (Used for graphing not datatable)
+        new_df = new_df.drop(columns=['Human'])
         new_df = tevdata.filter_type(asset_type, new_df,None if graph_type == 'world' else 'All')
         new_df = tevdata.filter_species(species, new_df,None if graph_type == 'world' else 'All')
         if(graph_type=='world'):
