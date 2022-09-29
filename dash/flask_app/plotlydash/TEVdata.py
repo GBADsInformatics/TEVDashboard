@@ -30,7 +30,7 @@ METADATA_OTHER = {
 }
 
 # Code from SA: https://stackoverflow.com/q/3154460
-NumberWords = ['',' Thousand',' Million',' Billion',' Trillion']
+NumberWords = ['',' K',' M',' B',' T']
 def humanize(n):
     n = float(n)
     magnitude = max(0,min(len(NumberWords)-1,

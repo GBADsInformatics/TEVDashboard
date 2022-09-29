@@ -175,6 +175,8 @@ def init_callbacks(dash_app):
         # Output('colour-dropdown','style'),
         # Output('colour-by-title','style'),
         Output('graph-type','data'),
+        Output('log-dropdown-title','style'),
+        Output('log-dropdown','style'),
         Input('area-graph','n_clicks'),
         Input('world-map','n_clicks'),
         State('species-dropdown','value'),
@@ -188,7 +190,7 @@ def init_callbacks(dash_app):
             button_id = ctx.triggered[0]['prop_id'].split('.')[0]
         
         # Setting variables based on graph type
-        YearOrGeo,geoStyle,yearStyle,typeClearable,speciesClearable,graphType = None,None,None,None,None,None
+        YearOrGeo,geoStyle,yearStyle,typeClearable,speciesClearable,graphType,logStyle = None,None,None,None,None,None,None
         # YearOrGeo,geoStyle,yearStyle,typeClearable,speciesClearable,colourTitleStyle,colourStyle,graphType = None,None,None,None,None,None,None,None
         if button_id=="area-graph" or button_id=='No clicks':
             YearOrGeo = 'Geography'
@@ -196,6 +198,7 @@ def init_callbacks(dash_app):
             yearStyle = {'display':'none'}
             typeClearable = True
             speciesClearable = True
+            logStyle = None
             # colourStyle = None
             # colourTitleStyle = {"margin":"0.4rem 0 0.2rem 0"}
             graphType = 'line'
@@ -208,6 +211,7 @@ def init_callbacks(dash_app):
             yearStyle = None
             typeClearable = False
             speciesClearable = False
+            logStyle = {'display':'none'}
             # colourStyle = {'display':'none'}
             # colourTitleStyle = {'display':'none'}
             graphType = 'world'
@@ -222,8 +226,7 @@ def init_callbacks(dash_app):
         minyear = tevdata.min_year
         maxyear = tevdata.max_year
 
-        return YearOrGeo,countries,geoStyle,yearStyle,minyear,maxyear,categories,typeClearable,species,speciesClearable,graphType
-        # return YearOrGeo,countries,geoStyle,yearStyle,minyear,maxyear,categories,typeClearable,species,speciesClearable,colourStyle,colourTitleStyle,graphType
+        return YearOrGeo,countries,geoStyle,yearStyle,minyear,maxyear,categories,typeClearable,species,speciesClearable,graphType,logStyle,logStyle
 
 
     ### Updating Figure ###
@@ -238,8 +241,9 @@ def init_callbacks(dash_app):
         Input('species-dropdown','value'),
         # Input('colour-dropdown','value'),
         Input('graph-type','data'),
+        Input('log-dropdown','value')
     )
-    def render_figure(country,year,asset_type_value,species_value,graph_type):
+    def render_figure(country,year,asset_type_value,species_value,graph_type,logtransform):
         # Overriding asset type if crops
         asset_type = 'Crops' if species_value == 'Crops' else asset_type_value
         asset_type = 'Output' if species_value == 'Aquaculture' else asset_type
@@ -315,7 +319,8 @@ def init_callbacks(dash_app):
                 color=color_by,
                 title=fig_title,
                 markers=True,
-                hover_data={'Human':True, 'Value':False},
+                hover_data={'Country':True,'Human':True, 'Value':False},
+                log_y=False if logtransform == 'None' else True,
             )
             fig.update_layout(
                 margin={"r":10,"t":45,"l":10,"b":10},
@@ -324,7 +329,7 @@ def init_callbacks(dash_app):
                 ),
                 template='plotly_white',
             )
-            fig.update_traces(hovertemplate=fig.data[0].hovertemplate.replace('Human','Value'))
+            fig.update_traces(hovertemplate='Country=%{customdata[0]}<br>Year=%{x}<br>Value=%{customdata[1]}<extra></extra>')
             fig.layout.autosize = True
             figure = dcc.Graph(className='main-graph-size', id="main-graph", figure=fig)
 

@@ -160,6 +160,17 @@ page_1 = html.Div([
                                                             style={"color": "black"},
                                                         ),
 
+
+                                                        #Log Transform dropdown
+                                                        html.H5(children="Log Transform",id="log-dropdown-title",style={"margin":"0.4rem 0 0.2rem 0"}), 
+                                                        dcc.Dropdown(
+                                                            id="log-dropdown",
+                                                            options=['None', 'Log'],
+                                                            value='None',
+                                                            clearable=False,
+                                                            style={"color": "black"},
+                                                        ),
+
                                                         #Colour By
                                                         # html.H5(children="Colour By",style={"margin":"0.4rem 0 0.2rem 0"},id='colour-by-title'), 
                                                         # dcc.Dropdown(
