@@ -70,7 +70,7 @@ class TEVdata():
         # Adding type column back
         testdf['Type'] = 'Total'
         # Deleting aquaculture rows (these rows only have Output types, so Total and Output types would be the same)
-        testdf = testdf.drop(testdf[testdf['Species'] == 'Aquaculture'].index)
+        # testdf = testdf.drop(testdf[testdf['Species'] == 'Aquaculture'].index)
         # Adding total to original df
         self.df = pd.concat([self.df,testdf],ignore_index=True)
 
@@ -99,18 +99,23 @@ class TEVdata():
             type = default
         if type is None:
             return df[df['Type']=='ThisReturnsEmptyDF']
-        if type == 'All':
+        if type == 'All Types':
             return df
         return df[df['Type']==type]
     
     def filter_species(self, spec, df, default):
-        if spec is None:
-            spec = default
-        if spec is None:
-            return df[df['Type']=='ThisReturnsEmptyDF']
-        if spec == 'All':
+        if spec is None or len(spec) == 0:
+            spec = [default]
+        if spec is None or len(spec) == 0:
+            return df[df['Species']=='ThisReturnsEmptyDF']
+        if isinstance(spec, str):
+            spec = [spec]
+        else:
+            spec = list(spec)
+            
+        if 'All' in spec:
             return df
-        return df[df['Species']==spec]
+        return df[df['Species'].isin(spec)]
     
     def filter_year(self, year, df):
         if year is None:

@@ -146,7 +146,8 @@ page_1 = html.Div([
                                                             # className="graph-options-dropdown-TEV",
                                                             id="species-dropdown",
                                                             options=[],
-                                                            clearable=False,
+                                                            clearable=True,
+                                                            multi=True,
                                                             style={"color": "black"},
                                                         ),
 

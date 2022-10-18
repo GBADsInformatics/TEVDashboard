@@ -172,6 +172,7 @@ def init_callbacks(dash_app):
         Output('livestock-or-asset-dropdown','clearable'),
         Output('species-dropdown','options'),
         Output('species-dropdown','clearable'),
+        Output('species-dropdown','multi'),
         # Output('colour-dropdown','style'),
         # Output('colour-by-title','style'),
         Output('graph-type','data'),
@@ -190,7 +191,7 @@ def init_callbacks(dash_app):
             button_id = ctx.triggered[0]['prop_id'].split('.')[0]
         
         # Setting variables based on graph type
-        YearOrGeo,geoStyle,yearStyle,typeClearable,speciesClearable,graphType,logStyle = None,None,None,None,None,None,None
+        YearOrGeo,geoStyle,yearStyle,typeClearable,speciesClearable,graphType,logStyle,specmulti = None,None,None,None,None,None,None,None
         # YearOrGeo,geoStyle,yearStyle,typeClearable,speciesClearable,colourTitleStyle,colourStyle,graphType = None,None,None,None,None,None,None,None
         if button_id=="area-graph" or button_id=='No clicks':
             YearOrGeo = 'Geography'
@@ -198,12 +199,13 @@ def init_callbacks(dash_app):
             yearStyle = {'display':'none'}
             typeClearable = True
             speciesClearable = True
+            specmulti = True
             logStyle = None
             # colourStyle = None
             # colourTitleStyle = {"margin":"0.4rem 0 0.2rem 0"}
             graphType = 'line'
             countries = ['All'] + tevdata.countries
-            categories = ['All'] + list(tevdata.types)
+            categories = ['All Types'] + list(tevdata.types)
             species = ['All'] + list(tevdata.species)
         else:
             YearOrGeo = 'Year'
@@ -211,6 +213,7 @@ def init_callbacks(dash_app):
             yearStyle = None
             typeClearable = False
             speciesClearable = False
+            specmulti = False
             logStyle = {'display':'none'}
             # colourStyle = {'display':'none'}
             # colourTitleStyle = {'display':'none'}
@@ -226,7 +229,7 @@ def init_callbacks(dash_app):
         minyear = tevdata.min_year
         maxyear = tevdata.max_year
 
-        return YearOrGeo,countries,geoStyle,yearStyle,minyear,maxyear,categories,typeClearable,species,speciesClearable,graphType,logStyle,logStyle
+        return YearOrGeo,countries,geoStyle,yearStyle,minyear,maxyear,categories,typeClearable,species,speciesClearable,specmulti,graphType,logStyle,logStyle
 
 
     ### Updating Figure ###
@@ -250,7 +253,7 @@ def init_callbacks(dash_app):
 
         # Filtering data with the menu values
         new_df = tevdata.df
-        new_df = tevdata.filter_type(asset_type, new_df,None if graph_type == 'world' else 'All')
+        new_df = tevdata.filter_type(asset_type, new_df,None if graph_type == 'world' else 'All Types')
         new_df = tevdata.filter_species(species_value, new_df,None if graph_type == 'world' else 'All')
         if(graph_type=='world'):
             new_df = tevdata.filter_year(year, new_df)
@@ -260,7 +263,7 @@ def init_callbacks(dash_app):
         # Deciding on how to colour the graph, this should be added as a dropdown later
         # with options like [auto, country, type, species_value]
         color_by = 'Species'
-        if asset_type is None or asset_type == 'All': color_by = 'Type'
+        if asset_type is None or 'All' in asset_type: color_by = 'Type'
         if country is None or len(country) == 0 or len(country) > 1 or "All" in country : color_by = 'Country'
 
             
@@ -274,6 +277,14 @@ def init_callbacks(dash_app):
             else:
                 if species_value is None: species_value = 'None'
                 if asset_type is None: asset_type = 'None'
+
+            # Creating graph title
+            fig_title = \
+                f'World Map of '+\
+                f'{species_value if species_value != None else "Animal"} '+\
+                f'{"" if asset_type == None or asset_type == "Crops" else asset_type} Value '+\
+                f'in {str(year)}'+\
+                ' (2014-2016 Constant USD $)'
             
             fig = px.choropleth_mapbox(
                 new_df, 
@@ -282,14 +293,15 @@ def init_callbacks(dash_app):
                 color='Value',
                 range_color=(min_value,max_value),
                 # hover_data=['Country', 'Value'],
-                hover_data={'Country':True,'Human':True, 'Value':False},
+                hover_data={'Country':True,'Human':True,'Value':False},
                 featureidkey='properties.ISO_A3_EH',
                 color_continuous_scale='magma_r',
                 center={'lat':19, 'lon':11},
                 mapbox_style='carto-positron',
                 opacity=0.5,
                 zoom=1,
-                title='World Map of '+species_value+' '+(asset_type+' ' if asset_type != 'Crops' else '')+'Value in '+str(year)+' (2014-2016 Constant USD $)',
+                title=fig_title,
+                # title='World Map of '+species_value+' '+(asset_type+' ' if asset_type != 'Crops' else '')+'Value in '+str(year)+' (2014-2016 Constant USD $)',
             )
             fig.update_layout(
                 margin={"r":5,"t":45,"l":5,"b":5},
@@ -307,7 +319,7 @@ def init_callbacks(dash_app):
             # Creating graph title
             fig_title = \
                 f'Economic Value of '+\
-                f'{species_value if species_value != None else "Animal"} '+\
+                f'{"All Species" if species_value is None or len(species_value) == 0 or "All" in species_value else ",".join(new_df["Species"].unique())} '+\
                 f'{"" if asset_type == None or asset_type == "Crops" else asset_type + " "}'+\
                 f'{"in All Countries" if country is None or len(country) == 0 or "All" in country else "in " + ",".join(new_df["Country"].unique())}'+\
                 ' (2014-2016 Constant USD $)'
@@ -359,7 +371,7 @@ def init_callbacks(dash_app):
         new_df = tevdata.df
         # Drop Human Column (Used for graphing not datatable)
         new_df = new_df.drop(columns=['Human'])
-        new_df = tevdata.filter_type(asset_type, new_df,None if graph_type == 'world' else 'All')
+        new_df = tevdata.filter_type(asset_type, new_df,None if graph_type == 'world' else 'All Types')
         new_df = tevdata.filter_species(species, new_df,None if graph_type == 'world' else 'All')
         if(graph_type=='world'):
             new_df = tevdata.filter_year(year, new_df)
