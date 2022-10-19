@@ -308,7 +308,8 @@ def init_callbacks(dash_app):
                 font=dict(
                     size=16,
                 ),
-                template='plotly_white'
+                template='plotly_white',
+                annotations=[dict(text='*White Counties Represent Unavailable Data', x=0.0, y=0.0, font_size=16, showarrow=False)],
             )
             fig.update_traces(hovertemplate=fig.data[0].hovertemplate.replace('Human','Value'))
             fig.layout.autosize = True
