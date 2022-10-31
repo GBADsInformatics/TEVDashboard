@@ -2,10 +2,10 @@ version: "3.8"
 
 services:
     gbads_dash:
-        build: ./PPS_dash
+        build: ./TEV_dash
         restart: "always"
         ports:
-            - "3000:3000"
+            - "8051:8051"
         networks: 
             - gbads-app
 networks: 
