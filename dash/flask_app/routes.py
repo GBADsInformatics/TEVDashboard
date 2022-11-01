@@ -33,7 +33,7 @@ AUTH0_AUDIENCE = env.get(AUTH0_AUDIENCE)
 AUTH0_REDIRECT = env.get(AUTH0_REDIRECT)
 
 app.secret_key = SECRET_KEY
-app.debug = True
+app.debug = env.get('DEBUG').lower() in ('true', '1', 't')
 
 # @app.route('/')
 # def home():

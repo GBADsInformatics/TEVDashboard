@@ -5,4 +5,4 @@ app = init_app()
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=env.get('PORT', 8051) , debug=env.get('DEBUG', False))
+    app.run(host='0.0.0.0', port=env.get('PORT', 8051) , debug=env.get('DEBUG', False).lower() in ('true', '1', 't'))
