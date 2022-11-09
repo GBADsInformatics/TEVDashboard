@@ -22,11 +22,11 @@ class Config:
     # General Config
     FLASK_APP = environ.get("FLASK_APP")
     FLASK_ENV = environ.get("FLASK_ENV")
-    SECRET_KEY = environ.get("SECRET_KEY")
+    # SECRET_KEY = environ.get("SECRET_KEY")
 
     AUTH0_CALLBACK_URL = environ.get(AUTH0_CALLBACK_URL)
-    AUTH0_CLIENT_ID = environ.get(AUTH0_CLIENT_ID)
-    AUTH0_CLIENT_SECRET = environ.get(AUTH0_CLIENT_SECRET)
-    AUTH0_DOMAIN = environ.get(AUTH0_DOMAIN)
-    AUTH0_BASE_URL = 'https://' + AUTH0_DOMAIN
-    AUTH0_AUDIENCE = environ.get(AUTH0_AUDIENCE)
+    # AUTH0_CLIENT_ID = environ.get(AUTH0_CLIENT_ID)
+    # AUTH0_CLIENT_SECRET = environ.get(AUTH0_CLIENT_SECRET)
+    # AUTH0_DOMAIN = environ.get(AUTH0_DOMAIN)
+    # AUTH0_BASE_URL = 'https://' + AUTH0_DOMAIN
+    # AUTH0_AUDIENCE = environ.get(AUTH0_AUDIENCE)

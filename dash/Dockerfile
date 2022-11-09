@@ -1,21 +1,20 @@
+# Base image - tried a few others, this one was the easiest and most resilient
 FROM python:3.10.0-slim-buster
 
+# Specify root directory in image
 WORKDIR /app/dash
 
-# ENV FLASK_APP=wsgi.py
-# ENV FLASK_RUN_HOST=0.0.0.0
-
+# Installing python requirements
 COPY requirements.txt .
 RUN pip install -r requirements.txt
-# COPY requirements.txt /tmp/apireq
 
-# RUN pip install -r /tmp/apireq
-# RUN python -m pip install -r requirements.txt
-
-# EXPOSE 3000
-
+# Copy dash files to image
 COPY . /app/dash
 
+# Setting env
+ENV AUTH0_REDIRECT=/dash
+ENV DEBUG=FALSE
+
+# Specifying the dashboard command
 CMD ["python3","wsgi.py"]
-# CMD ["flask", "run"]
 
