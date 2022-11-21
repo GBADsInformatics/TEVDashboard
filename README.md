@@ -3,8 +3,11 @@
 
 This dashboard was created ontop of the [GBADS Dashboard Template](https://github.com/GBADsInformatics/Dashboard_Template) by [@Amardeep](https://github.com/amardeep-1) and [@Nitin](https://github.com/Nitin501)
 
-## Installation
+## Running in Docker
+1. `docker run -d -p 80:8051 tevdash` \
+  This exposes the dashboard on port `80` of your machine, you can change this number to any port you desire.
 
+## Installation
 1. `git clone https://github.com/GBADsInformatics/TEV_Dashboard`
 2. `cd dash`
 3. `pip3 install -r requirements.txt`
@@ -12,10 +15,6 @@ This dashboard was created ontop of the [GBADS Dashboard Template](https://githu
 ## Running the App
 1. `cd dash`
 2. `python3 wsgi.py`
-
-## Running in Docker
-1. `docker run -d -p 80:8051 tevdash` \
-  This exposes the dashboard on port `80` of your machine, you can change this number to any port you desire.
   
 ## Authors
 - [@WilliamFitzjohn](https://github.com/WilliamFitzjohn)
