@@ -406,7 +406,7 @@ def init_callbacks(dash_app):
                 multidim += 1
 
             if multidim > 1:
-                amsg = ['You are trying to graph multi-dimensional data, please narrow your selection.','danger']
+                amsg = ['Please narrow your selection to improve data quality.','danger']
 
             if new_df.shape[0] == 0:
                 amsg = ['No data avaliable for your selection.','warning']

@@ -14,7 +14,7 @@ html,body{
 }
 
 .graph-type-image{
-    max-height: 5vh;
+    max-height: 4rem;
     cursor: pointer;
     transition: all .4s ease-in-out;
     -webkit-transition: all .4s ease-in-out;
@@ -212,6 +212,54 @@ html,body{
     padding: 10px;
 }
 
+.value-container{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.ttooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+.ttooltip i {
+    padding-top: 0.2rem;
+    margin: 0 0.2rem !important;
+}
+.ttooltip .ttooltiptext {
+    transition: 0.1s ease-in-out;
+    opacity: 0;
+    visibility: hidden;
+    width: 14rem;
+    margin-left: -7rem;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 120%;
+    left: 50%;
+    font-size: 1rem;
+}
+.ttooltip .ttooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
+.ttooltip:hover .ttooltiptext {
+    opacity: 100;
+    visibility: visible;
+}
 
 
 .left-container {
