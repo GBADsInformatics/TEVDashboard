@@ -30,5 +30,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          file: dash/Dockerfile
+          context: ./dash
+          file: ./dash/Dockerfile
           tags: gbadsinformatics/tev-dash:test
