@@ -27,4 +27,4 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: gbadsinformatics/tev-dash:$(date +%s)
+          tags: gbadsinformatics/tev-dash:test
