@@ -9,9 +9,6 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./dash
     steps:
       -
         name: Set up QEMU
@@ -30,6 +27,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          context: ./dash
+          context: ./dash/
           file: ./dash/Dockerfile
           tags: gbadsinformatics/tev-dash:test
