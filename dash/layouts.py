@@ -155,10 +155,6 @@ page_1 = html.Div([
                                                         html.Div([
                                                                 html.H5(children="Value Type",style={"margin":"0.4rem 0.5rem 0.2rem 0"}), 
                                                                 html.Div([
-                                                                        html.I(className="bi bi-info-circle-fill me-2"
-                                                                        
-                                                                        
-                                                                        ),
                                                                         html.Span([
                                                                                 "LIVE ANIMALS: Value of all animals.",
                                                                                 html.Br(),

@@ -32,4 +32,4 @@ jobs:
           push: true
           context: ./dash
           file: ./dash/Dockerfile
-          tags: gbadsinformatics/tev-dash:test
+          tags: gbadsinformatics/tev-dash:latest
