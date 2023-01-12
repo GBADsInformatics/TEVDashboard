@@ -120,5 +120,14 @@ class TEVdata():
     def filter_year(self, year, df):
         if year is None:
             return df
+        if isinstance(year, list) and len(year) == 2:
+            year_list = []
+            y_value = year[0]
+            y_max = year[-1]
+            while y_value <= y_max:
+                year_list.append(y_value)
+                y_value += 1
+            return df[df['Year'].isin(year_list)]
+        # print(year)
         year = int(year)
         return df[df['Year']==year]

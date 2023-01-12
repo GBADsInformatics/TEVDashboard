@@ -165,9 +165,7 @@ def init_callbacks(dash_app):
         Output('first-dropdown-title','children'),
         Output('country-dropdown','options'),
         Output('country-dropdown','style'),
-        Output('year-input','style'),
-        Output('year-input','min'),
-        Output('year-input','max'),
+        Output('year-container', 'children'),
         Output('livestock-or-asset-dropdown','options'),
         Output('livestock-or-asset-dropdown','clearable'),
         Output('species-dropdown','options'),
@@ -191,12 +189,26 @@ def init_callbacks(dash_app):
             button_id = ctx.triggered[0]['prop_id'].split('.')[0]
         
         # Setting variables based on graph type
-        YearOrGeo,geoStyle,yearStyle,typeClearable,speciesClearable,graphType,logStyle,specmulti = None,None,None,None,None,None,None,None
+        YearOrGeo,geoStyle,typeClearable,speciesClearable,graphType,logStyle,specmulti = None,None,None,None,None,None,None
         # YearOrGeo,geoStyle,yearStyle,typeClearable,speciesClearable,colourTitleStyle,colourStyle,graphType = None,None,None,None,None,None,None,None
         if button_id=="area-graph" or button_id=='No clicks':
             YearOrGeo = 'Geography'
             geoStyle = None
-            yearStyle = {'display':'none'}
+            yearcontainer = [html.H5("Year",style={"margin":"0.4rem 0 0.2rem 0"}),]
+            yearcontainer.append(
+                html.Div(
+                    className='year-slider-container',
+                    children=[
+                        dcc.RangeSlider(tevdata.min_year, tevdata.max_year, 1, marks=None,
+                            value=[tevdata.min_year,tevdata.max_year],
+                            id='year-slider',
+                            className='year-slider',
+                            tooltip={"placement": "top", "always_visible": True},
+                            dots=True,
+                        )
+                    ]
+                )
+            )
             typeClearable = True
             speciesClearable = True
             specmulti = True
@@ -208,9 +220,23 @@ def init_callbacks(dash_app):
             categories = ['All Types'] + list(tevdata.types)
             species = ['All'] + list(tevdata.species)
         else:
-            YearOrGeo = 'Year'
+            YearOrGeo = None
             geoStyle = {'display':'none'}
-            yearStyle = None
+            yearcontainer = [html.H5("Year",style={"margin":"0.4rem 0 0.2rem 0"}),]
+            yearcontainer.append(
+                html.Div(
+                    className='year-slider-container',
+                    children=[
+                        dcc.Slider(tevdata.min_year, tevdata.max_year, 1, marks=None,
+                            value=tevdata.max_year,
+                            id='year-slider',
+                            className='year-slider',
+                            tooltip={"placement": "top", "always_visible": True},
+                            dots=True,
+                        )
+                    ]
+                )
+            )
             typeClearable = False
             speciesClearable = False
             specmulti = False
@@ -226,10 +252,8 @@ def init_callbacks(dash_app):
         # print(type(tevdata.types))
         # print(type(tevdata.species))
 
-        minyear = tevdata.min_year
-        maxyear = tevdata.max_year
 
-        return YearOrGeo,countries,geoStyle,yearStyle,minyear,maxyear,categories,typeClearable,species,speciesClearable,specmulti,graphType,logStyle,logStyle
+        return YearOrGeo,countries,geoStyle,yearcontainer,categories,typeClearable,species,speciesClearable,specmulti,graphType,logStyle,logStyle
 
 
     ### Updating Figure ###
@@ -239,7 +263,7 @@ def init_callbacks(dash_app):
         # Input('area-graph','n_clicks'),
         # Input('world-map','n_clicks'),
         Input('country-dropdown','value'),
-        Input('year-input','value'),
+        Input('year-slider','value'),
         Input('livestock-or-asset-dropdown','value'),
         Input('species-dropdown','value'),
         # Input('colour-dropdown','value'),
@@ -255,9 +279,8 @@ def init_callbacks(dash_app):
         new_df = tevdata.df
         new_df = tevdata.filter_type(asset_type, new_df,None if graph_type == 'world' else 'All Types')
         new_df = tevdata.filter_species(species_value, new_df,None if graph_type == 'world' else 'All')
-        if(graph_type=='world'):
-            new_df = tevdata.filter_year(year, new_df)
-        else:
+        new_df = tevdata.filter_year(year, new_df)
+        if(graph_type!='world'):
             new_df = tevdata.filter_country(country, new_df,'All')
 
         # Deciding on how to colour the graph, this should be added as a dropdown later
@@ -355,7 +378,7 @@ def init_callbacks(dash_app):
         Output('data-table-parent','children'),
         Output('alert-container','children'),
         Input('country-dropdown','value'),
-        Input('year-input','value'),
+        Input('year-slider','value'),
         Input('livestock-or-asset-dropdown','value'),
         Input('species-dropdown','value'),
         Input('graph-type','data'),
