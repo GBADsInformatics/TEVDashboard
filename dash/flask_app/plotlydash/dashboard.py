@@ -289,6 +289,11 @@ def init_callbacks(dash_app):
         if asset_type is None or 'All' in asset_type: color_by = 'Type'
         if country is None or len(country) == 0 or len(country) > 1 or "All" in country : color_by = 'Country'
 
+        # Setting graph annotations
+        annotations = []
+        if new_df.shape[0] == 0:
+            annotations.append(dict(text='No Data', xref="paper", yref="paper", x=0.5, y=0.5, font_size=20, showarrow=False))
+
             
         # Building the world plot
         figure = None
@@ -326,13 +331,14 @@ def init_callbacks(dash_app):
                 title=fig_title,
                 # title='World Map of '+species_value+' '+(asset_type+' ' if asset_type != 'Crops' else '')+'Value in '+str(year)+' (2014-2016 Constant USD $)',
             )
+            annotations.append(dict(text='*White Counties Represent Unavailable Data', x=0.0, y=0.0, font_size=16, showarrow=False))
             fig.update_layout(
                 margin={"r":5,"t":45,"l":5,"b":5},
                 font=dict(
                     size=16,
                 ),
                 template='plotly_white',
-                annotations=[dict(text='*White Counties Represent Unavailable Data', x=0.0, y=0.0, font_size=16, showarrow=False)],
+                annotations=annotations,
             )
             fig.update_traces(hovertemplate=fig.data[0].hovertemplate.replace('Human','Value'))
             fig.layout.autosize = True
@@ -364,6 +370,7 @@ def init_callbacks(dash_app):
                     size=16,
                 ),
                 template='plotly_white',
+                annotations=annotations,
             )
             fig.update_traces(hovertemplate='Country=%{customdata[0]}<br>Year=%{x}<br>Value=%{customdata[1]}<extra></extra>')
             fig.layout.autosize = True
