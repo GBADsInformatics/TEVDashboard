@@ -93,7 +93,7 @@ page_1 = html.Div([
                                                 dcc.Loading(
                                                     id='data-table-parent',
                                                     parent_style={'height':'100%','width':'100%','overflow':'scroll'},
-                                                    type='cube',
+                                                    type='circle',
                                                     children=[html.P('Please select appropriate dropdown options.')]
                                                 ),
                                             ],
@@ -215,7 +215,7 @@ page_1 = html.Div([
                                             ],className='graph-section-left'),
                                             dcc.Loading(
                                                 id='main-graph-parent',
-                                                type='cube',
+                                                type='circle',
                                                 parent_className='graph-section-right',
                                                 children=[html.P('Please select appropriate dropdown options.')]
                                             ),
@@ -310,7 +310,7 @@ page_1 = html.Div([
                                                                         dcc.Loading(
                                                                             # parent_className='loading-wrapper',
                                                                             id='metadata-container',
-                                                                            type='cube',
+                                                                            type='circle',
                                                                             children=[
                                                                                 'Metadata shows here'
                                                                             ],
