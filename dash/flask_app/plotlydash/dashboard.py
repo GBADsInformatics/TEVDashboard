@@ -25,6 +25,11 @@ import json
 from textwrap import dedent
 from .TEVdata import *
 
+# dash base url
+DASH_BASE_URL = '/dashboards/tev/'
+
+
+
 # Chloropleth map country data
 from urllib.request import urlopen
 plotly_countries = {}
@@ -52,8 +57,8 @@ def init_dashboard(server):
             
     dash_app = dash.Dash(__name__,
         server=server,
-        title='TEV Dashboard',
-        routes_pathname_prefix="/dash/",
+        title='GBADs Economic Value of Livestock Dashboard',
+        routes_pathname_prefix=DASH_BASE_URL,
         external_stylesheets=[
             # 'https://codepen.io/chriddyp/pen/bWLwgP.css',
             dbc.themes.BOOTSTRAP,
@@ -154,7 +159,7 @@ def init_callbacks(dash_app):
         Input('url', 'pathname')
     )
     def display_page(pathname):
-        if pathname == '/dash/':
+        if pathname == DASH_BASE_URL:
             layout = page_1
         else:
             layout = "404"

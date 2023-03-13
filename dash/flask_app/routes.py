@@ -24,13 +24,13 @@ AUTH0_CALLBACK_URL = 'AUTH0_CALLBACK_URL'
 # JWT_PAYLOAD = 'jwt_payload'
 AUTH0_REDIRECT = 'AUTH0_REDIRECT'
 
-AUTH0_CALLBACK_URL = env.get(AUTH0_CALLBACK_URL,"/callback")
+AUTH0_CALLBACK_URL = env.get(AUTH0_CALLBACK_URL,"/dashboards/tev/callback")
 # AUTH0_CLIENT_ID = env.get(AUTH0_CLIENT_ID)
 # AUTH0_CLIENT_SECRET = env.get(AUTH0_CLIENT_SECRET)
 # AUTH0_DOMAIN = env.get(AUTH0_DOMAIN)
 # AUTH0_BASE_URL = 'https://' + AUTH0_DOMAIN
 # AUTH0_AUDIENCE = env.get(AUTH0_AUDIENCE)
-AUTH0_REDIRECT = env.get(AUTH0_REDIRECT,"/dash")
+AUTH0_REDIRECT = env.get(AUTH0_REDIRECT,"/dashboards/tev/")
 
 # app.secret_key = SECRET_KEY
 app.debug = env.get('DEBUG','false').lower() in ('true', '1', 't')
