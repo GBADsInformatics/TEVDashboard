@@ -8,7 +8,7 @@ on:
 
 env:
   DOCKER_IMAGE: gbadsinformatics/tev-dash:latest
-  SERVICE_NAME: documentation-server-service
+  SERVICE_NAME: TEV-dash-service
   CLUSTER_NAME: GBADs-Dashboards-Cluster
   AWS_REGION: us-east-2
 
