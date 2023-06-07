@@ -14,7 +14,6 @@ jobs:
       TAG: latest
       CONTEXT: ./dash
       DOCKERFILE: ./dash/Dockerfile
-      AWS_REGION: us-east-2
     secrets:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
