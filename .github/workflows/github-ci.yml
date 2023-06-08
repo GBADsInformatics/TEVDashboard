@@ -10,7 +10,6 @@ jobs:
     secrets: inherit
     with: 
       IMAGE_NAME: tev-dash
-      TAG: latest
       CONTEXT: ./dash
       DOCKERFILE: ./dash/Dockerfile
 
@@ -20,5 +19,3 @@ jobs:
     secrets: inherit
     with: 
       SERVICE_NAME: TEV-dash-service
-      CLUSTER_NAME: GBADs-Dashboards-Cluster
-      AWS_REGION: us-east-2
