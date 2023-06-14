@@ -19,5 +19,5 @@ pydantic                  ==1.9.0
 python-dotenv             ==0.15.0
 requests                  ==2.25.1
 urllib3                   ==1.26.3
-waitress                  ==1.2.0b2
+waitress                  ==1.4.0
 Werkzeug                  ==1.0.1
