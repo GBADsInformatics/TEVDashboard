@@ -1,5 +1,6 @@
 """Initialize Flask app."""
 from flask import Flask
+import os
 SECRET_KEY = 'ThisIsTheSecretKey'
 
 def init_app():

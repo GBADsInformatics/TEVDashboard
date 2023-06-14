@@ -40,7 +40,6 @@ html,body{
     margin-top: 5px;
     align-items: inherit;
     text-align: center;
-    text-shadow: 0 3px 5px dimgrey;
 }
 .dash-table-container{
     overflow-x: auto;
@@ -69,7 +68,6 @@ html,body{
 }
 .tab-section{
     display: block;
-    background: #ececec;
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
     margin-bottom: 1rem;
@@ -216,7 +214,7 @@ html,body{
 }
 
 .year-slider-container{
-    background: #333;
+    background: #ffffff;
     border-radius: 0.3rem;
 }
 .year-slider{
@@ -348,7 +346,7 @@ html,body{
 
 .tab-container{
     display: block;
-    width: 25rem;
+    width: 38rem;
 }
 @media only screen and (max-width: 799.9px) {
     .tab-container{
@@ -367,15 +365,18 @@ html,body{
 }
 .tab-content{
     height: 100%;
+    background-color:#f6f6f6;
 }
 
 .cattabs {
-    border-radius: 10px 10px 0px 0px;
-    font-weight: bold;
+    border-bottom: 1px white;
+    border-top: 1px white;
+    border-left: 1px white;
     background-color: white;
-    height: 100%;
-    color: rgb(78, 78, 78);
-    width: 25%;
+    box-shadow: 1px 1px 0px white;
+    color:black;
+    border-right: 1px white;
+    font-weight: bold;
 }
 
 .r {
@@ -408,8 +409,8 @@ html,body{
 .main-div {
     display: flex;
     flex-direction: column;
-    background-color: #7A7A7A;
-    color: white;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
     height: 100%;
     width: 100%;
     position: fixed;
@@ -535,7 +536,7 @@ html,body{
 .meta-gbads-button{
     border-radius: 0;
     margin-bottom: 0;
-    border-bottom: solid 1px lightgray;
+    border-bottom: solid 1px white;
 }
 .provenance-button{
     border-radius: 0 0 0.5rem 0.5rem;

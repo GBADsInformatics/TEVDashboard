@@ -368,6 +368,7 @@ def init_callbacks(dash_app):
                 markers=True,
                 hover_data={'Country':True,'Human':True, 'Value':False},
                 log_y=False if logtransform == 'None' else True,
+                template='plotly_white',
             )
             fig.update_layout(
                 margin={"r":10,"t":45,"l":10,"b":10},
@@ -421,6 +422,10 @@ def init_callbacks(dash_app):
             data=new_df.to_dict('records'),
             columns=cols,
             export_format="csv",
+            style_cell={
+                'textAlign':'left',
+                'font-family':'sans-serif'
+            }
         )
 
         # Default message
