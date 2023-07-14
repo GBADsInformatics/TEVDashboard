@@ -138,6 +138,7 @@ page_1 = html.Div([
                                                             id='country-dropdown',
                                                             multi=True,
                                                             options=[],
+                                                            value=['Indonesia']
                                                         ),
 
                                                         #Species
@@ -149,6 +150,7 @@ page_1 = html.Div([
                                                             clearable=True,
                                                             multi=True,
                                                             style={"color": "black"},
+                                                            value=["Aquaculture", "Cattle", "Chicken", "Crops"]
                                                         ),
 
                                                         #Livestock or Asset dropdown
@@ -179,6 +181,7 @@ page_1 = html.Div([
                                                             options=[],
                                                             clearable=False,
                                                             style={"color": "black"},
+                                                            value="Total"
                                                         ),
 
 
@@ -187,7 +190,7 @@ page_1 = html.Div([
                                                         dcc.Dropdown(
                                                             id="log-dropdown",
                                                             options=['None', 'Log'],
-                                                            value='None',
+                                                            value='Log',
                                                             clearable=False,
                                                             style={"color": "black"},
                                                         ),

@@ -36,12 +36,12 @@ plotly_countries = {}
 with open("datasets/world_map_110m.geojson") as file:
     plotly_countries = json.load(file)
 
-# Where to get the table dataset from
-import urllib.request
-try:
-    urllib.request.urlretrieve("http://gbadskedoc.org/api/tevHook", "datasets/tev_data.csv")
-except:
-    print('ERROR: http://gbadskedoc.org/api/tevHook threw an exception.')
+# # Where to get the table dataset from
+# import urllib.request
+# try:
+#     urllib.request.urlretrieve("http://gbadskedoc.org/api/tevHook", "datasets/tev_data.csv")
+# except:
+#     print('ERROR: http://gbadskedoc.org/api/tevHook threw an exception.')
 
 # Creating Dataset
 tevdata = TEVdata('datasets/tev_data.csv' if exists("datasets/tev_data.csv") else 'datasets/tev_data_backup.csv','datasets/adminunits.csv')
