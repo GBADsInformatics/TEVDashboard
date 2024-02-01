@@ -253,9 +253,10 @@ page_1 = html.Div([
                                             children=[
                                                 html.Div([
                                                     html.P(
-                                                        'GBADs Informatics metadata provides information about data presented in the \'Data and Graphs\' tab. Metadata is provided for data that is used as inputs to the model used to produce data outputs. Metadata is provided for output data including provenance information and methodology for the model.',
+                                                        'The metadata provides information about the data sources used in the calculations presented in the \'Data and Graphs\' tab. \n Details on the methodology is available from Schrobback et al. (2023): ',
                                                         style={'color':'#000','margin':'0'}
-                                                    )
+                                                    ),
+                                                    html.A("https://doi.org/10.1016/j.gfs.2023.100722", href='https://doi.org/10.1016/j.gfs.2023.100722', target="_blank")
                                                 ],className='tab-section'),
                                                 html.Div(
                                                     className='meta-section-wrapper',
