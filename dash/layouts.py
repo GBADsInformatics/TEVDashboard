@@ -287,11 +287,11 @@ page_1 = html.Div([
                                                                                     className='meta-source-button meta-gbads-button',
                                                                                     id='meta-gbads-button'
                                                                                 ),
-                                                                                html.P(
-                                                                                    'Provenance',
-                                                                                    className='meta-source-button provenance-button',
-                                                                                    id='provenance-button',
-                                                                                ),
+                                                                                # html.P(
+                                                                                #     'Provenance',
+                                                                                #     className='meta-source-button provenance-button',
+                                                                                #     id='provenance-button',
+                                                                                # ),
                                                                             ]
                                                                         ),
                                                                         html.Div(

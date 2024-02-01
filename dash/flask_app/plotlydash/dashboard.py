@@ -488,12 +488,12 @@ def init_callbacks(dash_app):
         Output('download-container','children'),
         Output('meta-type','data'),
         Input('meta-gbads-button','n_clicks'),
-        Input('provenance-button','n_clicks'),
+        # Input('provenance-button','n_clicks'),
         Input('glossary-button','n_clicks'),
         Input('meta-source-dropdown','value'),
         State('meta-type','data'),
     )
-    def update_meta(MetaButton,ProvButton,GlossButton,MetaValue,MetaType):        
+    def update_meta(MetaButton,GlossButton,MetaValue,MetaType):        
         # Filtering data with the menu values
         pressed = callback_context.triggered[0]['prop_id'].split('.')[0]
         df = ''
@@ -509,11 +509,11 @@ def init_callbacks(dash_app):
                 href=f"data:text/json;charset=utf-8,{json_data}",
                 children='Download Metadata',download=METADATA_SOURCES[MetaValue]['DOWNLOAD'].split('/')[-1],id='meta-download-button',className='download-button'
             )
-        elif (pressed == 'meta-source-dropdown' and MetaType == 'pro') or pressed == 'provenance-button':
-            meta = 'pro'
-            with open(METADATA_SOURCES[MetaValue]['PROVENANCE']) as file:
-                df = dcc.Markdown(file.readlines())
-            return df,downloadButton,meta
+        # elif (pressed == 'meta-source-dropdown' and MetaType == 'pro') or pressed == 'provenance-button':
+        #     meta = 'pro'
+        #     with open(METADATA_SOURCES[MetaValue]['PROVENANCE']) as file:
+        #         df = dcc.Markdown(file.readlines())
+        #     return df,downloadButton,meta
         elif pressed == 'glossary-button':
             df = pd.read_csv(METADATA_OTHER['GLOSSARY']['CSV'], names=['Col1', 'Col2'])
 
