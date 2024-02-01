@@ -256,7 +256,7 @@ page_1 = html.Div([
                                                         'The metadata provides information about the data sources used in the calculations presented in the \'Data and Graphs\' tab. \n Details on the methodology is available from Schrobback et al. (2023): ',
                                                         style={'color':'#000','margin':'0','display':'inline'}
                                                     ),
-                                                    html.A("https://doi.org/10.1016/j.gfs.2023.100722", href='"https://doi.org/10.1016/j.gfs.2023.100722', target="_blank",
+                                                    html.A("https://doi.org/10.1016/j.gfs.2023.100722", href='https://doi.org/10.1016/j.gfs.2023.100722', target="_blank",
                                                            style={'display':'inline'})
                                                 ],className='tab-section'),
                                                 html.Div(
