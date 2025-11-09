@@ -30,7 +30,7 @@ jobs:
       template-input: >-
         ApplicationName=tev-dash,
         DockerURI=gbadsinformatics/tev-dash:${{ needs.commit-hash.outputs.sha7 }},
-        BaseURL=/dashboards/tev-dash,
+        BaseURL=/dashboards/tev,
         ListenerRulePriority=3
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
